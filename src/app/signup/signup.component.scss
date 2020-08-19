@@ -1,0 +1,48 @@
+.position {
+  margin: auto;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+mat-card {
+  width: 40%;
+  margin: auto;
+}
+mat-form-field {
+  width: 100%;
+}
+
+mat-card-header {
+  margin: auto;
+}
+
+mat-card-header h1 {
+  text-align: center;
+  margin: auto;
+  color: blue;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+.btn-space {
+  margin-right: 5px;
+}
+
+.bgImage {
+  background-image: url("../../assets/images/acceuil.jpg");
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.cardPosition {
+  margin: 0%;
+  position: relative;
+  top: 25%;
+  left: 0%;
+  -ms-transform: translateY(-50%, -50%);
+  transform: translateY(-50%, -50%);
+}

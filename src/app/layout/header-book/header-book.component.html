@@ -1,0 +1,24 @@
+<p>
+  <mat-toolbar>
+    <i class="fas fa-book"></i> &nbsp;
+    <span>Books</span>
+    <span class="example-spacer"></span>
+    <button class="btn btn-primary" (click)="addBook()">
+      <i class="fas fa-plus-square"></i> &nbsp; Add Book
+    </button>
+  </mat-toolbar>
+</p>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" routerLink="/ecms/books">Books</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="/ecms/book-reservation">Reservations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="/ecms/my-book-reservation"
+      >My reservation</a
+    >
+  </li>
+</ul>

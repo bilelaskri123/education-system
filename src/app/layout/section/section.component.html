@@ -1,0 +1,73 @@
+<p>
+  <mat-toolbar>
+    <i class="fas fa-list"></i> &nbsp;
+    <span> Section </span>
+    <span class="example-spacer"></span>
+    <button class="btn btn-primary" (click)="addSection()">
+      <i class="fas fa-plus-square"></i> &nbsp; Add Section
+    </button>
+  </mat-toolbar>
+</p>
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-accordion multi="true" *ngIf="sections.length > 0 && !isLoading">
+  <mat-expansion-panel *ngFor="let section of sections">
+    <mat-expansion-panel-header>
+      {{ section.name }}
+    </mat-expansion-panel-header>
+
+    <section>
+      <div class="container py-3">
+        <div class="card resize-card">
+          <div class="row">
+            <div class="col-md-4 section-image">
+              <img
+                [src]="section.imagePath"
+                [alt]="section.name"
+                class="w-100"
+              />
+            </div>
+            <div>
+              <div class="col-md-8 px-3">
+                <div class="card-block">
+                  <h2>{{ section.name }}</h2>
+                  <p class="card-text">
+                    <strong
+                      >number of Hours: <small>{{ section.hours }}</small>
+                    </strong>
+                  </p>
+                  <p class="card-text">
+                    <strong
+                      >description: <small>{{ section.description }}</small>
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <mat-action-row>
+      <a
+        mat-button
+        color="primary"
+        [routerLink]="['/ecms/edit-section', section.id]"
+        >EDIT</a
+      >
+      <button mat-button color="warn" (click)="onDelete(section.id)">
+        DELETE
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<mat-paginator
+  [length]="totalSections"
+  [pageSize]="sectionPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>
+<p class="info-text mat-body-1" *ngIf="sections.length <= 0 && !isLoading">
+  No section added yet!
+</p>

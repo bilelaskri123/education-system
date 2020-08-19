@@ -1,0 +1,67 @@
+<app-header-book></app-header-book>
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-accordion multi="true" *ngIf="books.length > 0 && !isLoading">
+  <mat-expansion-panel *ngFor="let book of books">
+    <mat-expansion-panel-header>
+      {{ book.title }}
+    </mat-expansion-panel-header>
+
+    <section>
+      <div class="container py-3">
+        <div class="card resize-card">
+          <div class="row">
+            <div class="col-md-4 book-image">
+              <img [src]="book.imagePath" [alt]="book.title" class="w-100" />
+            </div>
+            <div>
+              <div class="col-md-8 px-3">
+                <div class="card-block">
+                  <h2>{{ book.title }} Book</h2>
+                  <p class="card-text">
+                    <strong
+                      >auther: <small>{{ book.auther }}</small>
+                    </strong>
+                  </p>
+                  <p class="card-text">
+                    <strong
+                      >description: <small>{{ book.description }}</small>
+                    </strong>
+                  </p>
+                  <p class="card-text">
+                    <strong
+                      >Number of pages: <small>{{ book.pages }}</small>
+                    </strong>
+                  </p>
+                  <p class="card-text">
+                    <strong
+                      >disponible copies: <small>{{ book.copies }}</small>
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <mat-action-row>
+      <a mat-button color="primary" [routerLink]="['/ecms/edit-book', book.id]"
+        >EDIT</a
+      >
+      <button mat-button color="warn" (click)="onDelete(book.id)">
+        DELETE
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<mat-paginator
+  [length]="totalBooks"
+  [pageSize]="bookPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>
+<p class="info-text mat-body-1" *ngIf="books.length <= 0 && !isLoading">
+  No books added yet!
+</p>

@@ -1,0 +1,39 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+.info-text {
+  text-align: center;
+}
+
+.section-image {
+  width: 100%;
+  height: auto;
+}
+
+.section-image img {
+  width: 100%;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+  font-size: large;
+  color: blue;
+}
+resize-card {
+  width: 100%;
+  max-height: 300px;
+}
+
+mat-paginator {
+  margin-top: 1rem;
+}
