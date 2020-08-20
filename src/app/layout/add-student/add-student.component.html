@@ -42,10 +42,11 @@
         placeholder="Password"
         #passwordInput="ngModel"
         required
-        autocomplete="current-password"
+        autocomplete="new-password"
       />
       <button
         mat-icon-button
+        type="button"
         matSuffix
         (click)="hide = !hide"
         [attr.aria-label]="'Hide password'"

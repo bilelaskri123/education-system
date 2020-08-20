@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./signup.component.scss"],
 })
 export class SignupComponent implements OnInit {
+  hide = true;
   isLoading = false;
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -20,12 +21,17 @@ export class SignupComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    this.authService.createUser(
-      form.value.fullName,
-      form.value.email,
-      form.value.password,
-      form.value.role
-    );
+    this.authService
+      .createUser(
+        form.value.fullName,
+        form.value.email,
+        form.value.password,
+        form.value.role
+      )
+      .subscribe((response) => {
+        console.log(response);
+        this.router.navigate(["/login"]);
+      });
   }
 
   onLogin() {

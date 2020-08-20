@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./add-teacher.component.scss"],
 })
 export class AddTeacherComponent implements OnInit {
+  hide = true;
   isLoading = false;
   private role: string = "teacher";
   constructor(public authService: AuthService, private router: Router) {}

@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { NgForm } from "@angular/forms";
+import { AuthService } from "src/app/shared/services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-add-librarian",
@@ -7,20 +9,28 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
   styleUrls: ["./add-librarian.component.scss"],
 })
 export class AddLibrarianComponent implements OnInit {
-  form: FormGroup;
-  constructor() {}
+  hide = true;
+  isLoading = false;
+  private role: string = "librarian";
+  constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {
-    this.form = new FormGroup({
-      fullName: new FormControl(null, {
-        validators: [Validators.required, Validators.minLength(2)],
-      }),
-      email: new FormControl(null, {
-        validators: [Validators.required, Validators.email],
-      }),
-      password: new FormControl(null, {
-        validators: [Validators.required, Validators.min(8)],
-      }),
-    });
+  ngOnInit() {}
+
+  addLibrarian(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    this.isLoading = true;
+    this.authService
+      .createUser(
+        form.value.fullName,
+        form.value.email,
+        form.value.password,
+        this.role
+      )
+      .subscribe((response) => {
+        console.log(response);
+        this.router.navigate(["/ecms/librarian"]);
+      });
   }
 }

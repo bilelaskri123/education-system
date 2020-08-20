@@ -9,8 +9,9 @@ import { Router } from "@angular/router";
   styleUrls: ["./add-parent.component.scss"],
 })
 export class AddParentComponent implements OnInit {
+  hide = true;
   isLoading = false;
-  private role: string = "teacher";
+  private role: string = "parent";
   constructor(public authService: AuthService, private router: Router) {}
 
   ngOnInit() {}

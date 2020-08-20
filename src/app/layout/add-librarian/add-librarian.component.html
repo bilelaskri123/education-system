@@ -1,7 +1,7 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <mat-card-header> <h1>Student</h1> </mat-card-header>
-  <form (submit)="addStudent(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+  <mat-card-header> <h1>Librarian</h1> </mat-card-header>
+  <form (submit)="addLibrarian(librarianForm)" #librarianForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
       <input
         matInput
@@ -11,6 +11,7 @@
         placeholder="Full Name"
         #fullNameInput="ngModel"
         required
+        autocomplete="username"
       />
       <mat-error *ngIf="fullNameInput.invalid"
         >Please enter a valid full N.</mat-error
@@ -26,6 +27,7 @@
         #emailInput="ngModel"
         required
         email
+        autocomplete="email"
       />
       <mat-error *ngIf="emailInput.invalid"
         >Please enter a valid email.</mat-error
@@ -33,14 +35,23 @@
     </mat-form-field>
     <mat-form-field>
       <input
-        type="password"
+      [type]="hide ? 'password' : 'text'"
         name="password"
         ngModel
         matInput
         placeholder="Password"
         #passwordInput="ngModel"
         required
+        autocomplete="new-password"
       />
+      <button
+        mat-icon-button
+        type="button"
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
       <mat-error *ngIf="passwordInput.invalid"
         >Please enter a valid password.</mat-error
       >

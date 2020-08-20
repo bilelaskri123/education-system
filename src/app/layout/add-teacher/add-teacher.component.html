@@ -15,6 +15,7 @@
         placeholder="Full Name"
         #fullNameInput="ngModel"
         required
+        autocomplete="username"
       />
       <mat-error *ngIf="fullNameInput.invalid"
         >Please enter a valid full N.</mat-error
@@ -30,6 +31,7 @@
         #emailInput="ngModel"
         required
         email
+        autocomplete="email"
       />
       <mat-error *ngIf="emailInput.invalid"
         >Please enter a valid email.</mat-error
@@ -37,14 +39,25 @@
     </mat-form-field>
     <mat-form-field>
       <input
-        type="password"
+        [type]="hide ? 'password' : 'text'"
         name="password"
         ngModel
         matInput
         placeholder="Password"
         #passwordInput="ngModel"
         required
+        autocomplete="current-password"
       />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
       <mat-error *ngIf="passwordInput.invalid"
         >Please enter a valid password.</mat-error
       >
