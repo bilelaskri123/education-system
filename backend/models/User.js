@@ -17,6 +17,17 @@ const userSchema = mongoose.Schema({
     required: true,
     enum: ["admin", "student", "teacher", "parent", "librarian", "accountant"],
   },
+
+  section: { type: mongoose.Types.ObjectId, ref: "Section" },
+  group: { type: mongoose.Types.ObjectId, ref: "Group" },
+  payement: { type: String, enum: ["yes", "no"] },
+  emailParent: { type: String, unique: true },
+
+  childEmail: { type: String, unique: true },
+
+  speciality: { type: String },
+  salary: { type: Number },
+
   resetPasswordToken: String,
   resetPasswordExpires: Date,
 });

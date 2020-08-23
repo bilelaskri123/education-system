@@ -14,7 +14,7 @@
         autocomplete="username"
       />
       <mat-error *ngIf="fullNameInput.invalid"
-        >Please enter a valid full N.</mat-error
+        >Please enter a valid full Name</mat-error
       >
     </mat-form-field>
     <mat-form-field>
@@ -56,6 +56,22 @@
       </button>
       <mat-error *ngIf="passwordInput.invalid"
         >Please enter a valid password.</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        name="salary"
+        ngModel
+        type="number"
+        placeholder="salary"
+        #salarInput="ngModel"
+        required
+        autocomplete="cc-name"
+      />
+      <mat-error *ngIf="salarInput.invalid"
+        >Please enter a teacher salar</mat-error
       >
     </mat-form-field>
 

@@ -6,13 +6,43 @@
     <mat-expansion-panel-header>
       {{ product.name }}
     </mat-expansion-panel-header>
-    <div class="product-image">
-      <img [src]="product.imagePath" [alt]="product.title" />
-    </div>
-    <p>
-      {{ product.category }} has {{ product.stock }} copies
-      {{ product.description }}
-    </p>
+    <section>
+      <div class="container py-3">
+        <div class="card resize-card">
+          <div class="row">
+            <div class="col-md-4 product-image">
+              <img
+                [src]="product.imagePath"
+                [alt]="product.name"
+                class="w-100"
+              />
+            </div>
+            <div>
+              <div class="col-md-8 px-3">
+                <div class="card-block">
+                  <h2>{{ product.name }}</h2>
+                  <p class="card-text">
+                    <strong
+                      >category: <small>{{ product.category }}</small>
+                    </strong>
+                  </p>
+                  <p class="card-text">
+                    <strong
+                      >description: <small>{{ product.description }}</small>
+                    </strong>
+                  </p>
+                  <p class="card-text">
+                    <strong
+                      >disponible copies: <small>{{ product.stock }}</small>
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <mat-action-row>
       <a
         mat-button
@@ -26,6 +56,13 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
+
+<mat-paginator
+  [length]="totalProducts"
+  [pageSize]="productPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>
 <p class="info-text mat-body-1" *ngIf="products.length <= 0 && !isLoading">
   No products added yet!
 </p>

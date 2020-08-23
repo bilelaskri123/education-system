@@ -63,6 +63,37 @@
       >
     </mat-form-field>
 
+    <mat-form-field>
+      <input
+        matInput
+        name="speciality"
+        ngModel
+        type="text"
+        placeholder="speciality"
+        #specialityInput="ngModel"
+        required
+      />
+      <mat-error *ngIf="specialityInput.invalid"
+        >Please enter a valid speciality</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        name="salar"
+        ngModel
+        type="number"
+        placeholder="salar"
+        #salarInput="ngModel"
+        required
+        autocomplete="cc-name"
+      />
+      <mat-error *ngIf="salarInput.invalid"
+        >Please enter a teacher salar</mat-error
+      >
+    </mat-form-field>
+
     <div class="position">
       <button
         mat-raised-button

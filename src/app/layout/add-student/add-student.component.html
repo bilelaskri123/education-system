@@ -59,6 +59,71 @@
       >
     </mat-form-field>
 
+    <mat-form-field>
+      <input
+        matInput
+        name="emailParent"
+        ngModel
+        type="email"
+        placeholder="E-Mail Parent"
+        #emailParentInput="ngModel"
+        required
+        email
+        autocomplete="email"
+      />
+      <mat-error *ngIf="emailParentInput.invalid"
+        >Please enter an email parent for student .</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Section</mat-label>
+      <select
+        matNativeControl
+        name="section"
+        #sectionSelect="ngModel"
+        ngModel
+        required
+      >
+        <option value="informatique">informatique</option>
+        <option value="mecatronique">mecatronique</option>
+      </select>
+      <mat-error *ngIf="sectionSelect.invalid"
+        >Please choose a section</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Group</mat-label>
+      <select
+        matNativeControl
+        name="group"
+        #groupSelect="ngModel"
+        ngModel
+        required
+      >
+        <option value="group A">group A </option>
+        <option value="group B">group B</option>
+      </select>
+      <mat-error *ngIf="groupSelect.invalid">Please choose group.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>payement</mat-label>
+      <select
+        matNativeControl
+        name="payement"
+        #payementSelect="ngModel"
+        ngModel
+        required
+      >
+        <option value="yes">yes</option>
+        <option value="no">no</option>
+      </select>
+      <mat-error *ngIf="payementSelect.invalid"
+        >Please enter a valid status.</mat-error
+      >
+    </mat-form-field>
     <div class="position">
       <button
         mat-raised-button

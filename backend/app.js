@@ -10,6 +10,9 @@ const productsRoutes = require("./routes/product.routes");
 const booksRoutes = require("./routes/book.routes");
 const sectionRoutes = require("./routes/section.routes");
 const userRoutes = require("./routes/user.routes");
+const groupRoutes = require("./routes/group.routes");
+const accountantRoutes = require("./routes/accountant.routes");
+const librarianRoutes = require("./routes/librarian.routes");
 
 const app = express();
 
@@ -50,5 +53,8 @@ app.use("/api/product", productsRoutes);
 app.use("/api/book", booksRoutes);
 app.use("/api/section", sectionRoutes);
 app.use("/api/auth", userRoutes);
+app.use("/api/group", groupRoutes);
+app.use("/api/accountant", accountantRoutes);
+app.use("/api/librarian", librarianRoutes);
 
 module.exports = app;

@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { AuthService } from "src/app/shared/services/auth.service";
 import { Router } from "@angular/router";
+import { User } from "src/app/shared/models/User";
+import { LibrarianService } from "src/app/shared/services/librarian.service";
 
 @Component({
   selector: "app-add-librarian",
@@ -12,7 +14,12 @@ export class AddLibrarianComponent implements OnInit {
   hide = true;
   isLoading = false;
   private role: string = "librarian";
-  constructor(private authService: AuthService, private router: Router) {}
+  accountant: User;
+
+  constructor(
+    private librarianService: LibrarianService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
@@ -21,16 +28,14 @@ export class AddLibrarianComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    this.authService
-      .createUser(
-        form.value.fullName,
-        form.value.email,
-        form.value.password,
-        this.role
-      )
-      .subscribe((response) => {
-        console.log(response);
-        this.router.navigate(["/ecms/librarian"]);
-      });
+    this.librarianService.addLibrarian(
+      form.value.fullName,
+      form.value.email,
+      form.value.password,
+      this.role,
+      form.value.salary
+    );
+
+    form.reset();
   }
 }

@@ -20,6 +20,7 @@ export class BookComponent implements OnInit, OnDestroy {
   pageSizeOptions = [1, 2, 5, 10];
 
   constructor(public bookservice: bookService) {}
+
   ngOnInit() {
     this.isLoading = true;
     this.bookservice.getBooks(this.bookPerPage, this.currentPage);

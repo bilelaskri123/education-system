@@ -63,6 +63,21 @@
       >
     </mat-form-field>
 
+    <mat-form-field>
+      <input
+        matInput
+        name="childEmail"
+        ngModel
+        type="email"
+        placeholder="child Email"
+        #childEmailInput="ngModel"
+        required
+      />
+      <mat-error *ngIf="fullNameInput.invalid"
+        >Please enter a valid child email.</mat-error
+      >
+    </mat-form-field>
+
     <div class="position">
       <button
         mat-raised-button

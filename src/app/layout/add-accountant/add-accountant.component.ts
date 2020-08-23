@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators, NgForm } from "@angular/forms";
-import { AuthService } from "src/app/shared/services/auth.service";
-import { Router } from "@angular/router";
+import { NgForm } from "@angular/forms";
+import { Router, ActivatedRoute, ParamMap } from "@angular/router";
+import { AccountantService } from "src/app/shared/services/accountant.service";
+import { User } from "src/app/shared/models/User";
 
 @Component({
   selector: "app-add-accountant",
@@ -11,8 +12,12 @@ import { Router } from "@angular/router";
 export class AddAccountantComponent implements OnInit {
   hide = true;
   isLoading = false;
+  accountant: User;
   private role: string = "accountant";
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private accountantService: AccountantService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
@@ -21,16 +26,14 @@ export class AddAccountantComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    this.authService
-      .createUser(
-        form.value.fullName,
-        form.value.email,
-        form.value.password,
-        this.role
-      )
-      .subscribe((response) => {
-        console.log(response);
-        this.router.navigate(["/ecms/accountant"]);
-      });
+    this.accountantService.addAccountant(
+      form.value.fullName,
+      form.value.email,
+      form.value.password,
+      this.role,
+      form.value.salary
+    );
+
+    form.reset();
   }
 }

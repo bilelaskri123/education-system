@@ -15,24 +15,24 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {}
 
-  onSignup(form: NgForm) {
-    console.log(form.value);
-    if (form.invalid) {
-      return;
-    }
-    this.isLoading = true;
-    this.authService
-      .createUser(
-        form.value.fullName,
-        form.value.email,
-        form.value.password,
-        form.value.role
-      )
-      .subscribe((response) => {
-        console.log(response);
-        this.router.navigate(["/login"]);
-      });
-  }
+  // onSignup(form: NgForm) {
+  //   console.log(form.value);
+  //   if (form.invalid) {
+  //     return;
+  //   }
+  //   this.isLoading = true;
+  //   this.authService
+  //     .createUser(
+  //       form.value.fullName,
+  //       form.value.email,
+  //       form.value.password,
+  //       form.value.role
+  //     )
+  //     .subscribe((response) => {
+  //       console.log(response);
+  //       this.router.navigate(["/login"]);
+  //     });
+  // }
 
   onLogin() {
     this.router.navigate(["/login"]);

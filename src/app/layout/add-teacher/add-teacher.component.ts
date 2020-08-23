@@ -16,23 +16,23 @@ export class AddTeacherComponent implements OnInit {
 
   ngOnInit() {}
 
-  addTeacher(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
+  // addTeacher(form: NgForm) {
+  //   if (form.invalid) {
+  //     return;
+  //   }
 
-    this.authService
-      .createUser(
-        form.value.fullName,
-        form.value.email,
-        form.value.password,
-        this.role
-      )
-      .subscribe((response) => {
-        console.log(response);
-        this.router.navigate(["/ecms/teachers"]);
-      });
-  }
+  //   this.authService
+  //     .createUser(
+  //       form.value.fullName,
+  //       form.value.email,
+  //       form.value.password,
+  //       this.role
+  //     )
+  //     .subscribe((response) => {
+  //       console.log(response);
+  //       this.router.navigate(["/ecms/teachers"]);
+  //     });
+  // }
 
   cancelForm() {
     this.router.navigate(["/ecms/teachers"]);

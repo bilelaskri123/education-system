@@ -3,17 +3,21 @@ import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { User } from "../models/User";
 import { Subject } from "rxjs";
+import { map, filter } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
+  users: User[];
+
   private isAuthenticated = false;
   private token: string;
   private tokenTimer: any;
   private userId: string;
   private role: string;
   private authStatusListener = new Subject<boolean>();
+
   constructor(private http: HttpClient, private router: Router) {}
 
   getToken() {
@@ -30,17 +34,6 @@ export class AuthService {
 
   getRole() {
     return this.role;
-  }
-
-  createUser(fullName: string, email: string, password: string, role: string) {
-    const userData: User = {
-      fullName: fullName,
-      email: email,
-      password: password,
-      role: role,
-    };
-    console.log(userData);
-    return this.http.post("http://localhost:3000/api/auth/signup", userData);
   }
 
   login(email: string, password: string) {

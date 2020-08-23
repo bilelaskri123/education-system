@@ -15,22 +15,4 @@ export class AddStudentComponent implements OnInit {
   constructor(public authService: AuthService, private router: Router) {}
 
   ngOnInit() {}
-
-  addStudent(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
-    this.isLoading = true;
-    this.authService
-      .createUser(
-        form.value.fullName,
-        form.value.email,
-        form.value.password,
-        this.role
-      )
-      .subscribe((response) => {
-        console.log(response);
-        this.router.navigate(["/ecms/students"]);
-      });
-  }
 }

@@ -15,21 +15,4 @@ export class AddParentComponent implements OnInit {
   constructor(public authService: AuthService, private router: Router) {}
 
   ngOnInit() {}
-
-  addParent(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
-    this.authService
-      .createUser(
-        form.value.fullName,
-        form.value.email,
-        form.value.password,
-        this.role
-      )
-      .subscribe((response) => {
-        console.log(response);
-        this.router.navigate(["/ecms/parents"]);
-      });
-  }
 }
