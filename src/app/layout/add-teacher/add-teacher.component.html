@@ -63,8 +63,8 @@
       >
     </mat-form-field>
 
-    <mat-form-field>
-      <select
+    <mat-form-field appearance="fill">
+      <mat-select
         matNativeControl
         placeholder="speciality"
         name="speciality"
@@ -72,10 +72,10 @@
         ngModel
         required
       >
-        <option *ngFor="let section of sections" [value]="section.name">{{
+        <mat-option *ngFor="let section of sections" [value]="section.name">{{
           section.name
-        }}</option>
-      </select>
+        }}</mat-option>
+      </mat-select>
       <mat-error *ngIf="specialitySelect.invalid"
         >Please enter a valid speciality</mat-error
       >
@@ -91,6 +91,7 @@
         #salaryInput="ngModel"
         required
         autocomplete="cc-name"
+        min="0"
       />
       <mat-error *ngIf="salaryInput.invalid"
         >Please enter a teacher salar</mat-error

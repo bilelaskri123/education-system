@@ -37,15 +37,15 @@ router.post("", async (req, res, next) => {
 router.get("", (req, res) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const parentQuery = User.find({ role: "teacher" });
+  const parentQuery = User.find({ role: "parent" });
   let count;
-  User.countDocuments({ role: "teacher" }).then((result) => {
+  User.countDocuments({ role: "parent" }).then((result) => {
     count = result;
   });
   let parents = [];
   let parent = {};
   if (pageSize && currentPage) {
-    librarianQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+    parentQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
   }
   parentQuery
     .then((result) => {

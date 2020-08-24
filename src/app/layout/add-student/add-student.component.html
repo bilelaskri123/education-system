@@ -76,9 +76,9 @@
       >
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-label>Section</mat-label>
-      <select
+      <mat-select
         matNativeControl
         placeholder="section"
         name="section"
@@ -86,18 +86,18 @@
         ngModel
         required
       >
-        <option *ngFor="let section of sections" [value]="section.id">{{
+        <mat-option *ngFor="let section of sections" [value]="section.id">{{
           section.name
-        }}</option>
-      </select>
+        }}</mat-option>
+      </mat-select>
       <mat-error *ngIf="sectionSelect.invalid"
         >Please enter a valid section</mat-error
       >
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-label>Group</mat-label>
-      <select
+      <mat-select
         matNativeControl
         placeholder="Group"
         name="group"
@@ -105,25 +105,25 @@
         ngModel
         required
       >
-        <option *ngFor="let group of groups" [value]="group.id">{{
+        <mat-option *ngFor="let group of groups" [value]="group.id">{{
           group.name
-        }}</option>
-      </select>
+        }}</mat-option>
+      </mat-select>
       <mat-error *ngIf="groupSelect.invalid">choose a valid group</mat-error>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-label>payement</mat-label>
-      <select
+      <mat-select
         matNativeControl
         name="payement"
         #payementSelect="ngModel"
         ngModel
         required
       >
-        <option value="yes">yes</option>
-        <option value="no">no</option>
-      </select>
+        <mat-option value="yes">yes</mat-option>
+        <mat-option value="no">no</mat-option>
+      </mat-select>
       <mat-error *ngIf="payementSelect.invalid"
         >Please enter a valid status.</mat-error
       >

@@ -11,8 +11,9 @@ import { PageEvent } from "@angular/material/paginator";
   styleUrls: ["./section.component.scss"],
 })
 export class SectionComponent implements OnInit, OnDestroy {
-  sections: Section[] = [];
   isLoading = false;
+
+  sections: Section[] = [];
   private sectionSub: Subscription;
 
   totalSections = 0;

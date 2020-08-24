@@ -11,8 +11,9 @@ import { PageEvent } from "@angular/material/paginator";
   styleUrls: ["./students.component.scss"],
 })
 export class StudentComponent implements OnInit, OnDestroy {
-  students: User[] = [];
   isLoading = false;
+
+  students: User[] = [];
   private studentsSub: Subscription;
 
   totalStudents = 0;

@@ -13,15 +13,35 @@
 <mat-accordion multi="true" *ngIf="groups.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let group of groups">
     <mat-expansion-panel-header>
-      {{ group.name }}
+      {{ group.name }} &nbsp; &nbsp; &nbsp; {{ group.section.name }}
     </mat-expansion-panel-header>
     <section>
-      <div class="container py-3">
-        <div class="card resize-card">
-          <div class="row">
-            <h1>test of group</h1>
-          </div>
-        </div>
+      <div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Full Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of group.students">
+              <td>{{ student.fullName }}</td>
+              <td>{{ student.email }}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  title="delete"
+                  (click)="deleteAccountant(accountant.id)"
+                >
+                  <i class="far fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
     <!-- <mat-action-row>

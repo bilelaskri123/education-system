@@ -195,6 +195,18 @@ const routes: Routes = [
             (m) => m.AddSectionModule
           ),
       },
+      {
+        path: "add-group",
+        loadChildren: () =>
+          import("./add-group/add-group.module").then((m) => m.AddGroupModule),
+      },
+      {
+        path: "add-course",
+        loadChildren: () =>
+          import("./add-course/add-course.module").then(
+            (m) => m.AddCourseModule
+          ),
+      },
     ],
   },
 ];

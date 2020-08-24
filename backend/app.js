@@ -15,6 +15,7 @@ const accountantRoutes = require("./routes/accountant.routes");
 const librarianRoutes = require("./routes/librarian.routes");
 const teacherRoutes = require("./routes/teacher.routes");
 const studentRoutes = require("./routes/student.routes");
+const parentRoutes = require("./routes/parent.routes");
 
 const app = express();
 
@@ -60,5 +61,6 @@ app.use("/api/accountant", accountantRoutes);
 app.use("/api/librarian", librarianRoutes);
 app.use("/api/teacher", teacherRoutes);
 app.use("/api/student", studentRoutes);
+app.use("/api/parent", parentRoutes);
 
 module.exports = app;
