@@ -38,4 +38,8 @@ export class AddLibrarianComponent implements OnInit {
 
     form.reset();
   }
+
+  cancelForm() {
+    this.router.navigate(["/ecms/librarians"]);
+  }
 }

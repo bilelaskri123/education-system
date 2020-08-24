@@ -9,20 +9,56 @@
   </mat-toolbar>
 </p>
 
-<div class="search">
-  <mat-form-field fxFlex="40%">
-    <input
-      matInput
-      type="text"
-      (keyup)="doFilter($event.target.value)"
-      placeholder="Search"
-    />
-  </mat-form-field>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Full Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">parent email</th>
+            <th scope="col">section</th>
+            <th scope="col">group</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of students">
+            <td>{{ student.fullName }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.role }}</td>
+            <td>{{ student.emailParent }}</td>
+            <td>{{ student.section }}</td>
+            <td>{{ student.group }}</td>
+            <td>
+              <!-- <button type="button" class="btn btn-primary">
+                <i class="far fa-eye"></i>
+              </button>
+              <button type="button" class="btn btn-success">
+                <i class="fas fa-edit"></i>
+              </button> -->
+              <button
+                type="button"
+                class="btn btn-danger"
+                title="delete"
+                (click)="deleteStudent(student.id)"
+              >
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
-<div>
-  <mat-paginator
-    [pageSizeOptions]="[10, 15, 20]"
-    showFirstLastButtons
-  ></mat-paginator>
-</div>
+<mat-paginator
+  [length]="totalStudents"
+  [pageSize]="studentPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>

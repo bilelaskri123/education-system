@@ -5,4 +5,8 @@ export interface User {
   password: string;
   role: string;
   salary?: number;
+  childEmail?: string;
+  group?: string;
+  section?: string;
+  payement?: string;
 }

@@ -80,16 +80,18 @@
       <mat-label>Section</mat-label>
       <select
         matNativeControl
+        placeholder="section"
         name="section"
         #sectionSelect="ngModel"
         ngModel
         required
       >
-        <option value="informatique">informatique</option>
-        <option value="mecatronique">mecatronique</option>
+        <option *ngFor="let section of sections" [value]="section.id">{{
+          section.name
+        }}</option>
       </select>
       <mat-error *ngIf="sectionSelect.invalid"
-        >Please choose a section</mat-error
+        >Please enter a valid section</mat-error
       >
     </mat-form-field>
 
@@ -97,15 +99,17 @@
       <mat-label>Group</mat-label>
       <select
         matNativeControl
+        placeholder="Group"
         name="group"
         #groupSelect="ngModel"
         ngModel
         required
       >
-        <option value="group A">group A </option>
-        <option value="group B">group B</option>
+        <option *ngFor="let group of groups" [value]="group.id">{{
+          group.name
+        }}</option>
       </select>
-      <mat-error *ngIf="groupSelect.invalid">Please choose group.</mat-error>
+      <mat-error *ngIf="groupSelect.invalid">choose a valid group</mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -134,10 +138,12 @@
         Save
       </button>
       <button
+        type="button"
         mat-raised-button
         class="btn btn-danger"
         type="reset"
         *ngIf="!isLoading"
+        (click)="cancelForm()"
       >
         Cancel
       </button>

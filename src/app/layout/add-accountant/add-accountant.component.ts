@@ -36,4 +36,8 @@ export class AddAccountantComponent implements OnInit {
 
     form.reset();
   }
+
+  cancelForm() {
+    this.router.navigate(["/ecms/accountant"]);
+  }
 }

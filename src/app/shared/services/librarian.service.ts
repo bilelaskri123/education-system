@@ -50,7 +50,7 @@ export class LibrarianService {
       .pipe(
         map((librarianData) => {
           return {
-            accountants: librarianData.librarians.map((librarian) => {
+            librarians: librarianData.librarians.map((librarian) => {
               return {
                 fullName: librarian.fullName,
                 email: librarian.email,
@@ -65,7 +65,7 @@ export class LibrarianService {
       )
       .subscribe((transformedLibrarian) => {
         console.log(transformedLibrarian);
-        this.librarians = transformedLibrarian.accountants;
+        this.librarians = transformedLibrarian.librarians;
         this.librariansUpdated.next({
           librarians: [...this.librarians],
           librarianCount: transformedLibrarian.count,

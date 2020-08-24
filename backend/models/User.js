@@ -21,7 +21,7 @@ const userSchema = mongoose.Schema({
   section: { type: mongoose.Types.ObjectId, ref: "Section" },
   group: { type: mongoose.Types.ObjectId, ref: "Group" },
   payement: { type: String, enum: ["yes", "no"] },
-  emailParent: { type: String, unique: true },
+  emailParent: { type: String },
 
   childEmail: { type: String, unique: true },
 

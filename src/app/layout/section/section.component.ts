@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 import { Section } from "src/app/shared/models/Section";
 import { Subscription } from "rxjs";
-import { sectionService } from "src/app/shared/services/section.service";
+import { SectionService } from "src/app/shared/services/section.service";
 import { PageEvent } from "@angular/material/paginator";
 
 @Component({
@@ -20,7 +20,7 @@ export class SectionComponent implements OnInit, OnDestroy {
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 
-  constructor(private router: Router, private sectionService: sectionService) {}
+  constructor(private router: Router, private sectionService: SectionService) {}
 
   ngOnInit() {
     this.isLoading = true;

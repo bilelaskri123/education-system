@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, ParamMap } from "@angular/router";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { mimeType } from "../add-product/mime-type.validator";
-import { sectionService } from "src/app/shared/services/section.service";
+import { SectionService } from "src/app/shared/services/section.service";
 import { Section } from "src/app/shared/models/Section";
 
 @Component({
@@ -22,7 +22,7 @@ export class AddSectionComponent implements OnInit {
   constructor(
     public router: Router,
     public route: ActivatedRoute,
-    public sectionService: sectionService
+    public sectionService: SectionService
   ) {}
 
   ngOnInit() {

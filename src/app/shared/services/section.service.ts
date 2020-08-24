@@ -8,7 +8,7 @@ import { map } from "rxjs/operators";
 @Injectable({
   providedIn: "root",
 })
-export class sectionService {
+export class SectionService {
   private sections: Section[] = [];
   private sectionsUpdated = new Subject<{
     sections: Section[];

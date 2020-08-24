@@ -85,10 +85,12 @@
         Save
       </button>
       <button
+        type="button"
         mat-raised-button
         class="btn btn-danger"
         type="reset"
         *ngIf="!isLoading"
+        (click)="cancelForm()"
       >
         Cancel
       </button>

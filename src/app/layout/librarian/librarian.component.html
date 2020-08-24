@@ -9,6 +9,7 @@
   </mat-toolbar>
 </p>
 
+<mat-spinner *ngIf="isLoading"></mat-spinner>
 <div class="container">
   <div class="row">
     <div class="col-12">
@@ -38,7 +39,8 @@
               <button
                 type="button"
                 class="btn btn-danger"
-                (click)="deleteAccountant(librarian.id)"
+                (click)="deleteLibrarian(librarian.id)"
+                title="delete"
               >
                 <i class="far fa-trash-alt"></i>
               </button>

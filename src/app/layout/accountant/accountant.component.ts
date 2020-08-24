@@ -50,6 +50,7 @@ export class AccountantComponent implements OnInit, OnDestroy {
       this.currentPage
     );
   }
+
   deleteAccountant(accountantId: string) {
     this.accountantService.deleteAccountant(accountantId).subscribe(() => {
       this.isLoading = true;

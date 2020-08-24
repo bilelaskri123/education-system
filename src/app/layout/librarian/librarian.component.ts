@@ -55,7 +55,7 @@ export class LibrarianComponent implements OnInit {
     this.librarianSub.unsubscribe();
   }
 
-  deleteAccountant(accountantId: string) {
+  deleteLibrarian(accountantId: string) {
     this.librarianService.deleteLibrarian(accountantId).subscribe(() => {
       this.isLoading = true;
       this.librarianService.getLibrarians(

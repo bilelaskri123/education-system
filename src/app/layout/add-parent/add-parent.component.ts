@@ -15,4 +15,21 @@ export class AddParentComponent implements OnInit {
   constructor(public authService: AuthService, private router: Router) {}
 
   ngOnInit() {}
+
+  addParent(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    this.isLoading = true;
+    console.log(form.value);
+    // this.librarianService.addLibrarian(
+    //   form.value.fullName,
+    //   form.value.email,
+    //   form.value.password,
+    //   this.role,
+    //   form.value.salary
+    // );
+
+    form.reset();
+  }
 }

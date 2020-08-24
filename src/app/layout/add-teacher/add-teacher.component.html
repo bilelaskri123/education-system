@@ -64,16 +64,19 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input
-        matInput
-        name="speciality"
-        ngModel
-        type="text"
+      <select
+        matNativeControl
         placeholder="speciality"
-        #specialityInput="ngModel"
+        name="speciality"
+        #specialitySelect="ngModel"
+        ngModel
         required
-      />
-      <mat-error *ngIf="specialityInput.invalid"
+      >
+        <option *ngFor="let section of sections" [value]="section.name">{{
+          section.name
+        }}</option>
+      </select>
+      <mat-error *ngIf="specialitySelect.invalid"
         >Please enter a valid speciality</mat-error
       >
     </mat-form-field>
@@ -81,15 +84,15 @@
     <mat-form-field>
       <input
         matInput
-        name="salar"
+        name="salary"
         ngModel
         type="number"
-        placeholder="salar"
-        #salarInput="ngModel"
+        placeholder="salary"
+        #salaryInput="ngModel"
         required
         autocomplete="cc-name"
       />
-      <mat-error *ngIf="salarInput.invalid"
+      <mat-error *ngIf="salaryInput.invalid"
         >Please enter a teacher salar</mat-error
       >
     </mat-form-field>
