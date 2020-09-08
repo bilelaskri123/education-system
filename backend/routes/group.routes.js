@@ -6,9 +6,9 @@ router.post("", (req, res) => {
   const group = new Group({
     name: req.body.name,
     section: req.body.section,
-    students: req.body.students,
   });
 
+  console.log(group);
   group
     .save()
     .then((group) => {

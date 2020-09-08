@@ -16,6 +16,9 @@ const librarianRoutes = require("./routes/librarian.routes");
 const teacherRoutes = require("./routes/teacher.routes");
 const studentRoutes = require("./routes/student.routes");
 const parentRoutes = require("./routes/parent.routes");
+const courseRoutes = require("./routes/course.routes");
+const reserBookRoutes = require("./routes/reservationBook.routes");
+const reserProductRoutes = require("./routes/reservationProduct.routes");
 
 const app = express();
 
@@ -62,5 +65,7 @@ app.use("/api/librarian", librarianRoutes);
 app.use("/api/teacher", teacherRoutes);
 app.use("/api/student", studentRoutes);
 app.use("/api/parent", parentRoutes);
-
+app.use("/api/course", courseRoutes);
+app.use("/api/reserBook", reserBookRoutes);
+app.use("/api/reserProduct", reserProductRoutes);
 module.exports = app;

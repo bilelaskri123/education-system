@@ -1,4 +1,8 @@
 import { Component, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { Group } from "src/app/shared/models/Group";
+import { GroupService } from "src/app/shared/services/group.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-add-course",
@@ -7,9 +11,19 @@ import { Component, OnInit } from "@angular/core";
 })
 export class AddCourseComponent implements OnInit {
   isLoading = false;
-  constructor() {}
+  groups: Group[];
+  groupSub: Subscription;
+  constructor(private groupService: GroupService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.groupService.getGroups(1000, 1);
+    this.groupSub = this.groupService
+      .getGroupUpdateListener()
+      .subscribe((groupData: { groups: Group[]; groupCount: number }) => {
+        this.isLoading = false;
+        this.groups = groupData.groups;
+      });
+  }
 
-  addCourse() {}
+  addCourse(form: NgForm) {}
 }

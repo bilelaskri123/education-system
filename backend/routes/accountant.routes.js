@@ -24,6 +24,34 @@ router.post("", async (req, res, next) => {
   await user
     .save()
     .then((userCreated) => {
+      var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "askribilel123@gmail.com",
+          pass: "bilel123express#",
+        },
+      });
+      const email = req.body.email;
+      var mailOptions = {
+        from: "bilel123express#",
+        to: email,
+        subject: "Account Created Successfuly!!",
+        html:
+          "<h3> your account successfully created on Chat-App!!</h3> <br><br><strong> Email:</strong> " +
+          req.body.email +
+          "<br><strong> Password:</strong> " +
+          req.body.password +
+          "<br><strong> Role:</strong> " +
+          req.body.role,
+      };
+
+      transporter.sendMail(mailOptions, function (err, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent" + info.response);
+        }
+      });
       res.status(201).json({
         message: "user created",
         user: _.pick(userCreated, [

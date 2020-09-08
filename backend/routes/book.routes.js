@@ -95,6 +95,23 @@ router.get("", (req, res, next) => {
         books: fetchedBooks,
         maxBooks: count,
       });
+    })
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
+});
+
+router.get("/free", (req, res) => {
+  Book.find({ copies: { $gt: 0 } })
+    .then((books) => {
+      res.status(200).json({
+        books: books,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
 });
 

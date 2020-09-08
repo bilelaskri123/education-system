@@ -39,6 +39,13 @@ export class GroupComponent implements OnInit {
     this.groupService.getGroups(this.groupPerPage, this.currentPage);
   }
 
+  onDelete(groupId: string) {
+    this.groupService.deleteGroup(groupId).subscribe(() => {
+      this.isLoading = true;
+      this.groupService.getGroups(this.groupPerPage, this.currentPage);
+    });
+  }
+
   addGroup() {
     this.router.navigate(["/ecms/add-group"]);
   }

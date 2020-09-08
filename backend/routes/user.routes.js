@@ -5,45 +5,11 @@ const _ = require("lodash");
 
 const User = require("../models/User");
 
-router.post("/parent", async (req, res, next) => {
-  console.log(req.body);
-  let user = await User.findOne({ email: req.body.email });
-  if (user) {
-    return res.status(404).json({
-      message: "user already exist",
-    });
-  }
-
-  user = new User(
-    _.pick(req.body, ["fullName", "email", "password", "role", "childEmail"])
-  );
-  const saltRounds = 10;
-  let salt = await bcrypt.genSalt(saltRounds);
-  user.password = await bcrypt.hash(user.password, salt);
-
-  await user.save().then((userCreated) => {
-    res.status(201).json({
-      message: "user created",
-      user: _.pick(userCreated, [
-        "_id",
-        "fullName",
-        "email",
-        "role",
-        "childEmail",
-      ]),
-    });
-  });
-});
-
-router.post("/student", (req, res) => {
-  console.log(req.body);
-  res.status(201).send(req.body);
-});
-
 router.post("/login", async (req, res, next) => {
+  console.log(req.body);
   let user = await User.findOne({ email: req.body.email });
   if (!user) {
-    res.status(404).json({
+    return res.status(404).json({
       message: "invalid email or password",
     });
   }
@@ -57,6 +23,7 @@ router.post("/login", async (req, res, next) => {
   }
 
   const token = user.generateTokens();
+  console.log(user);
   res.json({
     message: "login successfuly",
     token: token,
@@ -64,6 +31,28 @@ router.post("/login", async (req, res, next) => {
     userId: user._id,
     role: user.role,
   });
+});
+
+router.get("/users", (req, res) => {
+  let updatedUsers = [];
+  let newUser = {};
+  User.find({ role: { $in: ["student", "teacher"] } })
+    .then((users) => {
+      users.forEach((user) => {
+        newUser.id = user._id;
+        newUser.fullName = user.fullName;
+        newUser.email = user.email;
+        newUser.role = user.role;
+
+        updatedUsers.push(newUser);
+
+        newUser = {};
+      });
+      res.status(200).send(updatedUsers);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 module.exports = router;

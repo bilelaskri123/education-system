@@ -2,6 +2,10 @@
   <mat-toolbar>
     <i class="fas fa-book"></i> &nbsp;
     <span>Books</span>
+    <span class="example-spacer"></span>
+    <button class="btn btn-primary" (click)="newReservation()">
+      <i class="fas fa-plus-square"></i> &nbsp; new Reservation
+    </button>
   </mat-toolbar>
 </p>
 
@@ -20,3 +24,46 @@
     >
   </li>
 </ul>
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Email</th>
+            <th scope="col">Status</th>
+            <th scope="col">Book</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reservation of reservations">
+            <td>{{ reservation.email }}</td>
+            <td>{{ reservation.role }}</td>
+            <td>{{ reservation.book }}</td>
+            <td>{{ reservation.date | date }}</td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-danger"
+                title="delete Accountant"
+                (click)="deleteReservation(reservation.id)"
+              >
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<mat-paginator
+  [length]="totalReservations"
+  [pageSize]="reservationPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>

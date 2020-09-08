@@ -207,6 +207,20 @@ const routes: Routes = [
             (m) => m.AddCourseModule
           ),
       },
+      {
+        path: "new-reservation-book",
+        loadChildren: () =>
+          import("./add-reser-book/add-reser-book.module").then(
+            (m) => m.AddReserBookModule
+          ),
+      },
+      {
+        path: "new-reservation-product",
+        loadChildren: () =>
+          import("./add-reser-product/add-reser-product.module").then(
+            (m) => m.AddReserProductModule
+          ),
+      },
     ],
   },
 ];

@@ -50,4 +50,23 @@ export class GroupService {
   getGroupUpdateListener() {
     return this.groupsUpdated.asObservable();
   }
+
+  addGroup(name: string, section: string) {
+    let group = {
+      name: name,
+      section: section,
+    };
+
+    console.log(group);
+
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/group", group)
+      .subscribe((responseData) => {
+        this.router.navigate(["/ecms/group"]);
+      });
+  }
+
+  deleteGroup(groupId: string) {
+    return this.http.delete("http://localhost:3000/api/group/" + groupId);
+  }
 }

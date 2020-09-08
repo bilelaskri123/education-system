@@ -15,9 +15,9 @@ export class BookComponent implements OnInit, OnDestroy {
   private booksSub: Subscription;
 
   totalBooks = 0;
-  bookPerPage = 2;
+  bookPerPage = 3;
   currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
+  pageSizeOptions = [1, 3, 6, 9, 18];
 
   constructor(public bookservice: bookService) {}
 

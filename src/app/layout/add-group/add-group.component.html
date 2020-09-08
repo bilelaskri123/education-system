@@ -1,11 +1,7 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <mat-card-header> <h1>Group</h1> </mat-card-header>
-  <form
-    (submit)="addParent(parentForm)"
-    #parentForm="ngForm"
-    *ngIf="!isLoading"
-  >
+  <form (submit)="addGroup(groupForm)" #groupForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
       <input
         matInput
@@ -33,7 +29,7 @@
         required
       >
         <option value="" disabled selected></option>
-        <mat-option *ngFor="let section of sections" [value]="section.name">{{
+        <mat-option *ngFor="let section of sections" [value]="section.id">{{
           section.name
         }}</mat-option>
       </mat-select>

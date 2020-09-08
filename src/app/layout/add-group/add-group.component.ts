@@ -3,6 +3,8 @@ import { Section } from "src/app/shared/models/Section";
 import { Subscription } from "rxjs";
 import { SectionService } from "src/app/shared/services/section.service";
 import { Router } from "@angular/router";
+import { NgForm } from "@angular/forms";
+import { GroupService } from "src/app/shared/services/group.service";
 
 @Component({
   selector: "app-add-group",
@@ -14,7 +16,11 @@ export class AddGroupComponent implements OnInit {
   sections: Section[] = [];
   private sectionSub: Subscription;
 
-  constructor(private sectionService: SectionService, private router: Router) {}
+  constructor(
+    private sectionService: SectionService,
+    private groupService: GroupService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -27,5 +33,12 @@ export class AddGroupComponent implements OnInit {
           this.sections = sectionData.sections;
         }
       );
+  }
+
+  addGroup(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    this.groupService.addGroup(form.value.name, form.value.section);
   }
 }

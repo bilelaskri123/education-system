@@ -15,6 +15,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatRadioModule } from "@angular/material/radio";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 const materialComponents = [
   MatTableModule,
@@ -32,6 +33,7 @@ const materialComponents = [
   MatSelectModule,
   MatNativeDateModule,
   MatRadioModule,
+  MatAutocompleteModule,
 ];
 
 @NgModule({

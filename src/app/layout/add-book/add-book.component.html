@@ -4,7 +4,7 @@
     <u><h3>Book</h3></u>
   </mat-card-header>
   <form [formGroup]="form" (submit)="onSaveBook()" *ngIf="!isLoading">
-    <mat-form-field>
+    <mat-form-field class="col-lg-6 col-md-6 col-sm-12">
       <input
         matInput
         type="text"
@@ -15,7 +15,7 @@
         >Please enter a title of book.</mat-error
       >
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="col-lg-6 col-md-6 col-sm-12">
       <input
         matInput
         type="text"

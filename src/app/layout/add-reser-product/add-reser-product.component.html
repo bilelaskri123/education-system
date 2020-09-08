@@ -1,0 +1,73 @@
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card-header>
+    <h3>Reservation Product</h3>
+  </mat-card-header>
+  <form
+    (submit)="newReservation(reserForm)"
+    #reserForm="ngForm"
+    *ngIf="!isLoading"
+  >
+    <mat-form-field>
+      <mat-label>User</mat-label>
+      <mat-select
+        matNativeControl
+        placeholder="User"
+        name="user"
+        #userSelect="ngModel"
+        ngModel
+        required
+      >
+        <mat-option *ngFor="let user of users" [value]="user.id">
+          <p>
+            {{ user.email }} --
+            <span style="position: absolute; right: 0">{{ user.role }}</span>
+          </p>
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="userSelect.invalid">User is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Product</mat-label>
+      <mat-select
+        matNativeControl
+        placeholder="Product"
+        name="product"
+        #bookSelect="ngModel"
+        ngModel
+        required
+      >
+        <mat-option *ngFor="let product of products" [value]="product.id">
+          <p>
+            {{ product.name }} --
+            <span style="position: absolute; right: 0.15cm">{{
+              product.stock
+            }}</span>
+          </p>
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="bookSelect.invalid">Product is required</mat-error>
+    </mat-form-field>
+    <div class="position">
+      <button
+        mat-raised-button
+        class="btn btn-success btn-space"
+        type="submit"
+        *ngIf="!isLoading"
+      >
+        Save
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        class="btn btn-danger"
+        type="reset"
+        *ngIf="!isLoading"
+        (click)="cancelForm()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</mat-card>

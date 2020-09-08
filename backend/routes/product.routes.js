@@ -99,6 +99,18 @@ router.get("", (req, res, next) => {
     });
 });
 
+router.get("/free", (req, res) => {
+  Product.find({ stock: { $gt: 0 } })
+    .then((products) => {
+      res.status(200).json({
+        products: products,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 router.get("/:id", (req, res, next) => {
   Product.findById(req.params.id).then((product) => {
     if (product) {

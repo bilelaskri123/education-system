@@ -36,8 +36,14 @@ export class AuthService {
     return this.role;
   }
 
+  getAuthStatusListener() {
+    return this.authStatusListener.asObservable();
+  }
+
   login(email: string, password: string) {
-    const authData = { emai: email, password: password };
+    const authData = { email: email, password: password };
+
+    console.log(authData);
 
     this.http
       .post<{
@@ -47,8 +53,12 @@ export class AuthService {
         role: string;
       }>("http://localhost:3000/api/auth/login", authData)
       .subscribe((response) => {
+        console.log(response);
         const token = response.token;
         this.token = token;
+        if (!token) {
+          this.router.navigate(["/login"]);
+        }
         if (token) {
           const expiresInDuration = response.expiresIn;
           this.setAuthTimer(expiresInDuration);
@@ -78,6 +88,7 @@ export class AuthService {
       this.token = authInformation.token;
       this.isAuthenticated = true;
       this.userId = authInformation.userId;
+      this.role = authInformation.role;
       this.setAuthTimer(expiresIn / 1000);
       this.authStatusListener.next(true);
     }

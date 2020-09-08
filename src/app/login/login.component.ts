@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
   isLoading = false;
   constructor(private authService: AuthService, private router: Router) {}
 
+  hide = true;
   ngOnInit() {}
 
   onLogin(form: NgForm) {
@@ -20,9 +21,6 @@ export class LoginComponent implements OnInit {
     }
     this.isLoading = true;
     this.authService.login(form.value.email, form.value.password);
-  }
-
-  OnSignup() {
-    this.router.navigate(["/signup"]);
+    form.reset();
   }
 }
