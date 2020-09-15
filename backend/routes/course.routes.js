@@ -11,17 +11,20 @@ const storage = multer.diskStorage({
     cb(null, "backend/uploads");
   },
   filename: (req, file, cb) => {
-    const name = file.originalname.toLowerCase().split(" ").join("-");
-    const ext = file.mimetype.split("/")[1];
-    cb(null, name + "-" + Date.now() + "." + ext);
+    cb(null, file.originalname);
   },
 });
 
 var upload = multer({ storage: storage });
 
 router.post("", upload.array("myFiles", 50), (req, res) => {
-  const files = req.files;
-  res.send(files);
+  console.log(req.body);
+  try {
+    const files = req.files;
+    res.send(files);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 router.get("", (req, res) => {

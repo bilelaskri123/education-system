@@ -13,16 +13,17 @@ mat-card-header h3 {
   margin: auto;
 }
 
-mat-card-header {
-  width: 100%;
-  height: auto;
-  border-bottom: 2px solid;
-  margin-bottom: 1.5rem;
+mat-card-header h1 {
+  text-align: center;
+  margin: auto;
+  margin-bottom: 2rem;
+  color: rgb(44, 71, 224);
 }
 
 mat-card-actions {
-  margin: 1rem;
+  margin: auto;
   text-align: center;
+  margin-top: 3rem;
 }
 
 mat-spinner {

@@ -8,7 +8,7 @@ const User = require("../models/User");
 router.post("", async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email });
   if (user) {
-    return res.status(404).json({
+    return res.status(409).json({
       message: "librarian already exist",
     });
   }
@@ -34,7 +34,7 @@ router.post("", async (req, res, next) => {
       to: email,
       subject: "Account Created Successfuly!!",
       html:
-        "<h3> your account successfully created on Chat-App!!</h3> <br><br><strong> Email:</strong> " +
+        "<h3> your account successfully created on education system application!!</h3> <br><br><strong> Email:</strong> " +
         req.body.email +
         "<br><strong> Password:</strong> " +
         req.body.password +

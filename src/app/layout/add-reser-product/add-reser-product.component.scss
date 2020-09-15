@@ -8,16 +8,11 @@ mat-form-field {
   margin: auto;
 }
 
-mat-card-header h3 {
+mat-card-header h1 {
   text-align: center;
   margin: auto;
-}
-
-mat-card-header {
-  width: 100%;
-  height: auto;
-  border-bottom: 2px solid;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  color: rgb(44, 71, 224);
 }
 
 mat-card-actions {

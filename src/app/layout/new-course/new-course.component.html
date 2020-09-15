@@ -1,0 +1,43 @@
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card-header>
+    <h1>Course</h1>
+  </mat-card-header>
+  <form [formGroup]="form" (submit)="addCourse()" *ngIf="!isLoading">
+    <!-- <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="name"
+        placeholder="course name"
+      />
+      <mat-error *ngIf="form.get('name').invalid"
+        >Please enter a name of course.</mat-error
+      >
+    </mat-form-field> -->
+
+    <div>
+      <input type="file" formControlName="courses" multiple />
+    </div>
+
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        style="width: 150px"
+      >
+        Save
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="cancelForm()"
+        type="reset"
+        style="width: 150px"
+      >
+        Cancel
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

@@ -1,22 +1,29 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
+import { AuthGuard } from "../shared/auth/auth.guard";
+import { DashboardComponent } from "./dashboard/dashboard.component";
 import { LayoutComponent } from "./layout.component";
 
 const routes: Routes = [
   {
     path: "",
     component: LayoutComponent,
+    // canActivate: [AuthGuard],
     children: [
-      { path: "", redirectTo: "dashboard", pathMatch: "prefix" },
+      {
+        path: "",
+        redirectTo: "dashboard",
+        pathMatch: "prefix",
+      },
       {
         path: "dashboard",
         loadChildren: () =>
           import("./dashboard/dashbord.module").then((m) => m.DashbordModule),
       },
       {
-        path: "results",
+        path: "program",
         loadChildren: () =>
-          import("./results/results.module").then((m) => m.ResultsModule),
+          import("./program/program.module").then((m) => m.ProgramModule),
       },
       {
         path: "subject",
@@ -161,6 +168,20 @@ const routes: Routes = [
           import("./add-book/add-book.module").then((m) => m.AddBookModule),
       },
       {
+        path: "edit-subject/:subjectId",
+        loadChildren: () =>
+          import("./add-subject/add-subject.module").then(
+            (m) => m.AddSubjectModule
+          ),
+      },
+      {
+        path: "edit-program/:programId",
+        loadChildren: () =>
+          import("./new-program/new-program.module").then(
+            (m) => m.NewProgramModule
+          ),
+      },
+      {
         path: "product-reservation",
         loadChildren: () =>
           import("./reser-product/reser-product.module").then(
@@ -201,10 +222,10 @@ const routes: Routes = [
           import("./add-group/add-group.module").then((m) => m.AddGroupModule),
       },
       {
-        path: "add-course",
+        path: "add-subject",
         loadChildren: () =>
-          import("./add-course/add-course.module").then(
-            (m) => m.AddCourseModule
+          import("./add-subject/add-subject.module").then(
+            (m) => m.AddSubjectModule
           ),
       },
       {
@@ -219,6 +240,20 @@ const routes: Routes = [
         loadChildren: () =>
           import("./add-reser-product/add-reser-product.module").then(
             (m) => m.AddReserProductModule
+          ),
+      },
+      {
+        path: "new-program",
+        loadChildren: () =>
+          import("./new-program/new-program.module").then(
+            (m) => m.NewProgramModule
+          ),
+      },
+      {
+        path: "new-course/:subjectId",
+        loadChildren: () =>
+          import("./new-course/new-course.module").then(
+            (m) => m.NewCourseModule
           ),
       },
     ],

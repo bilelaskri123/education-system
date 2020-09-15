@@ -71,6 +71,18 @@ router.put(
   }
 );
 
+router.get("/all", (req, res) => {
+  Section.find()
+    .then((sections) => {
+      res.status(200).send(sections);
+    })
+    .catch((error) => {
+      res.status(500).json({
+        error: error,
+      });
+    });
+});
+
 router.get("/:id", (req, res, next) => {
   Section.findById(req.params.id).then((section) => {
     if (section) {

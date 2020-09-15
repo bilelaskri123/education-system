@@ -8,9 +8,11 @@ textarea {
   width: 100%;
 }
 
-mat-card-header u {
+mat-card-header h1 {
   text-align: center;
   margin: auto;
+  margin-bottom: 2rem;
+  color: rgb(44, 71, 224);
 }
 
 mat-card-header {
@@ -27,24 +29,7 @@ mat-spinner {
   margin: auto;
 }
 
-input[type="file"] {
-  visibility: hidden;
-}
-
-.image-preview {
-  height: 5rem;
-  margin: 1rem 0;
-}
-
-.image-preview img {
-  height: 100%;
-}
-
 .position {
   margin: auto;
   text-align: center;
-}
-
-.btn-space {
-  margin-right: 5px;
 }

@@ -4,7 +4,7 @@
       <mat-spinner *ngIf="isLoading"></mat-spinner>
       <mat-card-header>
         <div>
-          <img src="../../assets/images/tunisianCloud.png" />
+          <img src="../../assets/images/tunisianCloudLogin.png" />
         </div>
       </mat-card-header>
       <form
@@ -54,9 +54,13 @@
         </mat-form-field>
 
         <div class="droite" style="position: absolute; right: 0">
-          <a mat-button href="https://www.google.com/" target="_blank"
-            >forget password</a
+          <button
+            mat-button
+            [routerLink]="['/request-reset-password']"
+            target="_blank"
           >
+            forget password
+          </button>
         </div>
         <div class="position">
           <button
@@ -64,8 +68,9 @@
             class="btn btn-primary btn-space"
             type="submit"
             *ngIf="!isLoading"
+            style="width: 200px"
           >
-            login
+            <strong>login</strong>
           </button>
         </div>
       </form>

@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const courseSchema = mongoose.Schema({
-  group: { type: mongoose.Types.ObjectId, ref: "Group", required: true },
-  courses: [{ type: String }],
+  subject: { type: mongoose.Types.ObjectId, ref: "Subject", required: true },
+  courses: [{ type: String, required: true }],
   date: { type: Date, default: Date.now() },
 });
 

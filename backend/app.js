@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 
 const productsRoutes = require("./routes/product.routes");
 const booksRoutes = require("./routes/book.routes");
@@ -19,6 +20,9 @@ const parentRoutes = require("./routes/parent.routes");
 const courseRoutes = require("./routes/course.routes");
 const reserBookRoutes = require("./routes/reservationBook.routes");
 const reserProductRoutes = require("./routes/reservationProduct.routes");
+const resetPassword = require("./routes/resetPassword.routes");
+const subjectRoutes = require("./routes/subject.routes");
+const programRoutes = require("./routes/program.routes");
 
 const app = express();
 
@@ -41,6 +45,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/images", express.static(path.join("backend/images")));
+app.use(cookieParser());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -68,4 +73,7 @@ app.use("/api/parent", parentRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/reserBook", reserBookRoutes);
 app.use("/api/reserProduct", reserProductRoutes);
+app.use("/api/resetPassword", resetPassword);
+app.use("/api/subject", subjectRoutes);
+app.use("/api/program", programRoutes);
 module.exports = app;

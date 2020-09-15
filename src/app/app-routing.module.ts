@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AuthGuard } from "./shared/auth/auth.guard";
 
 const routes: Routes = [
   {
@@ -12,7 +11,6 @@ const routes: Routes = [
     path: "ecms",
     loadChildren: () =>
       import("./layout/layout.module").then((m) => m.LayoutModule),
-    // canActivate: [AuthGuard],
   },
   {
     path: "login",
@@ -20,9 +18,23 @@ const routes: Routes = [
       import("./login/login.module").then((m) => m.LoginModule),
   },
   {
-    path: "signup",
+    path: "request-reset-password",
     loadChildren: () =>
-      import("./signup/signup.module").then((m) => m.SignupModule),
+      import("./request-reset/request-reset.module").then(
+        (m) => m.RequestResetModule
+      ),
+  },
+  {
+    path: "response-reset-password/:token",
+    loadChildren: () =>
+      import("./response-reset/response-reset.module").then(
+        (m) => m.ResponseResetModule
+      ),
+  },
+  {
+    path: "**",
+    loadChildren: () =>
+      import("./acceuil/acceuil.module").then((m) => m.AcceuilModule),
   },
 ];
 

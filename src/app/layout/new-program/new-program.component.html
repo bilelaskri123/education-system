@@ -1,0 +1,65 @@
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card-header> <h1>Program</h1> </mat-card-header>
+  <form [formGroup]="form" (submit)="onSaveProgram()" *ngIf="!isLoading">
+    <mat-form-field appearance="fill">
+      <mat-select
+        matNativeControl
+        placeholder="section"
+        formControlName="section"
+      >
+        <mat-option *ngFor="let section of sections" [value]="section._id">{{
+          section.name
+        }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('section').invalid"
+        >choose a valid section</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <input
+        matInput
+        type="number"
+        min="0"
+        formControlName="level"
+        placeholder="section level"
+      />
+      <mat-error *ngIf="form.get('level').invalid">
+        Please enter a level of program</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>lessons</mat-label>
+      <mat-select formControlName="lessons" multiple>
+        <mat-option *ngFor="let lesson of lessons" [value]="lesson._id">{{
+          lesson.name
+        }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('lessons').invalid">
+        Please choose lessons
+      </mat-error>
+    </mat-form-field>
+
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        style="width: 150px"
+      >
+        Save
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="cancelForm()"
+        type="reset"
+        style="width: 150px"
+      >
+        Cancel
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

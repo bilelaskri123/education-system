@@ -16,6 +16,8 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatChipsModule } from "@angular/material/chips";
 
 const materialComponents = [
   MatTableModule,
@@ -34,6 +36,8 @@ const materialComponents = [
   MatNativeDateModule,
   MatRadioModule,
   MatAutocompleteModule,
+  MatCheckboxModule,
+  MatChipsModule,
 ];
 
 @NgModule({

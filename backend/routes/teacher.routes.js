@@ -9,7 +9,7 @@ const User = require("../models/User");
 router.post("", async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email });
   if (user) {
-    return res.status(404).json({
+    return res.status(409).json({
       message: "teacher already exist",
     });
   }
@@ -42,7 +42,7 @@ router.post("", async (req, res, next) => {
       to: email,
       subject: "Account Created Successfuly!!",
       html:
-        "<h3> your account successfully created on Chat-App!!</h3> <br><br><strong> Email:</strong> " +
+        "<h3> your account successfully created on education system application !!</h3> <br><br><strong> Email:</strong> " +
         req.body.email +
         "<br><strong> Password:</strong> " +
         req.body.password +
@@ -102,6 +102,28 @@ router.get("", (req, res) => {
         count: count,
         teachers: teachers,
       });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
+router.get("/all", (req, res) => {
+  teachersUpdated = [];
+  teacher = {};
+  User.find({ role: "teacher" })
+    .then(async (teachers) => {
+      await teachers.forEach((data) => {
+        teacher.fullName = data.fullName;
+        teacher.email = data.email;
+        teacher._id = data._id;
+
+        teachersUpdated.push(teacher);
+        teacher = {};
+      });
+      res.status(200).send(teachersUpdated);
     })
     .catch((err) => {
       res.status(500).json({

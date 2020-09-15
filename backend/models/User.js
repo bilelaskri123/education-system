@@ -27,9 +27,6 @@ const userSchema = mongoose.Schema({
 
   speciality: { type: String },
   salary: { type: Number },
-
-  resetPasswordToken: String,
-  resetPasswordExpires: Date,
 });
 
 userSchema.plugin(uniqueValidator);

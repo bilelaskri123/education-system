@@ -1,0 +1,74 @@
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card-header> <h1>Subject</h1> </mat-card-header>
+  <form [formGroup]="form" (submit)="addSubject()" *ngIf="!isLoading">
+    <mat-form-field appearance="fill">
+      <input
+        matInput
+        type="text"
+        formControlName="name"
+        placeholder="Subject Name"
+      />
+      <mat-error *ngIf="form.get('name').invalid">
+        Please enter a valid Name</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <input
+        matInput
+        type="number"
+        min="0"
+        formControlName="coefficient"
+        placeholder="coefficient of subject"
+      />
+      <mat-error *ngIf="form.get('coefficient').invalid">
+        Please enter a valid coefficient</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        rows="4"
+        formControlName="description"
+        placeholder="book description"
+      ></textarea>
+      <mat-error *ngIf="form.get('description').invalid">
+        Please enter a valid description</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>teachers</mat-label>
+      <mat-select formControlName="teachers" multiple>
+        <mat-option *ngFor="let teacher of teachers" [value]="teacher._id">{{
+          teacher.fullName
+        }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('teachers').invalid">
+        Please choose teacher
+      </mat-error>
+    </mat-form-field>
+
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        style="width: 150px"
+      >
+        Save
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="cancelForm()"
+        type="reset"
+        style="width: 150px"
+      >
+        Cancel
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>
