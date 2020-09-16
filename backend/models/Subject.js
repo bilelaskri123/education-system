@@ -5,7 +5,7 @@ const subjectSchema = mongoose.Schema({
   description: { type: String, required: true },
   coefficient: { type: Number, required: true },
   teachers: [{ type: mongoose.Types.ObjectId, ref: "User" }],
-  courses: [{ type: string }],
+  courses: [{ type: String }],
 });
 
 module.exports = mongoose.model("Subject", subjectSchema);

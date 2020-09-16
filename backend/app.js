@@ -23,6 +23,7 @@ const reserProductRoutes = require("./routes/reservationProduct.routes");
 const resetPassword = require("./routes/resetPassword.routes");
 const subjectRoutes = require("./routes/subject.routes");
 const programRoutes = require("./routes/program.routes");
+const timeTableRoutes = require("./routes/timeTable.routes");
 
 const app = express();
 
@@ -76,4 +77,5 @@ app.use("/api/reserProduct", reserProductRoutes);
 app.use("/api/resetPassword", resetPassword);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/program", programRoutes);
+app.use("/api/timeTable", timeTableRoutes);
 module.exports = app;

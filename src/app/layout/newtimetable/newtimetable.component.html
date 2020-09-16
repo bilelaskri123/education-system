@@ -1,0 +1,47 @@
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card-header> <h1>Time Table</h1> </mat-card-header>
+  <form [formGroup]="form" (submit)="onSaveTimeTable()" *ngIf="!isLoading">
+    <mat-form-field appearance="fill">
+      <mat-select matNativeControl placeholder="group" formControlName="group">
+        <mat-option *ngFor="let group of groups" [value]="group._id">{{
+          group.name
+        }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('group').invalid"
+        >choose a valid section</mat-error
+      >
+    </mat-form-field>
+    <div>
+      <label for="file">Time Table file</label>
+      <input
+        formControlName="file"
+        id="file"
+        type="file"
+        class="form-control"
+        (change)="onFileChange($event)"
+      />
+      <!-- <mat-error *ngIf="form.get('file').invalid"> select file </mat-error> -->
+    </div>
+
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        style="width: 150px"
+      >
+        Save
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="cancelForm()"
+        type="reset"
+        style="width: 150px"
+      >
+        Cancel
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

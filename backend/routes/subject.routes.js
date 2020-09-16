@@ -3,6 +3,17 @@ const router = express.Router();
 const Subject = require("../models/Subject");
 const multer = require("multer");
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "backend/uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+var upload = multer({ storage: storage });
+
 router.post("/", (req, res) => {
   const subject = new Subject({
     name: req.body.name,
@@ -23,6 +34,15 @@ router.post("/", (req, res) => {
         error: err,
       });
     });
+});
+
+router.post("/courses", upload.array("file", 20), (req, res) => {
+  console.log(req.files);
+  // Subject.findById(req.body.subjectId).then((subject) => {
+  //   subject.courses.push(req.file.originalname);
+  //   subject.save().then((newSubject) => {
+  //   })
+  // })
 });
 
 router.get("/all", (req, res) => {

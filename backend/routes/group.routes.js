@@ -50,6 +50,18 @@ router.get("", (req, res) => {
     });
 });
 
+router.get("/all", (req, res) => {
+  Group.find()
+    .then((groups) => {
+      res.status(200).send(groups);
+    })
+    .catch((error) => {
+      res.status(500).json({
+        error: error,
+      });
+    });
+});
+
 router.put("/push/:id", (req, res) => {
   const newStudents = req.body.students;
   Group.findById(req.params.id)

@@ -10,8 +10,12 @@ import { CourseService } from "src/app/shared/services/Course.service";
 })
 export class NewCourseComponent implements OnInit {
   isLoading = false;
-  form: FormGroup;
-  imagePreview: string;
+
+  myForm = new FormGroup({
+    name: new FormControl("", [Validators.required, Validators.minLength(3)]),
+    file: new FormControl("", [Validators.required]),
+    fileSource: new FormControl("", [Validators.required]),
+  });
 
   subjectId: string;
   constructor(
@@ -21,12 +25,6 @@ export class NewCourseComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.form = new FormGroup({
-      courses: new FormControl(null, {
-        validators: [Validators.required],
-      }),
-    });
-
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("subjectId")) {
         this.subjectId = paramMap.get("subjectId");
@@ -35,8 +33,29 @@ export class NewCourseComponent implements OnInit {
     });
   }
 
-  addCourse() {
-    this.courseService.addCourse(this.subjectId, this.form.value.courses);
-    this.form.reset();
+  get f() {
+    return this.myForm.controls;
+  }
+
+  onFileChange(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files;
+      this.myForm.patchValue({
+        fileSource: file,
+      });
+    }
+  }
+
+  submit() {
+    console.log(this.myForm.get("fileSource").value);
+    this.courseService.addCourse(
+      this.subjectId,
+      this.myForm.get("fileSource").value
+    );
+    // .post("http://localhost:8001/upload.php", formData)
+    // .subscribe((res) => {
+    //   console.log(res);
+    //   alert("Uploaded Successfully.");
+    // });
   }
 }

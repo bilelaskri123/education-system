@@ -9,13 +9,13 @@ export class CourseService {
   constructor(private http: HttpClient, private router: Router) {}
 
   addCourse(subjectId: string, courses: File) {
-    const courseData = new FormData();
-
-    courseData.append("subjectId", subjectId);
-    courseData.append("courses", courses);
+    const formData = new FormData();
+    formData.append("subjectId", subjectId);
+    formData.append("file", courses);
+    console.log(courses);
 
     this.http
-      .post("http://localhost:3000/api/subject", courseData)
+      .post("http://localhost:3000/api/subject/courses", formData)
       .subscribe((responseData) => {
         this.router.navigate(["/ecms/subject"]);
       });

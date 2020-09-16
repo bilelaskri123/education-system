@@ -3,41 +3,37 @@
   <mat-card-header>
     <h1>Course</h1>
   </mat-card-header>
-  <form [formGroup]="form" (submit)="addCourse()" *ngIf="!isLoading">
-    <!-- <mat-form-field>
-      <input
-        matInput
-        type="text"
-        formControlName="name"
-        placeholder="course name"
-      />
-      <mat-error *ngIf="form.get('name').invalid"
-        >Please enter a name of course.</mat-error
-      >
-    </mat-form-field> -->
 
-    <div>
-      <input type="file" formControlName="courses" multiple />
+  <form [formGroup]="myForm" (ngSubmit)="submit()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        formControlName="name"
+        id="name"
+        type="text"
+        class="form-control"
+      />
+      <div *ngIf="f.name.touched && f.name.invalid" class="alert alert-danger">
+        <div *ngIf="f.name.errors.required">Name is required.</div>
+        <div *ngIf="f.name.errors.minlength">Name should be 3 character.</div>
+      </div>
     </div>
 
-    <mat-card-actions>
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        style="width: 150px"
-      >
-        Save
-      </button>
-      <button
-        mat-raised-button
-        color="accent"
-        (click)="cancelForm()"
-        type="reset"
-        style="width: 150px"
-      >
-        Cancel
-      </button>
-    </mat-card-actions>
+    <div class="form-group">
+      <label for="file">File</label>
+      <input
+        formControlName="file"
+        multiple
+        id="file"
+        type="file"
+        class="form-control"
+        (change)="onFileChange($event)"
+      />
+      <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
+        <div *ngIf="f.file.errors.required">File is required.</div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
   </form>
 </mat-card>

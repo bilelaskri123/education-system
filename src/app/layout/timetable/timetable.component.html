@@ -3,5 +3,36 @@
     <i class="fas fa-calendar-alt"></i> &nbsp;
     <span>Time Tables </span>
     <span class="example-spacer"></span>
+    <button class="btn btn-primary" (click)="addTimeTable()">
+      <i class="fas fa-file-medical"></i> new Time Table
+    </button>
   </mat-toolbar>
 </p>
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">group</th>
+            <th scope="col">time table</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let timeTable of timeTables">
+            <td>{{ timeTable.group.name }}</td>
+            <td>{{ timeTable.name }}</td>
+            <td>
+              <button type="button" class="btn btn-primary" title="download">
+                download
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

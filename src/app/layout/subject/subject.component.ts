@@ -34,7 +34,6 @@ export class SubjectComponent implements OnInit, OnDestroy {
           this.lessons = subjectData.subjects;
         }
       );
-    console.log(this.lessons);
   }
 
   onChangedPage(pageData: PageEvent) {

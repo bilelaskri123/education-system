@@ -256,6 +256,13 @@ const routes: Routes = [
             (m) => m.NewCourseModule
           ),
       },
+      {
+        path: "new-time-table",
+        loadChildren: () =>
+          import("./newtimetable/newtimetable.module").then(
+            (m) => m.NewtimetableModule
+          ),
+      },
     ],
   },
 ];
