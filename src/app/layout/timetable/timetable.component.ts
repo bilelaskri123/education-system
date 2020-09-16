@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { TimeTableService } from "src/app/shared/services/timeTable.service";
+import { saveAs } from "file-saver";
 
 @Component({
   selector: "app-timetable",
@@ -23,5 +24,11 @@ export class TimetableComponent implements OnInit {
 
   addTimeTable() {
     this.router.navigate(["/ecms/new-time-table"]);
+  }
+
+  download(filename) {
+    this.timeTableService.downloadFile(filename).subscribe((data) => {
+      saveAs(data, filename);
+    });
   }
 }

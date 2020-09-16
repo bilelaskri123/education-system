@@ -30,6 +30,7 @@ router.post("/login", async (req, res, next) => {
     expiresIn: 3600,
     userId: user._id,
     role: user.role,
+    fullName: user.fullName,
   });
 });
 

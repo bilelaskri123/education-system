@@ -26,7 +26,12 @@
             <td>{{ timeTable.group.name }}</td>
             <td>{{ timeTable.name }}</td>
             <td>
-              <button type="button" class="btn btn-primary" title="download">
+              <button
+                type="button"
+                class="btn btn-primary"
+                title="download"
+                (click)="download(timeTable.name)"
+              >
                 download
               </button>
             </td>

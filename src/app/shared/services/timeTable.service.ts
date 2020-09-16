@@ -28,4 +28,12 @@ export class TimeTableService {
   getTimeTables() {
     return this.http.get(URLTIMETABLE);
   }
+
+  downloadFile(file: String) {
+    var body = { filename: file };
+
+    return this.http.post(URLTIMETABLE + "/" + "download", body, {
+      responseType: "blob",
+    });
+  }
 }

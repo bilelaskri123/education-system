@@ -18,3 +18,32 @@
     >
   </li>
 </ul>
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Status</th>
+            <th scope="col">Book</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ reservation.user.fullName }}</td>
+            <td>{{ reservation.user.email }}</td>
+            <td>{{ reservation.user.role }}</td>
+            <td>{{ reservation.book.title }}</td>
+            <td>{{ reservation.dateReservation | date }}</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

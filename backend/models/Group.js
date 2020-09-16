@@ -4,6 +4,7 @@ const groupSchema = mongoose.Schema({
   name: { type: String, require: true, unique: true },
   section: { type: mongoose.Types.ObjectId, ref: "Section" },
   students: [{ type: mongoose.Types.ObjectId, ref: "User", default: [] }],
+  hasTable: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("Group", groupSchema);

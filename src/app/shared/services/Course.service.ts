@@ -1,23 +1,22 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
 
+let URLCOURSE = "http://localhost:3000/api/subject/courses";
 @Injectable({
   providedIn: "root",
 })
 export class CourseService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  addCourse(subjectId: string, courses: File) {
-    const formData = new FormData();
-    formData.append("subjectId", subjectId);
-    formData.append("file", courses);
-    console.log(courses);
-
-    this.http
-      .post("http://localhost:3000/api/subject/courses", formData)
-      .subscribe((responseData) => {
-        this.router.navigate(["/ecms/subject"]);
-      });
+  uploadWithProgress(formData: FormData): Observable<any> {
+    return this.http
+      .post(URLCOURSE, formData, { observe: "events", reportProgress: true })
+      .pipe(catchError((err) => this.handleError(err)));
+  }
+  private handleError(error: any) {
+    return throwError(error);
   }
 }

@@ -79,6 +79,21 @@ router.get("/", async (req, res) => {
     });
 });
 
+router.get("/myReservation/:id", (req, res) => {
+  userId = req.params.id;
+  ReservationBook.findOne({ user: userId })
+    .populate("user", "fullName email role")
+    .populate("book", "title")
+    .then((reservation) => {
+      res.status(200).send(reservation);
+    })
+    .catch((error) => {
+      res.status(500).json({
+        error: error,
+      });
+    });
+});
+
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
   console.log(id);

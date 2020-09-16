@@ -1,39 +1,73 @@
-<mat-card>
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <mat-card-header>
-    <h1>Course</h1>
-  </mat-card-header>
+<!-- <h3>Single Upload with Progress</h3>
+<table>
+  <tr>
+    <td>
+      <input type="file" (change)="upload($event.target.files)" />
+    </td>
+    <td>{{ percentCompleted }}% Uploaded</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <div *ngIf="isSingleUploaded" class="success">
+        File uploaded successfully with Url:
+        <b>{{ urlAfterUpload }}</b>
+      </div>
+    </td>
+  </tr>
+</table> -->
 
-  <form [formGroup]="myForm" (ngSubmit)="submit()">
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input
-        formControlName="name"
-        id="name"
-        type="text"
-        class="form-control"
-      />
-      <div *ngIf="f.name.touched && f.name.invalid" class="alert alert-danger">
-        <div *ngIf="f.name.errors.required">Name is required.</div>
-        <div *ngIf="f.name.errors.minlength">Name should be 3 character.</div>
+<h3>Multiple Upload with Progress</h3>
+<div *ngIf="isMultipleUploaded" class="success">
+  File uploaded and form submitted successfully.
+  <br />
+  <br />
+</div>
+
+<form [formGroup]="uploadForm" (ngSubmit)="onFormSubmit()">
+  <table>
+    <tr>
+      <td colspan="3">
+        Title:
+        <input formControlName="title" />
+        <label *ngIf="title.errors?.required" class="error">
+          Title required.
+        </label>
+      </td>
+    </tr>
+    <div formArrayName="filesToUpload">
+      <div *ngFor="let f of filesToUpload.controls; index as i">
+        <tr>
+          <td>
+            <input [formControlName]="i" type="file" id="file{{ i }}" />
+            <label
+              *ngIf="filesToUpload.controls[i].errors?.required"
+              class="error"
+            >
+              Select the file.
+            </label>
+            <label
+              *ngIf="
+                filesToUpload.controls[i].errors?.inValidExt &&
+                !filesToUpload.controls[i].errors?.required
+              "
+              class="error"
+            >
+              Invalid file extension.
+            </label>
+          </td>
+          <td>{{ percentUploaded[i] }}%</td>
+          <td>
+            <button type="button" (click)="deleteFile(i)">Delete</button>
+          </td>
+        </tr>
       </div>
     </div>
-
-    <div class="form-group">
-      <label for="file">File</label>
-      <input
-        formControlName="file"
-        multiple
-        id="file"
-        type="file"
-        class="form-control"
-        (change)="onFileChange($event)"
-      />
-      <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
-        <div *ngIf="f.file.errors.required">File is required.</div>
-      </div>
-    </div>
-
-    <button class="btn btn-primary" type="submit">Submit</button>
-  </form>
-</mat-card>
+    <tr>
+      <td colspan="3">
+        <button type="submit">Submit</button>
+        <button type="button" (click)="addMoreFiles()">Add More Files</button>
+        <button type="button" (click)="formReset()">Reset</button>
+      </td>
+    </tr>
+  </table>
+</form>

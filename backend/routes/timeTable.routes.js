@@ -21,7 +21,7 @@ router.post("", upload.single("file"), (req, res) => {
   console.log(req.body);
   let timeTable = new TimeTable({
     group: req.body.group,
-    timeTable: req.file.originalname,
+    name: req.file.originalname,
   });
   timeTable
     .save()
@@ -35,6 +35,11 @@ router.post("", upload.single("file"), (req, res) => {
         error: error,
       });
     });
+});
+
+router.post("/download", function (req, res, next) {
+  filepath = path.join(__dirname, "../uploads") + "/" + req.body.filename;
+  res.status(200).sendFile(filepath);
 });
 
 router.get("", (req, res) => {

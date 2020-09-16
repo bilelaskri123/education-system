@@ -16,6 +16,7 @@ export class AuthService {
   private tokenTimer: any;
   private userId: string;
   private role: string;
+  private fullName: string;
   private authStatusListener = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -29,11 +30,15 @@ export class AuthService {
   }
 
   getUserId() {
-    return this.userId;
+    return this.getAuthData().userId;
   }
 
   getRole() {
-    return this.role;
+    return this.getAuthData().role;
+  }
+
+  getFullName() {
+    return this.getAuthData().fullName;
   }
 
   getAuthStatusListener() {
@@ -51,6 +56,7 @@ export class AuthService {
         expiresIn: number;
         userId: string;
         role: string;
+        fullName: string;
       }>("http://localhost:3000/api/auth/login", authData)
       .subscribe((response) => {
         console.log(response);
@@ -65,13 +71,20 @@ export class AuthService {
           this.isAuthenticated = true;
           this.userId = response.userId;
           this.role = response.role;
+          this.fullName = response.fullName;
           this.authStatusListener.next(true);
           const now = new Date();
           const expirationDate = new Date(
             now.getTime() + expiresInDuration * 1000
           );
           console.log(expirationDate);
-          this.saveAuthData(token, expirationDate, this.userId, this.role);
+          this.saveAuthData(
+            token,
+            expirationDate,
+            this.userId,
+            this.role,
+            this.fullName
+          );
           this.router.navigate(["/ecms"]);
         }
       });
@@ -116,12 +129,14 @@ export class AuthService {
     token: string,
     expirationDate: Date,
     userId: string,
-    role: string
+    role: string,
+    fullName: string
   ) {
     localStorage.setItem("token", token);
     localStorage.setItem("expiration", expirationDate.toISOString());
     localStorage.setItem("userId", userId);
     localStorage.setItem("role", role);
+    localStorage.setItem("fullName", fullName);
   }
 
   private clearAuthData() {
@@ -129,6 +144,7 @@ export class AuthService {
     localStorage.removeItem("expiration");
     localStorage.removeItem("userId");
     localStorage.removeItem("role");
+    localStorage.removeItem("fullName");
   }
 
   private getAuthData() {
@@ -136,6 +152,7 @@ export class AuthService {
     const expirationDate = localStorage.getItem("expiration");
     const userId = localStorage.getItem("userId");
     const role = localStorage.getItem("role");
+    const fullName = localStorage.getItem("fullName");
     if (!token || !expirationDate) {
       return;
     }
@@ -144,6 +161,7 @@ export class AuthService {
       expirationDate: new Date(expirationDate),
       userId: userId,
       role: role,
+      fullName: fullName,
     };
   }
 }
