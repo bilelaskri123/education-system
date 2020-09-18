@@ -9,9 +9,7 @@ import { Observable } from "rxjs";
 
 import { AuthService } from "../services/auth.service";
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -20,6 +18,7 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean | Observable<boolean> | Promise<boolean> {
     const isAuth = this.authService.getIsAuth();
+    console.log(isAuth);
     if (!isAuth) {
       this.router.navigate(["/login"]);
     }

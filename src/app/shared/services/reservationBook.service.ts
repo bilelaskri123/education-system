@@ -48,7 +48,7 @@ export class ReservationBookService {
       book: book,
     };
 
-    console.log(reserData);
+    // console.log(reserData);
 
     this.http
       .post<{ message: string }>(
@@ -100,4 +100,8 @@ export class ReservationBookService {
   }
 
   getReservationById() {}
+
+  getMyReservation() {
+    return this.http.get("http://localhost:3000/api/reserBook/myReservation");
+  }
 }

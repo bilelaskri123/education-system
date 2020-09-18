@@ -64,7 +64,7 @@ export class LibrarianService {
         })
       )
       .subscribe((transformedLibrarian) => {
-        console.log(transformedLibrarian);
+        // console.log(transformedLibrarian);
         this.librarians = transformedLibrarian.librarians;
         this.librariansUpdated.next({
           librarians: [...this.librarians],

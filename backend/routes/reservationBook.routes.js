@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const ReservationBook = require("../models/ReservationBook");
 const Book = require("../models/Book");
+const checkAuth = require("../middleware/check-auth");
 
 router.post("/", (req, res) => {
   console.log(req.body);
@@ -79,13 +80,13 @@ router.get("/", async (req, res) => {
     });
 });
 
-router.get("/myReservation/:id", (req, res) => {
-  userId = req.params.id;
-  ReservationBook.findOne({ user: userId })
+router.get("/myReservation", checkAuth, (req, res) => {
+  let userId = req.userData.userId;
+  ReservationBook.find({ user: userId })
     .populate("user", "fullName email role")
     .populate("book", "title")
-    .then((reservation) => {
-      res.status(200).send(reservation);
+    .then((result) => {
+      res.status(200).send(result);
     })
     .catch((error) => {
       res.status(500).json({

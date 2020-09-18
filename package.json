@@ -49,7 +49,12 @@
     "rxjs-compat": "^6.6.2",
     "socket.io": "^2.3.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.10.2",
+    "@fullcalendar/angular": "^5.2.0",
+    "@fullcalendar/daygrid": "^5.2.0",
+    "@fullcalendar/interaction": "^5.2.0",
+    "@fullcalendar/list": "^5.2.0",
+    "@fullcalendar/timegrid": "^5.2.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.24",

@@ -49,7 +49,7 @@ export class TeacherService {
       )
       .pipe(
         map((teacherData) => {
-          console.log(teacherData);
+          // console.log(teacherData);
           return {
             teachers: teacherData.teachers.map((teacher) => {
               return {
@@ -66,7 +66,7 @@ export class TeacherService {
         })
       )
       .subscribe((transformedTeacher) => {
-        console.log(transformedTeacher);
+        // console.log(transformedTeacher);
         this.teachers = transformedTeacher.teachers;
         this.teachersUpdated.next({
           teachers: [...this.teachers],

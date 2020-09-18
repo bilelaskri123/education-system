@@ -63,7 +63,7 @@ export class AccountantService {
         })
       )
       .subscribe((transformedAccountant) => {
-        console.log(transformedAccountant);
+        // console.log(transformedAccountant);
         this.accountants = transformedAccountant.accountants;
         this.accountantsUpdated.next({
           accountants: [...this.accountants],

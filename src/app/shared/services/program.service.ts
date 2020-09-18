@@ -64,7 +64,7 @@ export class ProgramService {
         })
       )
       .subscribe((transformedProgramsData) => {
-        console.log(transformedProgramsData);
+        // console.log(transformedProgramsData);
         this.programs = transformedProgramsData.programs;
         this.programsUpdated.next({
           programs: [...this.programs],

@@ -34,12 +34,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{{ reservation.user.fullName }}</td>
-            <td>{{ reservation.user.email }}</td>
-            <td>{{ reservation.user.role }}</td>
-            <td>{{ reservation.book.title }}</td>
-            <td>{{ reservation.dateReservation | date }}</td>
+          <tr *ngFor="let data of reservation">
+            <td>{{ data.user.fullName }}</td>
+            <td>{{ data.user.email }}</td>
+            <td>{{ data.user.role }}</td>
+            <td>{{ data.book.title }}</td>
+            <td>{{ data.dateReservation | date }}</td>
             <td></td>
           </tr>
         </tbody>

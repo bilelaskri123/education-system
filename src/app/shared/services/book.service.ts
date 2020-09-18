@@ -130,10 +130,4 @@ export class bookService {
   deleteBook(bookId: string) {
     return this.http.delete("http://localhost:3000/api/book/" + bookId);
   }
-
-  getMyReservation(id: string) {
-    return this.http.get(
-      "http://localhost:3000/api/reserBook/myReservation/" + id
-    );
-  }
 }

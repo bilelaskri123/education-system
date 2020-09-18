@@ -124,7 +124,7 @@ router.get("", (req, res) => {
         students.push(student);
         student = {};
       });
-      console.log(students);
+      // console.log(students);
       res.status(200).json({
         message: "student fetched successfuly!",
         count: count,

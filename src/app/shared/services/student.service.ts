@@ -70,7 +70,7 @@ export class StudentService {
         })
       )
       .subscribe((transformedStudent) => {
-        console.log(transformedStudent);
+        // console.log(transformedStudent);
         this.students = transformedStudent.students;
         this.studentsUpdated.next({
           students: [...this.students],

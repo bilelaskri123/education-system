@@ -18,7 +18,7 @@ export class TimetableComponent implements OnInit {
   ngOnInit() {
     this.timeTableService.getTimeTables().subscribe((timeTables) => {
       this.timeTables = timeTables;
-      console.log(timeTables);
+      // console.log(timeTables);
     });
   }
 

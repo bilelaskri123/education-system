@@ -1,14 +1,13 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from "../shared/auth/auth.guard";
-import { DashboardComponent } from "./dashboard/dashboard.component";
 import { LayoutComponent } from "./layout.component";
 
 const routes: Routes = [
   {
     path: "",
     component: LayoutComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: "",
@@ -87,7 +86,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: "payement",
+        path: "note",
         loadChildren: () =>
           import("./payement/payement.module").then((m) => m.PayementModule),
       },
@@ -270,5 +269,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  providers: [AuthGuard],
 })
 export class LayoutRoutingModule {}

@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const _ = require("lodash");
 
 const User = require("../models/User");
+const checkAuth = require("../middleware/check-auth");
 
 router.post("/login", async (req, res, next) => {
   console.log(req.body);
@@ -23,7 +24,7 @@ router.post("/login", async (req, res, next) => {
   }
 
   const token = user.generateTokens();
-  console.log(user);
+  // console.log(user);
   res.json({
     message: "login successfuly",
     token: token,
@@ -53,6 +54,18 @@ router.get("/users", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+    });
+});
+
+router.get("/detail", checkAuth, (req, res, next) => {
+  User.findById(req.userData.userId)
+    .then((user) => {
+      res.status(200).json(_.pick(user, ["fullName", "role"]));
+    })
+    .catch((error) => {
+      res.status(500).json({
+        error: error,
+      });
     });
 });
 

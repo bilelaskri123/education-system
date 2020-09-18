@@ -7,11 +7,15 @@ import { AuthService } from "src/app/shared/services/auth.service";
   styleUrls: ["./sidebar.component.scss"],
 })
 export class SidebarComponent implements OnInit {
+  user: any;
   role: string;
   fullName: string;
   constructor(private authService: AuthService) {}
   ngOnInit() {
-    this.role = this.authService.getRole();
-    this.fullName = this.authService.getFullName();
+    this.authService.userDetail().subscribe((user) => {
+      this.user = user;
+      this.fullName = this.user.fullName;
+      this.role = this.user.role;
+    });
   }
 }

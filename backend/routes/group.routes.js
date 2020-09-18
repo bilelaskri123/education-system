@@ -41,7 +41,7 @@ router.get("", (req, res) => {
       return Group.countDocuments();
     })
     .then((count) => {
-      console.log(fetchedGroups);
+      // console.log(fetchedGroups);
       res.status(200).json({
         message: "Group fetched successfully!",
         groups: fetchedGroups,

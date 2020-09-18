@@ -8,7 +8,8 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { FooterComponent } from "./footer/footer.component";
 import { HttpClientModule } from "@angular/common/http";
 import { AngularFontAwesomeModule } from "angular-font-awesome";
-import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -23,8 +24,8 @@ import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
     HttpClientModule,
     AngularFontAwesomeModule,
     HttpClientModule,
-    NgbModule,
+    ReactiveFormsModule,
   ],
-  providers: [NgbActiveModal],
+  providers: [],
 })
 export class LayoutModule {}

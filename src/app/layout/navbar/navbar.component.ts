@@ -9,8 +9,9 @@ import { AuthService } from "src/app/shared/services/auth.service";
   providers: [NgbDropdownConfig],
 })
 export class NavbarComponent implements OnInit {
+  user: any;
+  fullName: string;
   public sidebarOpened = false;
-  public fullName: string;
   toggleOffcanvas() {
     this.sidebarOpened = !this.sidebarOpened;
     if (this.sidebarOpened) {
@@ -23,7 +24,13 @@ export class NavbarComponent implements OnInit {
     config.placement = "bottom-right";
   }
   ngOnInit() {
-    this.fullName = this.authService.getFullName();
-    console.log(this.fullName);
+    this.authService.userDetail().subscribe((user) => {
+      this.user = user;
+      this.fullName = this.user.fullName;
+    });
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 }

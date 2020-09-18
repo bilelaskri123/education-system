@@ -24,7 +24,7 @@ export class GroupService {
       )
       .pipe(
         map((groupData) => {
-          console.log(groupData);
+          // console.log(groupData);
           return {
             groups: groupData.groups.map((group) => {
               return {

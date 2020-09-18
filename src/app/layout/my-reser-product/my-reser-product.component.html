@@ -19,3 +19,32 @@
     >
   </li>
 </ul>
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Status</th>
+            <th scope="col">Product</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of reservation">
+            <td>{{ data.user.fullName }}</td>
+            <td>{{ data.user.email }}</td>
+            <td>{{ data.user.role }}</td>
+            <td>{{ data.product.name }}</td>
+            <td>{{ data.dateReservation | date }}</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

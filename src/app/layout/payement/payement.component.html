@@ -1,6 +1,64 @@
 <p>
   <mat-toolbar>
-    <i class="fab fa-cc-stripe"></i> &nbsp;
-    <span> Payement </span>
+    <i class="far fa-clipboard"></i> &nbsp;
+    <span> Note </span>
   </mat-toolbar>
 </p>
+
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form [formGroup]="form" (submit)="createNote()" *ngIf="!isLoading">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="title"
+        placeholder="Problem Title"
+      />
+      <mat-error *ngIf="form.get('title').invalid"
+        >Please enter a post title.</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        rows="4"
+        formControlName="problem"
+        placeholder="problem datails"
+      ></textarea>
+      <mat-error *ngIf="form.get('problem').invalid"
+        >Please enter a post title.</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        rows="4"
+        formControlName="solution"
+        placeholder="proposed solution"
+      ></textarea>
+      <mat-error *ngIf="form.get('solution').invalid"
+        >Please enter a post title.</mat-error
+      >
+    </mat-form-field>
+
+    <mat-card-actions class="position">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        style="width: 150px"
+      >
+        Save
+      </button>
+      <!-- <button
+        mat-raised-button
+        color="accent"
+        type="button"
+        style="width: 150px"
+      >
+        Cancel
+      </button> -->
+    </mat-card-actions>
+  </form>
+</mat-card>

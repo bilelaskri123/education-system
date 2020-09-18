@@ -3,6 +3,7 @@ const router = express.Router();
 
 const ReservationProduct = require("../models/ReservationProduct");
 const Product = require("../models/Product");
+const checkAuth = require("../middleware/check-auth");
 
 router.post("/", (req, res) => {
   // console.log(req.body);
@@ -46,6 +47,21 @@ router.post("/", (req, res) => {
       });
     }
   });
+});
+
+router.get("/myReservation", checkAuth, (req, res) => {
+  let userId = req.userData.userId;
+  ReservationProduct.find({ user: userId })
+    .populate("user", "fullName email role")
+    .populate("product", "name")
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((error) => {
+      res.status(500).json({
+        error: error,
+      });
+    });
 });
 
 router.get("/", async (req, res) => {

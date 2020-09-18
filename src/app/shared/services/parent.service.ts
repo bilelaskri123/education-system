@@ -46,7 +46,7 @@ export class ParentService {
       )
       .pipe(
         map((parentData) => {
-          console.log(parentData);
+          // console.log(parentData);
           return {
             parents: parentData.parents.map((parent) => {
               return {

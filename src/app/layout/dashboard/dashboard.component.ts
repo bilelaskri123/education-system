@@ -9,6 +9,9 @@ import { Subscription } from "rxjs";
 import { User } from "src/app/shared/models/User";
 import { Section } from "src/app/shared/models/Section";
 import { Group } from "src/app/shared/models/Group";
+import { NoteService } from "src/app/shared/services/note.service";
+import { Note } from "src/app/shared/models/Note";
+import { PageEvent } from "@angular/material";
 
 @Component({
   selector: "app-dashboard",
@@ -17,6 +20,11 @@ import { Group } from "src/app/shared/models/Group";
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent implements OnInit {
+  totalNotes = 0;
+  notePerPage = 2;
+  currentPage = 1;
+  pageSizeOptions = [1, 2, 5];
+
   students: number;
   teachers: number;
   classes: number;
@@ -26,6 +34,9 @@ export class DashboardComponent implements OnInit {
   teachersSub: Subscription;
   sectionSub: Subscription;
   groupSub: Subscription;
+  noteSub: Subscription;
+
+  notes: any;
 
   isLoading = false;
   constructor(
@@ -33,6 +44,7 @@ export class DashboardComponent implements OnInit {
     private teacherService: TeacherService,
     private groupService: GroupService,
     private sectionService: SectionService,
+    private noteService: NoteService,
     private router: Router
   ) {}
 
@@ -72,5 +84,28 @@ export class DashboardComponent implements OnInit {
 
         this.classes = groupData.groupCount;
       });
+
+    this.noteService.getNotes(this.notePerPage, this.currentPage);
+    this.noteSub = this.noteService
+      .getNoteUpdateListener()
+      .subscribe((noteData: { notes: Note[]; notesCount: number }) => {
+        this.isLoading = false;
+        this.notes = noteData.notes;
+        this.totalNotes = noteData.notesCount;
+        // console.log(this.notes);
+      });
+  }
+
+  onChangedPage(pageData: PageEvent) {
+    this.currentPage = pageData.pageIndex + 1;
+    this.notePerPage = pageData.pageSize;
+    this.noteService.getNotes(this.notePerPage, this.currentPage);
+  }
+
+  deleteNote(id: string) {
+    this.noteService.deleteNote(id).subscribe((data) => {
+      this.isLoading = true;
+      this.noteService.getNotes(this.notePerPage, this.currentPage);
+    });
   }
 }

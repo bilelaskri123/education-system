@@ -24,6 +24,8 @@ const resetPassword = require("./routes/resetPassword.routes");
 const subjectRoutes = require("./routes/subject.routes");
 const programRoutes = require("./routes/program.routes");
 const timeTableRoutes = require("./routes/timeTable.routes");
+const eventRoutes = require("./routes/event.routes");
+const noteRoutes = require("./routes/note.routes");
 
 const app = express();
 
@@ -78,4 +80,6 @@ app.use("/api/resetPassword", resetPassword);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/program", programRoutes);
 app.use("/api/timeTable", timeTableRoutes);
+app.use("/api/events", eventRoutes);
+app.use("/api/note", noteRoutes);
 module.exports = app;
