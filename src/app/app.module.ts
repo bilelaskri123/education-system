@@ -11,9 +11,12 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AngularFontAwesomeModule } from "angular-font-awesome";
 import { AuthInterceptor } from "./shared/auth/auth-interceptor";
+import { ErrorInterceptor } from "./shared/auth/error-interceptor";
+import { ErrorComponent } from "./error/error.component";
+import { MatDialogModule } from "@angular/material";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ErrorComponent],
   imports: [
     BrowserModule,
     RouterModule,
@@ -23,10 +26,13 @@ import { AuthInterceptor } from "./shared/auth/auth-interceptor";
     BrowserAnimationsModule,
     HttpClientModule,
     AngularFontAwesomeModule,
+    MatDialogModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent],
 })
 export class AppModule {}
