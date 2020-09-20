@@ -108,10 +108,45 @@ const routes: Routes = [
           ),
       },
       {
+        path: "edit-student/:studentId",
+        loadChildren: () =>
+          import("./add-student/add-student.module").then(
+            (m) => m.AddStudentModule
+          ),
+      },
+      {
         path: "add-teacher",
         loadChildren: () =>
           import("./add-teacher/add-teacher.module").then(
             (m) => m.AddTeacherModule
+          ),
+      },
+      {
+        path: "edit-teacher/:teacherId",
+        loadChildren: () =>
+          import("./add-teacher/add-teacher.module").then(
+            (m) => m.AddTeacherModule
+          ),
+      },
+      {
+        path: "edit-parent/:parentId",
+        loadChildren: () =>
+          import("./add-parent/add-parent.module").then(
+            (m) => m.AddParentModule
+          ),
+      },
+      {
+        path: "edit-librarian/:librarianId",
+        loadChildren: () =>
+          import("./add-librarian/add-librarian.module").then(
+            (m) => m.AddLibrarianModule
+          ),
+      },
+      {
+        path: "edit-accountant/:accountantId",
+        loadChildren: () =>
+          import("./add-accountant/add-accountant.module").then(
+            (m) => m.AddAccountantModule
           ),
       },
       {

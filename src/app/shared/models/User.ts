@@ -4,6 +4,7 @@ export interface User {
   email: string;
   password: string;
   role: string;
+  emailParent?: string;
   salary?: number;
   childEmail?: string;
   group?: string;

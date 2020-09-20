@@ -3,10 +3,15 @@ import { CommonModule } from "@angular/common";
 import { AddStudentRoutingModule } from "./add-student-routing.module";
 import { AddStudentComponent } from "./add-student.component";
 import { MaterialModule } from "src/app/shared/material/material.module";
-import { FormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [AddStudentComponent],
-  imports: [CommonModule, AddStudentRoutingModule, MaterialModule, FormsModule],
+  imports: [
+    CommonModule,
+    AddStudentRoutingModule,
+    MaterialModule,
+    ReactiveFormsModule,
+  ],
 })
 export class AddStudentModule {}

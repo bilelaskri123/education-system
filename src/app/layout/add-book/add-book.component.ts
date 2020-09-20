@@ -91,7 +91,7 @@ export class AddBookComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    console.log(this.form);
+    // console.log(this.form);
     this.isLoading = true;
     if (this.mode === "create") {
       this.booksService.addBook(

@@ -141,6 +141,28 @@ router.get("", (req, res) => {
 
 router.put("/:id", (req, res) => {
   console.log(req.params.id);
+  User.findById(req.params.id).then((student) => {
+    student.fullName = req.body.fullName;
+    student.email = req.body.email;
+    student.emailParent = req.body.emailParent;
+    student.section = req.body.section;
+    student.group = req.body.group;
+    student.payement = req.body.payement;
+
+    console.log(student);
+    student
+      .save()
+      .then(() => {
+        res.status(201).json({
+          message: "student updated successfuly",
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: "student not updated",
+        });
+      });
+  });
 });
 
 router.delete("/:id", (req, res, next) => {

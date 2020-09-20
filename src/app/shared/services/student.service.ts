@@ -14,6 +14,7 @@ export class StudentService {
     students: User[];
     studentCount: number;
   }>();
+  private studentStatusListener = new Subject<boolean>();
   constructor(private http: HttpClient, private router: Router) {}
 
   addStudent(
@@ -39,9 +40,19 @@ export class StudentService {
 
     return this.http
       .post("http://localhost:3000/api/student", studentData)
-      .subscribe((responseData) => {
-        this.router.navigate(["/ecms/students"]);
-      });
+      .subscribe(
+        (responseData) => {
+          this.router.navigate(["/ecms/students"]);
+          this.studentStatusListener.next(true);
+        },
+        (error) => {
+          this.studentStatusListener.next(false);
+        }
+      );
+  }
+
+  getStudentStatusListener() {
+    return this.studentStatusListener.asObservable();
   }
 
   getStudents(studentPerPage: number, currentPage: number) {
@@ -69,18 +80,44 @@ export class StudentService {
           };
         })
       )
-      .subscribe((transformedStudent) => {
-        // console.log(transformedStudent);
-        this.students = transformedStudent.students;
-        this.studentsUpdated.next({
-          students: [...this.students],
-          studentCount: transformedStudent.count,
-        });
-      });
+      .subscribe(
+        (transformedStudent) => {
+          // console.log(transformedStudent);
+          this.students = transformedStudent.students;
+          this.studentsUpdated.next({
+            students: [...this.students],
+            studentCount: transformedStudent.count,
+          });
+        },
+        (error) => {}
+      );
   }
 
   getStudentUpdateListener() {
     return this.studentsUpdated.asObservable();
+  }
+  updateStudent(
+    id: string,
+    fullName: string,
+    email: string,
+    emailParent: string,
+    section: string,
+    group: string,
+    payement: string
+  ) {
+    let studentData = {
+      fullName: fullName,
+      email: email,
+      emailParent: emailParent,
+      section: section,
+      group: group,
+      payement: payement,
+    };
+    return this.http
+      .put("http://localhost:3000/api/student/" + id, studentData)
+      .subscribe((responseData) => {
+        this.router.navigate(["/ecms/students"]);
+      });
   }
 
   getStudent(id: string) {
@@ -93,7 +130,7 @@ export class StudentService {
       section: string;
       group: string;
       payement: string;
-    }>("http://localhost:3000/api/student" + id);
+    }>("http://localhost:3000/api/auth/" + id);
   }
 
   deleteStudent(studentId: string) {

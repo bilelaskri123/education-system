@@ -1,7 +1,12 @@
 <div style="margin-top: 2rem; width: 90%">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <div class="col-lg-8 col-md-8 col-sm-12 composent1">
-    <div class="alert alert-success" role="alert" *ngIf="message != ''">
+    <div
+      class="alert alert-success"
+      role="alert"
+      *ngIf="message != ''"
+      [class.visible]="message"
+    >
       {{ message }}
     </div>
     <table class="table table-bordered" style="border: solid 1px">
@@ -22,6 +27,7 @@
               class="btn btn-primary"
               title="view calender"
               [routerLink]="['/ecms/dashboard']"
+              style="margin-right: 1px"
             >
               <i class="far fa-eye"></i>
             </button>

@@ -69,4 +69,28 @@ router.get("/detail", checkAuth, (req, res, next) => {
     });
 });
 
+router.get("/:id", checkAuth, (req, res) => {
+  User.findById(req.params.id)
+    .then((userData) => {
+      res
+        .status(200)
+        .json(
+          _.pick(userData, [
+            "_id",
+            "fullName",
+            "email",
+            "emailParent",
+            "section",
+            "group",
+            "payement",
+          ])
+        );
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "fetching user failed",
+      });
+    });
+});
+
 module.exports = router;

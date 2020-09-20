@@ -20,8 +20,9 @@ export class EventModalComponent implements OnInit {
   private eventSub: Subscription;
   events: any;
   eventForm: FormGroup;
-  message: string = "";
+  public message: string = "";
   isLoading = false;
+
   constructor(public eventsrv: EventService, public router: Router) {}
 
   ngOnInit(): void {
@@ -39,6 +40,10 @@ export class EventModalComponent implements OnInit {
       this.isLoading = false;
       this.events = data.events;
     });
+
+    setTimeout(() => {
+      this.message = "";
+    }, 3000);
   }
 
   submitEvent() {
@@ -69,5 +74,13 @@ export class EventModalComponent implements OnInit {
       this.isLoading = true;
       this.eventsrv.getEvents();
     });
+  }
+
+  showAlert(): void {
+    if (this.message != "") {
+      return;
+    }
+    this.message = "";
+    setTimeout(() => (this.message = ""), 2500); // hide the alert after 2.5s
   }
 }

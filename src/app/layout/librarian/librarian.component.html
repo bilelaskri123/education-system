@@ -30,12 +30,14 @@
             <td>{{ librarian.role }}</td>
             <td>{{ librarian.salary }}</td>
             <td>
-              <!-- <button type="button" class="btn btn-primary">
-                <i class="far fa-eye"></i>
-              </button>
-              <button type="button" class="btn btn-success">
+              <a
+                type="button"
+                class="btn btn-success"
+                title="edit subject"
+                [routerLink]="['/ecms/edit-student', librarian.id]"
+              >
                 <i class="fas fa-edit"></i>
-              </button> -->
+              </a>
               <button
                 type="button"
                 class="btn btn-danger"
