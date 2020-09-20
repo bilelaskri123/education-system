@@ -72,7 +72,7 @@ router.delete("/:id", (req, res) => {
 
   Event.deleteOne({ _id: eventID })
     .then(() => {
-      res.status(201).json("Event has been deleted");
+      res.status(201).json({ message: "Event has been deleted" });
     })
     .catch((err) => {
       res.status(500).json({

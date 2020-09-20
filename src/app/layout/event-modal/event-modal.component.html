@@ -1,122 +1,111 @@
-<mat-card>
+<div style="margin-top: 2rem; width: 90%">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <mat-card-header> <h1>Event</h1> </mat-card-header>
-  <form [formGroup]="eventForm" (submit)="submitEvent()" *ngIf="!isLoading">
-    <mat-form-field appearance="fill">
-      <input
-        matInput
-        type="text"
-        formControlName="title"
-        placeholder="event title"
-      />
-      <mat-error *ngIf="eventForm.get('title').invalid">
-        Please enter a valid title</mat-error
-      >
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <input
-        matInput
-        formControlName="start"
-        placeholder="start date"
-        class="textbox-n"
-        type="text"
-        onfocus="(this.type='date')"
-        id="date"
-      />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <input
-        matInput
-        formControlName="end"
-        placeholder="end date"
-        class="textbox-n"
-        type="text"
-        onfocus="(this.type='date')"
-        id="date"
-      />
-    </mat-form-field>
-
-    <mat-card-actions>
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        style="width: 150px"
-      >
-        Save
-      </button>
-      <button
-        mat-raised-button
-        color="accent"
-        (click)="cancelForm()"
-        type="reset"
-        style="width: 150px"
-      >
-        Cancel
-      </button>
-    </mat-card-actions>
-  </form>
-</mat-card>
-
-<!-- <form [formGroup]="eventForm" (ngSubmit)="submitEvent()">
-  <div class="modal-body">
-    <div class="container">
-      <div class="form-group">
-        <label for="dateOfBirth">Title</label>
-        <div class="input-group">
-          <input
-            id="eventtitle"
-            class="form-control"
-            placeholder="type your title"
-            name="eventtitle"
-            formControlName="eventtitle"
-          />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="eventstartdate">Start Date</label>
-        <div class="input-group">
-          <input
-            id="eventstartdate"
-            class="form-control"
-            placeholder="yyyy-mm-dd"
-            name="dpeventstartdate"
-            ngbDatepicker
-            formControlName="eventstart"
-          />
-          <div class="input-group-append">
-            <button
-              class="btn btn-outline-secondary fa fa-calendar"
-              (click)="dpstartdate.toggle()"
-              type="button"
-            ></button>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="eventenddate">End Date</label>
-        <div class="input-group">
-          <input
-            id="eventenddate"
-            class="form-control"
-            placeholder="yyyy-mm-dd"
-            name="dpeventenddate"
-            formControlName="eventend"
-          />
-          <div class="input-group-append">
-            <button
-              class="btn btn-outline-secondary fa fa-calendar"
-              (click)="dpenddate.toggle()"
-              type="button"
-            ></button>
-          </div>
-        </div>
-      </div>
+  <div class="col-lg-8 col-md-8 col-sm-12 composent1">
+    <div class="alert alert-success" role="alert" *ngIf="message != ''">
+      {{ message }}
     </div>
+    <table class="table table-bordered" style="border: solid 1px">
+      <thead>
+        <th>title</th>
+        <th>start</th>
+        <th>end</th>
+        <th>Action</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of events">
+          <td>{{ event.title }}</td>
+          <td>{{ event.start }}</td>
+          <td>{{ event.end }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-primary"
+              title="view calender"
+              [routerLink]="['/ecms/dashboard']"
+            >
+              <i class="far fa-eye"></i>
+            </button>
+            <!-- <a
+              type="button"
+              class="btn btn-success"
+              title="edit event"
+              (click)="onUpdate(event.id)"
+            >
+              <i class="fas fa-edit"></i>
+            </a> -->
+            <button
+              type="button"
+              class="btn btn-danger"
+              title="delete event"
+              (click)="onDelete(event.id)"
+            >
+              <i class="far fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <div class="modal-footer"></div>
-</form> -->
+  <div class="col-lg-4 col-md-4 col-sm-12 composent2">
+    <mat-card>
+      <mat-card-header> <h1>Event</h1> </mat-card-header>
+      <form [formGroup]="eventForm" (submit)="submitEvent()" *ngIf="!isLoading">
+        <mat-form-field appearance="fill">
+          <input
+            matInput
+            type="text"
+            formControlName="title"
+            placeholder="event title"
+          />
+          <mat-error *ngIf="eventForm.get('title').invalid">
+            Please enter a valid title</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <input
+            matInput
+            formControlName="start"
+            placeholder="start date"
+            class="textbox-n"
+            type="text"
+            onfocus="(this.type='date')"
+            id="date"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <input
+            matInput
+            formControlName="end"
+            placeholder="end date"
+            class="textbox-n"
+            type="text"
+            onfocus="(this.type='date')"
+            id="date"
+          />
+        </mat-form-field>
+
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            style="width: 150px"
+          >
+            Save
+          </button>
+          <!-- <button
+            mat-raised-button
+            color="accent"
+            (click)="cancelForm()"
+            type="reset"
+            style="width: 150px"
+          >
+            Cancel
+          </button> -->
+        </mat-card-actions>
+      </form>
+    </mat-card>
+  </div>
+</div>

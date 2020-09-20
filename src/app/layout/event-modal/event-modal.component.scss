@@ -1,6 +1,15 @@
+.composent1 {
+  float: left;
+}
+
+.composent2 {
+  float: right;
+}
+
 mat-card {
-  width: 70%;
-  margin: auto;
+  width: 100%;
+  // margin: right;
+  // float: right;
 }
 
 mat-form-field,

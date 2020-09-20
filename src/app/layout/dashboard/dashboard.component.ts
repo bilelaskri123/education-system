@@ -111,23 +111,25 @@ export class DashboardComponent implements OnInit {
         // console.log(this.notes);
       });
 
+    this.eventsrv.getEvents();
     this.eventsrv
-      .getEvents()
+      .getEventUpdateListener()
       .pipe(
-        map((eventData) => {
+        map((eventsData) => {
           return {
-            transformedEvent: eventData.map((newEvent) => {
+            transformedEvents: eventsData.events.map((eventData) => {
               return {
-                title: newEvent.title,
-                start: new Date(newEvent.start).toISOString().slice(0, 10),
-                end: new Date(newEvent.end).toISOString().slice(0, 10),
+                title: eventData.title,
+                start: eventData.start,
+                end: eventData.end,
               };
             }),
           };
         })
       )
-      .subscribe((data) => {
-        this.calendarOptions.events = data.transformedEvent;
+      .subscribe((newEventsForm) => {
+        this.isLoading = false;
+        this.calendarOptions.events = newEventsForm.transformedEvents;
       });
   }
 
