@@ -1,24 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
-
-export interface PeriodicElement {
-  name: string;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { name: "Hydrogen", weight: 1.0079, symbol: "H" },
-  { name: "Helium", weight: 4.0026, symbol: "He" },
-  { name: "Lithium", weight: 6.941, symbol: "Li" },
-  { name: "Beryllium", weight: 9.0122, symbol: "Be" },
-  { name: "Boron", weight: 10.811, symbol: "B" },
-  { name: "Carbon", weight: 12.0107, symbol: "C" },
-  { name: "Nitrogen", weight: 14.0067, symbol: "N" },
-  { name: "Oxygen", weight: 15.9994, symbol: "O" },
-  { name: "Fluorine", weight: 18.9984, symbol: "F" },
-  { name: "Neon", weight: 20.1797, symbol: "Ne" },
-];
+import { Subscription } from "rxjs";
+import { Group } from "src/app/shared/models/Group";
+import { Section } from "src/app/shared/models/Section";
+import { GroupService } from "src/app/shared/services/group.service";
+import { ProgramService } from "src/app/shared/services/program.service";
+import { SectionService } from "src/app/shared/services/section.service";
 
 @Component({
   selector: "app-attendance",
@@ -26,10 +13,42 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ["./attendance.component.scss"],
 })
 export class AttendanceComponent implements OnInit {
-  constructor() {}
+  isLoading = false;
+  sections: Section[] = [];
+  groups: Group[] = [];
+  private sectionSub: Subscription;
+  private groupSub: Subscription;
+  lessons: any;
 
-  ngOnInit() {}
+  constructor(
+    private sectionService: SectionService,
+    private groupService: GroupService,
+    private programService: ProgramService
+  ) {}
 
-  displayedColumns: string[] = ["name", "weight", "symbol"];
-  dataSource = ELEMENT_DATA;
+  ngOnInit() {
+    this.isLoading = true;
+    this.sectionService.getSections(1000, 1);
+    this.sectionSub = this.sectionService
+      .getSectionUpdateListener()
+      .subscribe(
+        (sectionData: { sections: Section[]; sectionCount: number }) => {
+          this.isLoading = false;
+          this.sections = sectionData.sections;
+        }
+      );
+
+    this.groupService.getGroups(1000, 1);
+    this.groupSub = this.groupService
+      .getGroupUpdateListener()
+      .subscribe((groupData: { groups: Group[]; groupCount: number }) => {
+        this.isLoading = false;
+        this.groups = groupData.groups;
+      });
+
+    this.programService.getAllSubject().subscribe((lessons) => {
+      this.lessons = lessons;
+      console.log(this.lessons);
+    });
+  }
 }

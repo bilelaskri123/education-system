@@ -10,10 +10,9 @@
   <mat-form-field appearance="fill" class="col-lg-4 col-md-4 col-sm-12">
     <mat-label>Section</mat-label>
     <select matNativeControl required>
-      <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="mercedes">Mercedes</option>
-      <option value="audi">Audi</option>
+      <option *ngFor="let section of sections" value="section._id">
+        {{ section.name }}
+      </option>
     </select>
   </mat-form-field>
 

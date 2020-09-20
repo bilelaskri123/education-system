@@ -9,31 +9,28 @@
 <div class="espace">
   <mat-form-field appearance="fill" class="col-lg-3 col-md-6 col-sm-12">
     <mat-label>Section</mat-label>
-    <select matNativeControl required>
-      <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="mercedes">Mercedes</option>
-      <option value="audi">Audi</option>
-    </select>
+    <mat-select matNativeControl required>
+      <mat-option *ngFor="let section of sections" value="section._id">
+        {{ section.name }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="col-lg-3 col-md-6 col-sm-12">
     <mat-label>Group</mat-label>
-    <select matNativeControl required>
-      <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="mercedes">Mercedes</option>
-      <option value="audi">Audi</option>
-    </select>
+    <mat-select matNativeControl required>
+      <mat-option *ngFor="let group of groups" value="group._id">
+        {{ group.name }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
   <mat-form-field appearance="fill" class="col-lg-3 col-md-6 col-sm-12">
     <mat-label>Course</mat-label>
-    <select matNativeControl required>
-      <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="mercedes">Mercedes</option>
-      <option value="audi">Audi</option>
-    </select>
+    <mat-select matNativeControl required>
+      <mat-option *ngFor="let lesson of lessons" value="lesson._id">
+        {{ lesson.name }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="col-lg-3 col-md-6 col-sm-12">
