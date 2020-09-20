@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder } from "@angular/forms";
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { EventService } from "src/app/shared/services/event.service";
 
@@ -10,33 +15,23 @@ import { EventService } from "src/app/shared/services/event.service";
 })
 export class EventModalComponent implements OnInit {
   eventForm: FormGroup;
-  constructor(
-    public eventsrv: EventService,
-    public activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(public eventsrv: EventService) {}
 
   ngOnInit(): void {
     // this.createAddEventForm();
-    this.eventForm = this.formBuilder.group({
-      eventTitle: "",
-      eventstart: "",
-      eventend: "",
-    });
-  }
-
-  private createAddEventForm() {
-    this.eventForm = this.formBuilder.group({
-      eventtitle: "",
-      eventstart: "",
-      eventend: "",
+    this.eventForm = new FormGroup({
+      title: new FormControl(null, {
+        validators: [Validators.required],
+      }),
+      start: new FormControl(null, { validators: [Validators.required] }),
+      end: new FormControl(null, { validators: [Validators.required] }),
     });
   }
 
   submitEvent() {
-    const eventTitle = this.eventForm.get("eventtitle").value;
-    const eventStartDate = this.eventForm.get("eventstart").value;
-    const eventEndDate = this.eventForm.get("eventend").value;
+    const eventTitle = this.eventForm.get("title").value;
+    const eventStartDate = this.eventForm.get("start").value;
+    const eventEndDate = this.eventForm.get("end").value;
 
     const eventObj = {
       title: eventTitle,
@@ -45,6 +40,6 @@ export class EventModalComponent implements OnInit {
     };
 
     this.eventsrv.addEvent(eventObj);
-    this.activeModal.close();
+    this.eventForm.reset();
   }
 }

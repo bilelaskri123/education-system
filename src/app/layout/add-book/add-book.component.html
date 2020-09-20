@@ -31,6 +31,7 @@
         matInput
         type="number"
         formControlName="pages"
+        min="1"
         placeholder="number of pages"
       />
       <mat-error *ngIf="form.get('pages').invalid"
@@ -42,6 +43,7 @@
         matInput
         type="number"
         formControlName="copies"
+        min="1"
         placeholder="Book disponible"
       />
       <mat-error *ngIf="form.get('copies').invalid"

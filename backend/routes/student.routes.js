@@ -139,6 +139,10 @@ router.get("", (req, res) => {
     });
 });
 
+router.put("/:id", (req, res) => {
+  console.log(req.params.id);
+});
+
 router.delete("/:id", (req, res, next) => {
   User.deleteOne({ _id: req.params.id })
     .then(() => {

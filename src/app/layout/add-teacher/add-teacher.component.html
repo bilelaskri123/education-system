@@ -101,7 +101,9 @@
     <div class="position">
       <button
         mat-raised-button
-        class="btn btn-success btn-space"
+        class="btn-space"
+        color="primary"
+        style="width: 150px"
         type="submit"
         *ngIf="!isLoading"
       >
@@ -109,7 +111,8 @@
       </button>
       <button
         mat-raised-button
-        class="btn btn-danger"
+        color="accent"
+        style="width: 150px"
         type="reset"
         *ngIf="!isLoading"
         (click)="cancelForm()"

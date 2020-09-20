@@ -262,6 +262,13 @@ const routes: Routes = [
             (m) => m.NewtimetableModule
           ),
       },
+      {
+        path: "events",
+        loadChildren: () =>
+          import("./event-modal/event-modal.module").then(
+            (m) => m.EventModalModule
+          ),
+      },
     ],
   },
 ];

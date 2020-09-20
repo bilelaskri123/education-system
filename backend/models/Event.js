@@ -6,12 +6,6 @@ const eventSchema = new Schema({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-  },
-  className: {
-    type: String,
-  },
   start: {
     type: Date,
     default: Date.now,

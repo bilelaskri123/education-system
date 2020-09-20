@@ -12,6 +12,11 @@ import { Group } from "src/app/shared/models/Group";
 import { NoteService } from "src/app/shared/services/note.service";
 import { Note } from "src/app/shared/models/Note";
 import { PageEvent } from "@angular/material";
+import { CalendarOptions } from "@fullcalendar/angular";
+import { IEvent } from "src/app/shared/models/event.model";
+import { EventService } from "src/app/shared/services/event.service";
+import { HttpErrorResponse } from "@angular/common/http";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-dashboard",
@@ -20,6 +25,15 @@ import { PageEvent } from "@angular/material";
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent implements OnInit {
+  events: any[] = [];
+  event: IEvent;
+
+  calendarOptions: CalendarOptions = {
+    initialView: "dayGridMonth",
+    height: 600,
+    events: this.events,
+  };
+
   totalNotes = 0;
   notePerPage = 2;
   currentPage = 1;
@@ -45,10 +59,12 @@ export class DashboardComponent implements OnInit {
     private groupService: GroupService,
     private sectionService: SectionService,
     private noteService: NoteService,
+    public eventsrv: EventService,
     private router: Router
   ) {}
 
   ngOnInit() {
+    console.log(this.calendarOptions);
     this.isLoading = true;
     this.studentService.getStudents(1000, 1);
     this.studentsSub = this.studentService
@@ -93,6 +109,25 @@ export class DashboardComponent implements OnInit {
         this.notes = noteData.notes;
         this.totalNotes = noteData.notesCount;
         // console.log(this.notes);
+      });
+
+    this.eventsrv
+      .getEvents()
+      .pipe(
+        map((eventData) => {
+          return {
+            transformedEvent: eventData.map((newEvent) => {
+              return {
+                title: newEvent.title,
+                start: new Date(newEvent.start).toISOString().slice(0, 10),
+                end: new Date(newEvent.end).toISOString().slice(0, 10),
+              };
+            }),
+          };
+        })
+      )
+      .subscribe((data) => {
+        this.calendarOptions.events = data.transformedEvent;
       });
   }
 

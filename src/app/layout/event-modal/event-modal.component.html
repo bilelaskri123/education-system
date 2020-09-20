@@ -1,19 +1,68 @@
-<div class="modal-header">
-  <h4 class="modal-title">Add Event</h4>
-  <button
-    type="button"
-    class="close"
-    aria-label="Close"
-    (click)="activeModal.dismiss('Cross click')"
-  >
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card-header> <h1>Event</h1> </mat-card-header>
+  <form [formGroup]="eventForm" (submit)="submitEvent()" *ngIf="!isLoading">
+    <mat-form-field appearance="fill">
+      <input
+        matInput
+        type="text"
+        formControlName="title"
+        placeholder="event title"
+      />
+      <mat-error *ngIf="eventForm.get('title').invalid">
+        Please enter a valid title</mat-error
+      >
+    </mat-form-field>
 
-<form [formGroup]="eventForm" (ngSubmit)="submitEvent()">
+    <mat-form-field appearance="fill">
+      <input
+        matInput
+        formControlName="start"
+        placeholder="start date"
+        class="textbox-n"
+        type="text"
+        onfocus="(this.type='date')"
+        id="date"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <input
+        matInput
+        formControlName="end"
+        placeholder="end date"
+        class="textbox-n"
+        type="text"
+        onfocus="(this.type='date')"
+        id="date"
+      />
+    </mat-form-field>
+
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        style="width: 150px"
+      >
+        Save
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="cancelForm()"
+        type="reset"
+        style="width: 150px"
+      >
+        Cancel
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>
+
+<!-- <form [formGroup]="eventForm" (ngSubmit)="submitEvent()">
   <div class="modal-body">
     <div class="container">
-      <!-- Event Title -->
       <div class="form-group">
         <label for="dateOfBirth">Title</label>
         <div class="input-group">
@@ -27,7 +76,6 @@
         </div>
       </div>
 
-      <!-- Event Start Date - Start -->
       <div class="form-group">
         <label for="eventstartdate">Start Date</label>
         <div class="input-group">
@@ -37,7 +85,6 @@
             placeholder="yyyy-mm-dd"
             name="dpeventstartdate"
             ngbDatepicker
-            #dpstartdate="ngbDatepicker"
             formControlName="eventstart"
           />
           <div class="input-group-append">
@@ -49,9 +96,7 @@
           </div>
         </div>
       </div>
-      <!-- Event Start Date - End -->
 
-      <!-- Event End Date - Start -->
       <div class="form-group">
         <label for="eventenddate">End Date</label>
         <div class="input-group">
@@ -60,8 +105,6 @@
             class="form-control"
             placeholder="yyyy-mm-dd"
             name="dpeventenddate"
-            ngbDatepicker
-            #dpenddate="ngbDatepicker"
             formControlName="eventend"
           />
           <div class="input-group-append">
@@ -73,8 +116,7 @@
           </div>
         </div>
       </div>
-      <!-- Event End Date - End -->
     </div>
   </div>
   <div class="modal-footer"></div>
-</form>
+</form> -->

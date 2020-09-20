@@ -1,0 +1,35 @@
+mat-card {
+  width: 70%;
+  margin: auto;
+}
+
+mat-form-field,
+textarea {
+  width: 100%;
+}
+
+mat-card-header h1 {
+  text-align: center;
+  margin: auto;
+  margin-bottom: 2rem;
+  color: rgb(44, 71, 224);
+}
+
+mat-card-header {
+  width: 100%;
+  height: auto;
+}
+
+mat-card-actions {
+  margin: 1rem;
+  text-align: center;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+.position {
+  margin: auto;
+  text-align: center;
+}

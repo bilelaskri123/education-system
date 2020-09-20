@@ -15,12 +15,12 @@ export class EventService {
 
   // Events - get all Events
   getEvents(): Observable<IEvent[]> {
-    this.url = "http://localhost:3000/events/";
+    this.url = "http://localhost:3000/api/events/";
     return this.http.get<IEvent[]>(this.url);
   }
 
   addEvent(event: any) {
-    this.url = "http://localhost:3000/events";
+    this.url = "http://localhost:3000/api/events";
     this.http.post(this.url, event).subscribe();
   }
 
@@ -29,7 +29,7 @@ export class EventService {
   }
 
   updateEvent(eventID: any, event: IEvent) {
-    this.url = "http://localhost:3000/events/" + eventID;
+    this.url = "http://localhost:3000/api/events/" + eventID;
 
     this.http.put(this.url, event).subscribe((response) => {
       const updateEvent = [...this.eventsList];
@@ -43,6 +43,6 @@ export class EventService {
   }
 
   deleteEvent(eventID: any): void {
-    this.url = "http://localhost:3000/events" + eventID;
+    this.url = "http://localhost:3000/api/events" + eventID;
   }
 }
