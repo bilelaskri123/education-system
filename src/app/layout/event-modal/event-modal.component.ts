@@ -5,6 +5,7 @@ import {
   FormControl,
   Validators,
 } from "@angular/forms";
+import { Router } from "@angular/router";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { EventService } from "src/app/shared/services/event.service";
 
@@ -15,7 +16,7 @@ import { EventService } from "src/app/shared/services/event.service";
 })
 export class EventModalComponent implements OnInit {
   eventForm: FormGroup;
-  constructor(public eventsrv: EventService) {}
+  constructor(public eventsrv: EventService, public router: Router) {}
 
   ngOnInit(): void {
     // this.createAddEventForm();
@@ -41,5 +42,9 @@ export class EventModalComponent implements OnInit {
 
     this.eventsrv.addEvent(eventObj);
     this.eventForm.reset();
+  }
+
+  cancelForm() {
+    this.router.navigate(["/ecms/dashboard"]);
   }
 }

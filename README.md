@@ -1,14 +1,15 @@
-# StarAdminAngular
+# Education System
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.1.
 
 <h1>Demo</h1>
 
-[![N|Solid](preview.jpg)](https://www.bootstrapdash.com/demo/star-admin-angular/dashboard)
+[![N|Solid](preview2.png)](https://www.bootstrapdash.com/demo/star-admin-angular/dashboard)
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `nodemon server.js` for a backend dev server to `http://localhost:3000`.
 
 ## Code scaffolding
 

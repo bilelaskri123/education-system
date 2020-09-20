@@ -1,5 +1,4 @@
-# StarAdmin Free Angular Admin Template
-
+# Education system project
 
 StarAdmin Free Angular Admin Template is a free admin template based on Bootstrap 4. The template is built using the framework NG-Bootstrap.
 
@@ -36,7 +35,7 @@ StarAdmin Free Angular Admin Template/
 
 ### Usage
 
-``` bash
+```bash
 # clone the repo
 $ git clone https://github.com/BootstrapDash/StarAdmin-Free-Angular-Admin-Template.git
 
