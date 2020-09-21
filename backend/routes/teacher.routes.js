@@ -71,6 +71,29 @@ router.post("", async (req, res, next) => {
   });
 });
 
+router.get("/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then((data) => {
+      res
+        .status(200)
+        .json(
+          _.pick(data, [
+            "fullName",
+            "_id",
+            "email",
+            "role",
+            "salary",
+            "speciality",
+          ])
+        );
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "can't fetching teacher data",
+      });
+    });
+});
+
 router.get("", (req, res) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
@@ -128,6 +151,34 @@ router.get("/all", (req, res) => {
     .catch((err) => {
       res.status(500).json({
         error: err,
+      });
+    });
+});
+
+router.put("/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then((teacher) => {
+      teacher.fullName = req.body.fullName;
+      teacher.email = req.body.email;
+      teacher.speciality = req.body.speciality;
+      teacher.salary = req.body.salary;
+
+      teacher
+        .save()
+        .then((data) => {
+          res.status(201).json({
+            message: "teacher updated successfuly!",
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            message: "updating teacher failed!",
+          });
+        });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "fetching teacher failed!",
       });
     });
 });

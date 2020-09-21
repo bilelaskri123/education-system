@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
-import { Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
 
 import { AuthData } from "../models/Auth";
 
@@ -122,7 +122,9 @@ export class AuthService {
     };
   }
 
-  userDetail() {
-    return this.http.get("http://localhost:3000/api/auth/detail");
+  userDetail(): Observable<{ fullName: string; role: string }> {
+    return this.http.get<{ fullName: string; role: string }>(
+      "http://localhost:3000/api/auth/detail"
+    );
   }
 }

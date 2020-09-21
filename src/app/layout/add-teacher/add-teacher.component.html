@@ -1,52 +1,38 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <mat-card-header> <h1>Teacher</h1> </mat-card-header>
-  <form
-    (submit)="addTeacher(teacherForm)"
-    #teacherForm="ngForm"
-    *ngIf="!isLoading"
-  >
+  <form [formGroup]="form" (submit)="onSaveTeacher()" *ngIf="!isLoading">
     <mat-form-field>
       <input
         matInput
-        name="fullName"
-        ngModel
+        formControlName="fullName"
         type="text"
         placeholder="Full Name"
-        #fullNameInput="ngModel"
         required
-        autocomplete="username"
       />
-      <mat-error *ngIf="fullNameInput.invalid"
+      <mat-error *ngIf="form.get('fullName').invalid"
         >Please enter a valid full N.</mat-error
       >
     </mat-form-field>
     <mat-form-field>
       <input
         matInput
-        name="email"
-        ngModel
+        formControlName="email"
         type="email"
-        placeholder="E-Mail"
-        #emailInput="ngModel"
+        placeholder="teacher@gmail.com"
         required
-        email
-        autocomplete="email"
       />
-      <mat-error *ngIf="emailInput.invalid"
+      <mat-error *ngIf="form.get('email').invalid"
         >Please enter a valid email.</mat-error
       >
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field *ngIf="mode == 'create'">
       <input
         [type]="hide ? 'password' : 'text'"
-        name="password"
-        ngModel
+        formControlName="password"
         matInput
         placeholder="Password"
-        #passwordInput="ngModel"
         required
-        autocomplete="current-password"
       />
       <button
         type="button"
@@ -58,7 +44,7 @@
       >
         <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
       </button>
-      <mat-error *ngIf="passwordInput.invalid"
+      <mat-error *ngIf="form.get('password').invalid"
         >Please enter a valid password.</mat-error
       >
     </mat-form-field>
@@ -67,16 +53,14 @@
       <mat-select
         matNativeControl
         placeholder="speciality"
-        name="speciality"
-        #specialitySelect="ngModel"
-        ngModel
+        formControlName="speciality"
         required
       >
         <mat-option *ngFor="let section of sections" [value]="section.name">{{
           section.name
         }}</mat-option>
       </mat-select>
-      <mat-error *ngIf="specialitySelect.invalid"
+      <mat-error *ngIf="form.get('speciality').invalid"
         >Please enter a valid speciality</mat-error
       >
     </mat-form-field>
@@ -84,22 +68,19 @@
     <mat-form-field>
       <input
         matInput
-        name="salary"
-        ngModel
+        formControlName="salary"
         type="number"
         placeholder="salary"
-        #salaryInput="ngModel"
-        required
-        autocomplete="cc-name"
-        min="0"
+        min="1"
       />
-      <mat-error *ngIf="salaryInput.invalid"
+      <mat-error *ngIf="form.get('salary').invalid"
         >Please enter a teacher salar</mat-error
       >
     </mat-form-field>
 
     <div class="position">
       <button
+        [disabled]="form.invalid"
         mat-raised-button
         class="btn-space"
         color="primary"

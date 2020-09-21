@@ -3,6 +3,7 @@ import { PageEvent } from "@angular/material";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Program } from "src/app/shared/models/Program";
+import { AuthService } from "src/app/shared/services/auth.service";
 import { ProgramService } from "src/app/shared/services/program.service";
 
 @Component({
@@ -11,6 +12,7 @@ import { ProgramService } from "src/app/shared/services/program.service";
   styleUrls: ["./program.component.scss"],
 })
 export class ProgramComponent implements OnInit, OnDestroy {
+  role: string;
   isLoading = false;
   private programsSub: Subscription;
 
@@ -19,9 +21,17 @@ export class ProgramComponent implements OnInit, OnDestroy {
   programPerPage = 2;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
-  constructor(private router: Router, private programService: ProgramService) {}
+  constructor(
+    private router: Router,
+    private programService: ProgramService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
+    this.authService.userDetail().subscribe((detail) => {
+      this.role = detail.role;
+    });
+
     this.isLoading = true;
     this.programService.getPrograms(this.programPerPage, this.currentPage);
     this.programsSub = this.programService

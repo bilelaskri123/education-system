@@ -84,7 +84,7 @@
   <div class="col-lg-12 grid-margin stretch-card">
     <!--weather card-->
     <div class="card">
-      <div class="card-title">
+      <div class="card-title" *ngIf="[role] == 'admin'">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
@@ -136,7 +136,7 @@
                   <th>title</th>
                   <th>problem</th>
                   <th>solution</th>
-                  <th>Action</th>
+                  <th *ngIf="[role] == 'admin'">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -146,7 +146,7 @@
                   <td>{{ note.title }}</td>
                   <td>{{ note.problem }}</td>
                   <td>{{ note.solution }}</td>
-                  <td>
+                  <td *ngIf="[role] == 'admin'">
                     <button
                       type="button"
                       class="btn btn-danger"

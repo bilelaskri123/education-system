@@ -70,6 +70,47 @@ router.post("", async (req, res, next) => {
     });
 });
 
+router.get("/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then((data) => {
+      res
+        .status(200)
+        .json(_.pick(data, ["fullName", "email", "_id", "role", "childEmail"]));
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "can't fetching parent",
+      });
+    });
+});
+
+router.put("/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then((parent) => {
+      parent.fullName = req.body.fullName;
+      parent.email = req.body.email;
+      parent.salary = req.body.childEmail;
+
+      teacher
+        .save()
+        .then((data) => {
+          res.status(201).json({
+            message: "parent updated successfuly!",
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            message: "updating parent failed!",
+          });
+        });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "fetching parent failed!",
+      });
+    });
+});
+
 router.get("", (req, res) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;

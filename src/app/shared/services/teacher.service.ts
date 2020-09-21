@@ -13,6 +13,7 @@ export class TeacherService {
     teachers: User[];
     teacherCount: number;
   }>();
+
   constructor(private http: HttpClient, private router: Router) {}
 
   addTeacher(
@@ -79,14 +80,36 @@ export class TeacherService {
     return this.teachersUpdated.asObservable();
   }
 
+  updateTeacher(
+    id: string,
+    fullName: string,
+    email: string,
+    speciality: string,
+    salary: number
+  ) {
+    let teacherData = {
+      fullName: fullName,
+      email: email,
+      speciality: speciality,
+      salary: salary,
+    };
+
+    return this.http
+      .put("http://localhost:3000/api/teacher/" + id, teacherData)
+      .subscribe((responseData) => {
+        this.router.navigate(["/ecms/teachers"]);
+      });
+  }
+
   getTeacher(id: string) {
     return this.http.get<{
       _id: string;
       fullName: string;
       email: string;
       role: string;
+      speciality: string;
       salary: number;
-    }>("http://localhost:3000/api/teacher" + id);
+    }>("http://localhost:3000/api/teacher/" + id);
   }
 
   deleteTeacher(teacherId: string) {

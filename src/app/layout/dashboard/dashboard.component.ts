@@ -17,6 +17,7 @@ import { IEvent } from "src/app/shared/models/event.model";
 import { EventService } from "src/app/shared/services/event.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { map } from "rxjs/operators";
+import { AuthService } from "src/app/shared/services/auth.service";
 
 @Component({
   selector: "app-dashboard",
@@ -51,6 +52,7 @@ export class DashboardComponent implements OnInit {
   noteSub: Subscription;
 
   notes: any;
+  role: string;
 
   isLoading = false;
   constructor(
@@ -60,10 +62,14 @@ export class DashboardComponent implements OnInit {
     private sectionService: SectionService,
     private noteService: NoteService,
     public eventsrv: EventService,
-    private router: Router
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
+    this.authService.userDetail().subscribe((data) => {
+      this.role = data.role;
+    });
+
     console.log(this.calendarOptions);
     this.isLoading = true;
     this.studentService.getStudents(1000, 1);
