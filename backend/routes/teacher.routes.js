@@ -71,6 +71,28 @@ router.post("", async (req, res, next) => {
   });
 });
 
+router.get("/all", (req, res) => {
+  teachersUpdated = [];
+  teacher = {};
+  User.find({ role: "teacher" })
+    .then(async (teachers) => {
+      await teachers.forEach((data) => {
+        teacher.fullName = data.fullName;
+        teacher.email = data.email;
+        teacher._id = data._id;
+
+        teachersUpdated.push(teacher);
+        teacher = {};
+      });
+      res.status(200).send(teachersUpdated);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: "fetching teachers failed",
+      });
+    });
+});
+
 router.get("/:id", (req, res) => {
   User.findById(req.params.id)
     .then((data) => {
@@ -128,29 +150,7 @@ router.get("", (req, res) => {
     })
     .catch((err) => {
       res.status(500).json({
-        error: err,
-      });
-    });
-});
-
-router.get("/all", (req, res) => {
-  teachersUpdated = [];
-  teacher = {};
-  User.find({ role: "teacher" })
-    .then(async (teachers) => {
-      await teachers.forEach((data) => {
-        teacher.fullName = data.fullName;
-        teacher.email = data.email;
-        teacher._id = data._id;
-
-        teachersUpdated.push(teacher);
-        teacher = {};
-      });
-      res.status(200).send(teachersUpdated);
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
+        message: "fetching teachers failed",
       });
     });
 });

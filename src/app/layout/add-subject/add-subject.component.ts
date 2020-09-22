@@ -25,6 +25,7 @@ export class AddSubjectComponent implements OnInit {
   ngOnInit() {
     this.subjectService.getTeachers().subscribe((teachers) => {
       this.teachers = teachers;
+      console.log(teachers);
     });
 
     this.form = new FormGroup({

@@ -41,4 +41,8 @@ export class AddGroupComponent implements OnInit {
     }
     this.groupService.addGroup(form.value.name, form.value.section);
   }
+
+  cancelForm() {
+    this.router.navigate(["/ecms/group"]);
+  }
 }
