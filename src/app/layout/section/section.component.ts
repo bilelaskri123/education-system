@@ -4,6 +4,7 @@ import { Section } from "src/app/shared/models/Section";
 import { Subscription } from "rxjs";
 import { SectionService } from "src/app/shared/services/section.service";
 import { PageEvent } from "@angular/material/paginator";
+import { AuthService } from "src/app/shared/services/auth.service";
 
 @Component({
   selector: "app-section",
@@ -12,7 +13,7 @@ import { PageEvent } from "@angular/material/paginator";
 })
 export class SectionComponent implements OnInit, OnDestroy {
   isLoading = false;
-
+  role: string;
   sections: Section[] = [];
   private sectionSub: Subscription;
 
@@ -21,9 +22,16 @@ export class SectionComponent implements OnInit, OnDestroy {
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 
-  constructor(private router: Router, private sectionService: SectionService) {}
+  constructor(
+    private router: Router,
+    private sectionService: SectionService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
+    this.authService.userDetail().subscribe((detail) => {
+      this.role = detail.role;
+    });
     this.isLoading = true;
     this.sectionService.getSections(this.sectionPerPage, this.currentPage);
     this.sectionSub = this.sectionService

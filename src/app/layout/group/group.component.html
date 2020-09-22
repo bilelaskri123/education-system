@@ -47,7 +47,7 @@
           </tbody>
         </table>
       </div>
-      <mat-action-row>
+      <mat-action-row *ngIf="[role] == 'admin'">
         <a
           mat-button
           color="primary"
