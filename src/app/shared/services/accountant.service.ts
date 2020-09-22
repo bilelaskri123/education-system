@@ -76,6 +76,24 @@ export class AccountantService {
     return this.accountantsUpdated.asObservable();
   }
 
+  updateAccountant(
+    id: string,
+    fullName: string,
+    email: string,
+    salary: number
+  ) {
+    let accountantData = {
+      fullName: fullName,
+      email: email,
+      salary: salary,
+    };
+    return this.http
+      .put("http://localhost:3000/api/accountant/" + id, accountantData)
+      .subscribe((responseData) => {
+        this.router.navigate(["/ecms/accountant"]);
+      });
+  }
+
   getAccountant(id: string) {
     return this.http.get<{
       _id: string;
@@ -83,7 +101,7 @@ export class AccountantService {
       email: string;
       role: string;
       salary: number;
-    }>("http://localhost:3000/api/accountant" + id);
+    }>("http://localhost:3000/api/accountant/" + id);
   }
 
   deleteAccountant(accountantId: string) {

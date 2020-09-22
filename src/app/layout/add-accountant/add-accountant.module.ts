@@ -13,7 +13,6 @@ import { MaterialModule } from "src/app/shared/material/material.module";
     AddAccountantRoutingModule,
     ReactiveFormsModule,
     MaterialModule,
-    FormsModule,
   ],
 })
 export class AddAccountantModule {}

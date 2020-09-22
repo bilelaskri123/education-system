@@ -56,6 +56,45 @@ router.post("", async (req, res, next) => {
   });
 });
 
+router.get("/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then((librarian) => {
+      res
+        .status(200)
+        .json(_.pick(librarian, ["fullName", "email", "_id", "salary"]));
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "fetching data failed!",
+      });
+    });
+});
+
+router.put("/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then((librarian) => {
+      librarian.fullName = req.body.fullName;
+      librarian.email = req.body.email;
+      librarian.salary = req.body.salary;
+
+      librarian
+        .save()
+        .then(() => {
+          res.status(200).json({
+            message: "librarian updated",
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            message: "updating librarian failed",
+          });
+        });
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "updating librarian failed" });
+    });
+});
+
 router.get("", (req, res) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;

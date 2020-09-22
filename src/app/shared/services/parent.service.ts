@@ -81,7 +81,25 @@ export class ParentService {
       email: string;
       role: string;
       childEmail: string;
-    }>("http://localhost:3000/api/parent" + id);
+    }>("http://localhost:3000/api/parent/" + id);
+  }
+
+  updateParent(
+    id: string,
+    fullName: string,
+    email: string,
+    childEmail: string
+  ) {
+    let parentData = {
+      fullName: fullName,
+      email: email,
+      childEmail: childEmail,
+    };
+    return this.http
+      .put("http://localhost:3000/api/parent/" + id, parentData)
+      .subscribe((responseData) => {
+        this.router.navigate(["/ecms/parents"]);
+      });
   }
 
   deleteParent(parentId: string) {

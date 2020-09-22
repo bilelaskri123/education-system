@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { AuthService } from "src/app/shared/services/auth.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { User } from "src/app/shared/models/User";
 import { LibrarianService } from "src/app/shared/services/librarian.service";
 
@@ -13,30 +13,89 @@ import { LibrarianService } from "src/app/shared/services/librarian.service";
 export class AddLibrarianComponent implements OnInit {
   hide = true;
   isLoading = false;
+  librarian: any;
+  form: FormGroup;
+  private mode = "create";
+  private librarianId: string;
   private role: string = "librarian";
   accountant: User;
 
   constructor(
     private librarianService: LibrarianService,
-    private router: Router
+    private router: Router,
+    public route: ActivatedRoute
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.form = new FormGroup({
+      fullName: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(2)],
+      }),
+      email: new FormControl(null, {
+        validators: [Validators.required, Validators.email],
+      }),
+      password: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(4)],
+      }),
+      salary: new FormControl(null, {
+        validators: [Validators.required],
+      }),
+    });
 
-  addLibrarian(form: NgForm) {
-    if (form.invalid) {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has("librarianId")) {
+        this.mode = "edit";
+        this.form.get("password").clearValidators();
+        this.librarianId = paramMap.get("librarianId");
+        this.isLoading = true;
+        this.librarianService
+          .getLibrarian(this.librarianId)
+          .subscribe((librarianData) => {
+            console.log(librarianData);
+            this.isLoading = false;
+            this.librarian = {
+              id: librarianData._id,
+              fullName: librarianData.fullName,
+              email: librarianData.email,
+              salary: librarianData.salary,
+            };
+            this.form.patchValue({
+              fullName: this.librarian.fullName,
+              email: this.librarian.email,
+              salary: this.librarian.salary,
+            });
+          });
+      } else {
+        this.mode = "create";
+        this.librarianId = null;
+      }
+    });
+  }
+
+  onSaveLibrarian() {
+    if (this.form.invalid) {
       return;
     }
-    this.isLoading = true;
-    this.librarianService.addLibrarian(
-      form.value.fullName,
-      form.value.email,
-      form.value.password,
-      this.role,
-      form.value.salary
-    );
+    if (this.mode === "create") {
+      this.isLoading = true;
+      this.librarianService.addLibrarian(
+        this.form.value.fullName,
+        this.form.value.email,
+        this.form.value.password,
+        this.role,
+        this.form.value.salary
+      );
+    } else {
+      console.log(this.form.value);
+      this.librarianService.updateLibrarian(
+        this.librarianId,
+        this.form.value.fullName,
+        this.form.value.email,
+        this.form.value.salary
+      );
+    }
 
-    form.reset();
+    this.form.reset();
   }
 
   cancelForm() {

@@ -13,7 +13,6 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
     AddParentRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule,
   ],
 })
 export class AddParentModule {}

@@ -26,7 +26,7 @@
         >Please enter a valid email.</mat-error
       >
     </mat-form-field>
-    <mat-form-field *ngIf="mode == 'create'">
+    <mat-form-field *ngIf="[mode] == 'create'">
       <input
         [type]="hide ? 'password' : 'text'"
         formControlName="password"

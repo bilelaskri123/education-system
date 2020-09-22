@@ -77,6 +77,19 @@ export class LibrarianService {
     return this.librariansUpdated.asObservable();
   }
 
+  updateLibrarian(id: string, fullName: string, email: string, salary: number) {
+    let librarianData = {
+      fullName: fullName,
+      email: email,
+      salary: salary,
+    };
+    return this.http
+      .put("http://localhost:3000/api/librarian/" + id, librarianData)
+      .subscribe((responseData) => {
+        this.router.navigate(["/ecms/librarians"]);
+      });
+  }
+
   getLibrarian(id: string) {
     return this.http.get<{
       _id: string;
@@ -84,7 +97,7 @@ export class LibrarianService {
       email: string;
       role: string;
       salary: number;
-    }>("http://localhost:3000/api/accountant" + id);
+    }>("http://localhost:3000/api/librarian/" + id);
   }
 
   deleteLibrarian(librarianId: string) {

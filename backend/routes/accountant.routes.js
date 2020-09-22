@@ -67,6 +67,47 @@ router.post("", async (req, res, next) => {
     });
 });
 
+router.get("/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then((accountant) => {
+      res
+        .status(200)
+        .json(_.pick(accountant, ["fullName", "email", "_id", "salary"]));
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "fetching accountant failed!",
+      });
+    });
+});
+
+router.put("/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then((accountant) => {
+      accountant.fullName = req.body.fullName;
+      accountant.email = req.body.email;
+      accountant.salary = req.body.salary;
+
+      accountant
+        .save()
+        .then(() => {
+          res.status(200).json({
+            message: "succes updated!",
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            message: "updating accountant failed!",
+          });
+        });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "updating accountant failed!",
+      });
+    });
+});
+
 router.get("", (req, res) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;

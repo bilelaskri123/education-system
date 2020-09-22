@@ -89,9 +89,9 @@ router.put("/:id", (req, res) => {
     .then((parent) => {
       parent.fullName = req.body.fullName;
       parent.email = req.body.email;
-      parent.salary = req.body.childEmail;
+      parent.childEmail = req.body.childEmail;
 
-      teacher
+      parent
         .save()
         .then((data) => {
           res.status(201).json({
@@ -99,6 +99,7 @@ router.put("/:id", (req, res) => {
           });
         })
         .catch((error) => {
+          console.log(error);
           res.status(500).json({
             message: "updating parent failed!",
           });

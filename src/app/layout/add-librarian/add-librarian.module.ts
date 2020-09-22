@@ -13,7 +13,6 @@ import { MaterialModule } from "src/app/shared/material/material.module";
     AddLibrarianRoutingModule,
     ReactiveFormsModule,
     MaterialModule,
-    FormsModule,
   ],
 })
 export class AddLibrarianModule {}

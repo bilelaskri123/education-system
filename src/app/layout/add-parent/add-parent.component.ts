@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "src/app/shared/services/auth.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { User } from "src/app/shared/models/User";
 import { Subscription } from "rxjs";
 import { StudentService } from "src/app/shared/services/student.service";
@@ -15,15 +15,22 @@ import { ParentService } from "src/app/shared/services/parent.service";
 export class AddParentComponent implements OnInit {
   hide = true;
   isLoading = false;
+  parentId: string;
+  parent: any;
   private role: string = "parent";
 
   students: User[] = [];
   private studentsSub: Subscription;
 
+  form: FormGroup;
+  private mode = "create";
+  private studentId: string;
+
   constructor(
     public parentService: ParentService,
     private studentService: StudentService,
-    private router: Router
+    private router: Router,
+    public route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -35,23 +42,72 @@ export class AddParentComponent implements OnInit {
         this.isLoading = false;
         this.students = studentData.students;
       });
+
+    this.form = new FormGroup({
+      fullName: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(2)],
+      }),
+      email: new FormControl(null, {
+        validators: [Validators.required, Validators.email],
+      }),
+      password: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(4)],
+      }),
+      childEmail: new FormControl(null, {
+        validators: [Validators.required, Validators.email],
+      }),
+    });
+
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has("parentId")) {
+        this.mode = "edit";
+        this.form.get("password").clearValidators();
+        this.parentId = paramMap.get("parentId");
+        this.isLoading = true;
+        this.parentService.getParent(this.parentId).subscribe((parentData) => {
+          this.isLoading = false;
+          this.parent = {
+            id: parentData._id,
+            fullName: parentData.fullName,
+            email: parentData.email,
+            childEmail: parentData.childEmail,
+          };
+          this.form.patchValue({
+            fullName: parentData.fullName,
+            email: parentData.email,
+            childEmail: parentData.childEmail,
+          });
+        });
+      } else {
+        this.mode = "create";
+        this.studentId = null;
+      }
+    });
   }
 
-  addParent(form: NgForm) {
-    if (form.invalid) {
+  onSaveParent() {
+    if (this.form.invalid) {
       return;
     }
     this.isLoading = true;
-    console.log(form.value);
-    this.parentService.addParent(
-      form.value.fullName,
-      form.value.email,
-      form.value.password,
-      this.role,
-      form.value.childEmail
-    );
+    if (this.mode == "create") {
+      this.parentService.addParent(
+        this.form.value.fullName,
+        this.form.value.email,
+        this.form.value.password,
+        this.role,
+        this.form.value.childEmail
+      );
+    } else {
+      this.parentService.updateParent(
+        this.parentId,
+        this.form.value.fullName,
+        this.form.value.email,
+        this.form.value.childEmail
+      );
+    }
 
-    form.reset();
+    this.form.reset();
   }
 
   cancelForm() {

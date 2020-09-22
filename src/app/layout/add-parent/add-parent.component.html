@@ -1,52 +1,38 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <mat-card-header> <h1>Parent</h1> </mat-card-header>
-  <form
-    (submit)="addParent(parentForm)"
-    #parentForm="ngForm"
-    *ngIf="!isLoading"
-  >
+  <form (submit)="onSaveParent()" [formGroup]="form" *ngIf="!isLoading">
     <mat-form-field>
       <input
         matInput
-        name="fullName"
-        ngModel
+        formControlName="fullName"
         type="text"
         placeholder="Full Name"
-        #fullNameInput="ngModel"
         required
-        autocomplete="username"
       />
-      <mat-error *ngIf="fullNameInput.invalid"
+      <mat-error *ngIf="form.get('fullName').invalid"
         >Please enter a valid fullName.</mat-error
       >
     </mat-form-field>
     <mat-form-field>
       <input
         matInput
-        name="email"
-        ngModel
+        formControlName="email"
         type="email"
-        placeholder="E-Mail"
-        #emailInput="ngModel"
-        required
+        placeholder="parent@gmail.com"
         email
-        autocomplete="email"
       />
-      <mat-error *ngIf="emailInput.invalid"
+      <mat-error *ngIf="form.get('email').invalid"
         >Please enter a valid email.</mat-error
       >
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field *ngIf="[mode] == 'create'">
       <input
         [type]="hide ? 'password' : 'text'"
-        name="password"
-        ngModel
+        formControlName="password"
         matInput
         placeholder="Password"
-        #passwordInput="ngModel"
         required
-        autocomplete="current-password"
       />
       <button
         mat-icon-button
@@ -58,7 +44,7 @@
       >
         <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
       </button>
-      <mat-error *ngIf="passwordInput.invalid"
+      <mat-error *ngIf="form.get('password').invalid"
         >Please enter a valid password.</mat-error
       >
     </mat-form-field>
@@ -67,17 +53,15 @@
       <mat-label>child</mat-label>
       <mat-select
         matNativeControl
-        placeholder="childEmail"
-        name="childEmail"
-        #childEmailSelect="ngModel"
-        ngModel
+        placeholder="myChild@gmail.com"
+        formControlName="childEmail"
         required
       >
         <mat-option *ngFor="let student of students" [value]="student.email">{{
           student.email
         }}</mat-option>
       </mat-select>
-      <mat-error *ngIf="childEmailSelect.invalid"
+      <mat-error *ngIf="form.get('childEmail').invalid"
         >Please choose a child</mat-error
       >
     </mat-form-field>
@@ -90,6 +74,7 @@
         style="width: 150px"
         type="submit"
         *ngIf="!isLoading"
+        [disabled]="form.invalid"
       >
         Save
       </button>
