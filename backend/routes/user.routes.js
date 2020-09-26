@@ -5,6 +5,7 @@ const _ = require("lodash");
 
 const User = require("../models/User");
 const checkAuth = require("../middleware/check-auth");
+const multer = require("multer");
 
 router.post("/login", async (req, res, next) => {
   console.log(req.body);
@@ -60,7 +61,7 @@ router.get("/users", (req, res) => {
 router.get("/detail", checkAuth, (req, res, next) => {
   User.findById(req.userData.userId)
     .then((user) => {
-      res.status(200).json(_.pick(user, ["fullName", "role"]));
+      res.status(200).json(_.pick(user, ["fullName", "role", "image"]));
     })
     .catch((error) => {
       res.status(500).json({

@@ -14,9 +14,10 @@ import { AuthInterceptor } from "./shared/auth/auth-interceptor";
 import { ErrorInterceptor } from "./shared/auth/error-interceptor";
 import { ErrorComponent } from "./error/error.component";
 import { MatDialogModule } from "@angular/material";
+import { DefaultImagePipe } from "./shared/pipe/default-image.pipe";
 
 @NgModule({
-  declarations: [AppComponent, ErrorComponent],
+  declarations: [AppComponent, ErrorComponent, DefaultImagePipe],
   imports: [
     BrowserModule,
     RouterModule,

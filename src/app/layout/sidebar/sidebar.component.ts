@@ -10,12 +10,14 @@ export class SidebarComponent implements OnInit {
   user: any;
   role: string;
   fullName: string;
+  image: string;
   constructor(private authService: AuthService) {}
   ngOnInit() {
     this.authService.userDetail().subscribe((user) => {
       this.user = user;
       this.fullName = this.user.fullName;
       this.role = this.user.role;
+      this.image = this.user.image;
     });
   }
 }

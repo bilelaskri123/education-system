@@ -304,6 +304,11 @@ const routes: Routes = [
             (m) => m.EventModalModule
           ),
       },
+      {
+        path: "profile",
+        loadChildren: () =>
+          import("./profile/profile.module").then((m) => m.ProfileModule),
+      },
     ],
   },
 ];

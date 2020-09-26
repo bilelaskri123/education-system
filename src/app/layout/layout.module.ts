@@ -26,6 +26,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     HttpClientModule,
     ReactiveFormsModule,
   ],
+
   providers: [],
 })
 export class LayoutModule {}

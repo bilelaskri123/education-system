@@ -27,6 +27,11 @@ const userSchema = mongoose.Schema({
 
   speciality: { type: String },
   salary: { type: Number },
+  adress: { type: String },
+  birdhday: { type: String },
+  phone: { type: String },
+  linkedin: { type: String },
+  image: { type: String },
 });
 
 userSchema.plugin(uniqueValidator);

@@ -34,12 +34,15 @@
       </li>
 
       <li class="nav-item dropdown d-none d-xl-inline-block" ngbDropdown>
-        <a class="nav-link dropdown-toggle" id="UserDropdown" ngbDropdownToggle>
-          <span class="profile-text">Hello,{{ fullName }} </span>
+        <a [routerLink]="['/ecms/profile']">
+          <!-- <span class="profile-text" style="font-size: large; color: snow"
+            >{{ fullName }}
+          </span> -->
           <img
             class="img-xs rounded-circle"
-            src="assets/images/faces/face16.jpg"
+            [src]="image"
             alt="Profile image"
+            title="profile"
           />
         </a>
       </li>

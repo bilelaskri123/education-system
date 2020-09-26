@@ -4,6 +4,8 @@ import { Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 
 import { AuthData } from "../models/Auth";
+import { User } from "../models/User";
+import { Profile } from "../models/Profile";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
@@ -122,8 +124,8 @@ export class AuthService {
     };
   }
 
-  userDetail(): Observable<{ fullName: string; role: string }> {
-    return this.http.get<{ fullName: string; role: string }>(
+  userDetail(): Observable<{ fullName: string; role: string; image: string }> {
+    return this.http.get<{ fullName: string; role: string; image: string }>(
       "http://localhost:3000/api/auth/detail"
     );
   }

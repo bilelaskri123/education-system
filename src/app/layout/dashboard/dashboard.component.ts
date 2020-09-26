@@ -15,7 +15,7 @@ import { PageEvent } from "@angular/material";
 import { CalendarOptions } from "@fullcalendar/angular";
 import { IEvent } from "src/app/shared/models/event.model";
 import { EventService } from "src/app/shared/services/event.service";
-import { HttpErrorResponse } from "@angular/common/http";
+
 import { map } from "rxjs/operators";
 import { AuthService } from "src/app/shared/services/auth.service";
 
@@ -70,7 +70,6 @@ export class DashboardComponent implements OnInit {
       this.role = data.role;
     });
 
-    console.log(this.calendarOptions);
     this.isLoading = true;
     this.studentService.getStudents(1000, 1);
     this.studentsSub = this.studentService

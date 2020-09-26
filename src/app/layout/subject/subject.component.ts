@@ -3,6 +3,7 @@ import { PageEvent } from "@angular/material";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Lesson } from "src/app/shared/models/Lesson";
+import { AuthService } from "src/app/shared/services/auth.service";
 import { SubjectService } from "src/app/shared/services/subject.service";
 
 @Component({
@@ -11,6 +12,7 @@ import { SubjectService } from "src/app/shared/services/subject.service";
   styleUrls: ["./subject.component.scss"],
 })
 export class SubjectComponent implements OnInit, OnDestroy {
+  role: string;
   lessons: Lesson[] = [];
   isLoading = false;
   private subjectsSub: Subscription;
@@ -20,9 +22,16 @@ export class SubjectComponent implements OnInit, OnDestroy {
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 
-  constructor(private router: Router, private subjectService: SubjectService) {}
+  constructor(
+    private router: Router,
+    private subjectService: SubjectService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
+    this.authService.userDetail().subscribe((detail) => {
+      this.role = detail.role;
+    });
     this.isLoading = true;
     this.subjectService.getSubjects(this.subjectPerPage, this.currentPage);
     this.subjectsSub = this.subjectService

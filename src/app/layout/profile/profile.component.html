@@ -1,0 +1,163 @@
+<div class="container">
+  <div class="view-account">
+    <section class="module">
+      <div class="module-inner">
+        <div class="side-bar">
+          <div class="user-info">
+            <!-- <img
+              class="img-profile img-circle img-responsive center-block"
+              src="../../../assets/images/faces/face1.jpg"
+              alt="profile image"
+            /> -->
+
+            <div class="image-preview img-circle">
+              <img [src]="profile.image" [alt]="form.value.title" />
+            </div>
+            <ul class="meta list list-unstyled">
+              <li class="name">
+                {{ profile.fullName }}
+              </li>
+              <li class="name">{{ profile.role }}</li>
+              <li class="email">
+                {{ profile.email }}
+              </li>
+            </ul>
+          </div>
+          <nav class="side-menu">
+            <ul class="nav">
+              <li class="active">
+                <a href="#"><span class="fa fa-user"></span> Profile</a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-cog"></span> Settings</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="content-panel">
+          <form
+            class="form-horizontal"
+            [formGroup]="form"
+            (submit)="onSaveProfile()"
+          >
+            <fieldset class="fieldset">
+              <h3 class="fieldset-title">Personal Info</h3>
+              <div class="form-group avatar">
+                <div class="form-inline col-md-10 col-sm-9 col-xs-12">
+                  <button
+                    mat-stroked-button
+                    type="button"
+                    (click)="filePicker.click()"
+                  >
+                    Pick Image
+                  </button>
+                  <input
+                    type="file"
+                    #filePicker
+                    (change)="onImagePicked($event)"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
+                  >User Name</label
+                >
+                <div class="col-md-10 col-sm-9 col-xs-12">
+                  <input
+                    matInput
+                    type="text"
+                    formControlName="fullName"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
+                  >adress</label
+                >
+                <div class="col-md-10 col-sm-9 col-xs-12">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="adress"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
+                  >Birdhday</label
+                >
+                <div class="col-md-10 col-sm-9 col-xs-12">
+                  <input
+                    formControlName="birdhday"
+                    class="textbox-n form-control"
+                    type="text"
+                    onfocus="(this.type='date')"
+                    id="date"
+                  />
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="fieldset">
+              <h3 class="fieldset-title">Contact Info</h3>
+              <!-- <div class="form-group">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
+                  >Email</label
+                >
+                <div class="col-md-10 col-sm-9 col-xs-12">
+                  <input
+                    type="email"
+                    formControlName="email"
+                    class="form-control"
+                  />
+                </div>
+              </div> -->
+              <div class="form-group">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
+                  >Phone</label
+                >
+                <div class="col-md-10 col-sm-9 col-xs-12">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="phone"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
+                  >Linkedin</label
+                >
+                <div class="col-md-10 col-sm-9 col-xs-12">
+                  <input
+                    type="url"
+                    class="form-control"
+                    formControlName="linkedin"
+                  />
+                  <p class="help-block">
+                    eg. https://www.linkedin.com/in/yourname
+                  </p>
+                </div>
+              </div>
+            </fieldset>
+            <hr />
+            <div class="form-group">
+              <div
+                class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0"
+              >
+                <input
+                  class="btn btn-primary"
+                  type="submit"
+                  value="Update Profile"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- *ngIf=" imagePreview !== '' && imagePreview && form.get('image').valid " -->

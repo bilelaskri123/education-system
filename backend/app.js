@@ -26,6 +26,7 @@ const programRoutes = require("./routes/program.routes");
 const timeTableRoutes = require("./routes/timeTable.routes");
 const eventRoutes = require("./routes/event.routes");
 const noteRoutes = require("./routes/note.routes");
+const profileRoutes = require("./routes/profile.routes");
 
 const app = express();
 
@@ -67,6 +68,7 @@ app.use("/api/product", productsRoutes);
 app.use("/api/book", booksRoutes);
 app.use("/api/section", sectionRoutes);
 app.use("/api/auth", userRoutes);
+app.use("/api/profile", profileRoutes);
 app.use("/api/group", groupRoutes);
 app.use("/api/accountant", accountantRoutes);
 app.use("/api/librarian", librarianRoutes);

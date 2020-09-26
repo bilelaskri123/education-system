@@ -11,6 +11,7 @@ import { AuthService } from "src/app/shared/services/auth.service";
 export class NavbarComponent implements OnInit {
   user: any;
   fullName: string;
+  image: string;
   public sidebarOpened = false;
   toggleOffcanvas() {
     this.sidebarOpened = !this.sidebarOpened;
@@ -27,6 +28,7 @@ export class NavbarComponent implements OnInit {
     this.authService.userDetail().subscribe((user) => {
       this.user = user;
       this.fullName = this.user.fullName;
+      this.image = this.user.image;
     });
   }
 
