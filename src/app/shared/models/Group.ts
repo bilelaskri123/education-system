@@ -3,6 +3,7 @@ export interface Group {
   name: String;
   section: {
     name: String;
+    _id?: string;
   };
   students: [
     {

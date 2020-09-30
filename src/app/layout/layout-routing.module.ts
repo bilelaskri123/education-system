@@ -309,6 +309,11 @@ const routes: Routes = [
         loadChildren: () =>
           import("./profile/profile.module").then((m) => m.ProfileModule),
       },
+      {
+        path: "my-course/:subjectId",
+        loadChildren: () =>
+          import("./my-course/my-course.module").then((m) => m.MyCourseModule),
+      },
     ],
   },
 ];

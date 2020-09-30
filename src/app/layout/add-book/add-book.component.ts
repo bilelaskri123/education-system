@@ -28,6 +28,9 @@ export class AddBookComponent implements OnInit {
       title: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(2)],
       }),
+      isbn: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(13)],
+      }),
       auther: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(2)],
       }),
@@ -54,14 +57,16 @@ export class AddBookComponent implements OnInit {
           this.book = {
             id: bookData._id,
             title: bookData.title,
+            isbn: bookData.isbn,
             auther: bookData.auther,
             pages: bookData.pages,
             copies: bookData.copies,
             description: bookData.description,
             imagePath: bookData.imagePath,
           };
-          this.form.setValue({
+          this.form.patchValue({
             title: this.book.title,
+            isbn: this.book.isbn,
             auther: this.book.auther,
             pages: this.book.pages,
             copies: this.book.copies,
@@ -96,6 +101,7 @@ export class AddBookComponent implements OnInit {
     if (this.mode === "create") {
       this.booksService.addBook(
         this.form.value.title,
+        this.form.value.isbn,
         this.form.value.auther,
         this.form.value.pages,
         this.form.value.copies,
@@ -106,6 +112,7 @@ export class AddBookComponent implements OnInit {
       this.booksService.updateBook(
         this.bookId,
         this.form.value.title,
+        this.form.value.isbn,
         this.form.value.auther,
         this.form.value.pages,
         this.form.value.copies,

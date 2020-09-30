@@ -3,6 +3,7 @@ import { Book } from "src/app/shared/models/Book";
 import { bookService } from "src/app/shared/services/book.service";
 import { Subscription } from "rxjs";
 import { PageEvent } from "@angular/material/paginator";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-book",
@@ -14,16 +15,27 @@ export class BookComponent implements OnInit, OnDestroy {
   isLoading = false;
   private booksSub: Subscription;
 
+  form: FormGroup;
+
   totalBooks = 0;
-  bookPerPage = 2;
+  bookPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 
   constructor(public bookservice: bookService) {}
 
   ngOnInit() {
+    this.form = new FormGroup({
+      search: new FormControl(null, { validators: [Validators.nullValidator] }),
+    });
+
     this.isLoading = true;
-    this.bookservice.getBooks(this.bookPerPage, this.currentPage);
+    this.getBooks("");
+  }
+
+  public getBooks(filtredBy: string) {
+    console.log(filtredBy);
+    this.bookservice.getBooks(this.bookPerPage, this.currentPage, filtredBy);
     this.booksSub = this.bookservice
       .getBookUpdateListener()
       .subscribe((bookData: { books: Book[]; bookCount: number }) => {
@@ -33,16 +45,28 @@ export class BookComponent implements OnInit, OnDestroy {
       });
   }
 
+  test() {
+    this.getBooks(this.form.value.search);
+  }
+
   onChangedPage(pageData: PageEvent) {
     this.currentPage = pageData.pageIndex + 1;
     this.bookPerPage = pageData.pageSize;
-    this.bookservice.getBooks(this.bookPerPage, this.currentPage);
+    this.bookservice.getBooks(
+      this.bookPerPage,
+      this.currentPage,
+      this.form.value.search
+    );
   }
 
   onDelete(productId: string) {
     this.bookservice.deleteBook(productId).subscribe(() => {
       this.isLoading = true;
-      this.bookservice.getBooks(this.bookPerPage, this.currentPage);
+      this.bookservice.getBooks(
+        this.bookPerPage,
+        this.currentPage,
+        this.form.value.search
+      );
     });
   }
 

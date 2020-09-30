@@ -1,6 +1,21 @@
 <app-header-book></app-header-book>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="form">
+  <form [formGroup]="form">
+    <mat-form-field class="example-full-width">
+      <input
+        matInput
+        (keyup)="test()"
+        formControlName="search"
+        type="text"
+        placeholder="Search"
+        aria-label="Search"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </form>
+</div>
 
 <mat-accordion multi="true" *ngIf="books.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let book of books">
@@ -16,12 +31,17 @@
               <img [src]="book.imagePath" [alt]="book.title" class="w-100" />
             </div>
             <div>
-              <div class="col-md-8 px-3">
+              <div>
                 <div class="card-block">
                   <h2>{{ book.title }} Book</h2>
                   <p class="card-text">
                     <strong
                       >auther: <small>{{ book.auther }}</small>
+                    </strong>
+                  </p>
+                  <p class="card-text">
+                    <strong
+                      >isbn: <small>{{ book.isbn }}</small>
                     </strong>
                   </p>
                   <p class="card-text">

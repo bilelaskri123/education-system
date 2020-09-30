@@ -3,6 +3,7 @@ const evaluationSchema = mongoose.Schema({
   section: { type: mongoose.Types.ObjectId, required: true },
   groupe: { type: mongoose.Types.ObjectId, ref: "Group", required: true },
   subject: { type: mongoose.Types.ObjectId, ref: "Subject", required: true },
+  notes: [[mongoose.Types.ObjectId, Number]],
   date: { type: Date, default: Date.now() },
 });
 

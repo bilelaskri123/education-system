@@ -15,7 +15,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   private productsSub: Subscription;
 
   totalProducts = 0;
-  productPerPage = 2;
+  productPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
   constructor(private productsService: productsService) {}

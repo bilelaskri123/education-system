@@ -38,12 +38,22 @@
           <!-- <span class="profile-text" style="font-size: large; color: snow"
             >{{ fullName }}
           </span> -->
-          <img
-            class="img-xs rounded-circle"
-            [src]="image"
-            alt="Profile image"
-            title="profile"
-          />
+          <div *ngIf="!image">
+            <img
+              class="img-xs rounded-circle"
+              src="../../../assets/images/default.png"
+              alt="Profile image"
+              title="profile"
+            />
+          </div>
+          <div *ngIf="image != null">
+            <img
+              class="img-xs rounded-circle"
+              [src]="image"
+              alt="Profile image"
+              title="profile"
+            />
+          </div>
         </a>
       </li>
       <li>

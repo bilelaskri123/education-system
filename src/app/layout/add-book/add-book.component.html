@@ -19,6 +19,17 @@
       <input
         matInput
         type="text"
+        formControlName="isbn"
+        placeholder="isbn ex: 978-3-16-148410-0"
+      />
+      <mat-error *ngIf="form.get('title').invalid"
+        >Please enter a title of book.</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
         formControlName="auther"
         placeholder="auther name"
       />

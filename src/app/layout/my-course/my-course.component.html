@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">lesson</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let course of courses; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ course }}</td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-primary"
+                title="download"
+                (click)="download(course)"
+              >
+                download
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

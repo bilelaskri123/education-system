@@ -1,14 +1,21 @@
-.espace {
-  margin: auto;
-  width: 100%;
+.btn-group {
+  border: none;
+  .dropdown {
+    margin: 0px !important;
+  }
 }
 
-table {
-  width: 99%;
+mat-spinner {
   margin: auto;
-  margin-top: 1rem;
 }
 
-.mat-radio-button ~ .mat-radio-button {
-  margin-left: 16px;
+p {
+  margin: auto;
+  text-align: center;
+}
+
+.inputStyle {
+  border: 2em blue;
+  border-radius: 1em;
+  max-width: 15em;
 }

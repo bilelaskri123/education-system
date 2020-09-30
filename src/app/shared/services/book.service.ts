@@ -11,8 +11,8 @@ export class bookService {
   private booksUpdated = new Subject<{ books: Book[]; bookCount: number }>();
   constructor(private http: HttpClient, private router: Router) {}
 
-  getBooks(booksPerPage: number, currentPage: number) {
-    const queryParams = `?pagesize=${booksPerPage}&page=${currentPage}`;
+  getBooks(booksPerPage: number, currentPage: number, filtredBy: string) {
+    const queryParams = `?pagesize=${booksPerPage}&page=${currentPage}&search=${filtredBy}`;
     this.http
       .get<{ message: string; books: any; maxBooks: number }>(
         "http://localhost:3000/api/book" + queryParams
@@ -24,6 +24,7 @@ export class bookService {
               return {
                 title: book.title,
                 auther: book.auther,
+                isbn: book.isbn,
                 pages: book.pages,
                 copies: book.copies,
                 description: book.description,
@@ -52,6 +53,7 @@ export class bookService {
     return this.http.get<{
       _id: string;
       title: string;
+      isbn: string;
       auther: string;
       pages: number;
       copies: number;
@@ -62,6 +64,7 @@ export class bookService {
 
   addBook(
     title: string,
+    isbn: string,
     auther: string,
     pages: number,
     copies: number,
@@ -73,6 +76,7 @@ export class bookService {
     let copiesUpdated = copies.toString();
 
     bookData.append("title", title);
+    bookData.append("isbn", isbn);
     bookData.append("auther", auther);
     bookData.append("pages", pagesUpdated);
     bookData.append("copies", copiesUpdated);
@@ -92,6 +96,7 @@ export class bookService {
   updateBook(
     id: string,
     title: string,
+    isbn: string,
     auther: string,
     pages: number,
     copies: number,
@@ -104,6 +109,7 @@ export class bookService {
       let copiesUpdated = copies.toString();
       bookData = new FormData();
       bookData.append("title", title);
+      bookData.append("isbn", isbn);
       bookData.append("auther", auther);
       bookData.append("pages", pagesUpdated);
       bookData.append("copies", copiesUpdated);
@@ -113,6 +119,7 @@ export class bookService {
       bookData = {
         id: id,
         title: title,
+        isbn: isbn,
         auther: auther,
         pages: pages,
         copies: copies,

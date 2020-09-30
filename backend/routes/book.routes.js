@@ -34,6 +34,7 @@ router.post(
     const url = req.protocol + "://" + req.get("host");
     const book = new Book({
       title: req.body.title,
+      isbn: req.body.isbn,
       auther: req.body.auther,
       pages: parseInt(req.body.pages),
       copies: parseInt(req.body.copies),
@@ -64,6 +65,7 @@ router.put(
     const book = new Book({
       _id: req.params.id,
       title: req.body.title,
+      isbn: req.body.isbn,
       auther: req.body.auther,
       pages: parseInt(req.body.pages),
       copies: parseInt(req.body.copies),
@@ -79,7 +81,11 @@ router.put(
 router.get("", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const bookQuery = Book.find();
+  const filter = req.query.search;
+  console.log(filter);
+  const bookQuery = Book.find({
+    $or: [{ title: { $regex: filter } }, { auther: { $regex: filter } }],
+  });
   let fetchedBooks;
   if (pageSize && currentPage) {
     bookQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);

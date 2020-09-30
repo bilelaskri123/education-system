@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Subject = require("../models/Subject");
 const multer = require("multer");
+const path = require("path");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -37,12 +38,41 @@ router.post("/", (req, res) => {
 });
 
 router.post("/courses", upload.array("file", 20), (req, res) => {
-  console.log(req.files);
-  // Subject.findById(req.body.subjectId).then((subject) => {
-  //   subject.courses.push(req.file.originalname);
-  //   subject.save().then((newSubject) => {
-  //   })
-  // })
+  myFiles = req.files;
+  console.log(req.body.subjectId);
+  const url = req.protocol + "://" + req.get("host");
+  Subject.findById(req.body.subjectId)
+    .then((subjectData) => {
+      req.files.map((course) => {
+        subjectData.courses.push(course.originalname);
+      });
+      subjectData
+        .save()
+        .then((updatedSubject) => {
+          res.status(200).json({ message: "add Subject successfuly!" });
+        })
+        .catch((error) =>
+          res.status(500).json({ message: "course not added" })
+        );
+    })
+    .catch((error) =>
+      res.status(500).json({ message: "fetching subject failed" })
+    );
+});
+
+router.get("/my-course/:id", (req, res) => {
+  Subject.findById(req.params.id)
+    .then((Data) => {
+      res.status(200).json(Data.courses);
+    })
+    .catch((error) =>
+      res.status(500).json({ message: "fetching courses failed!" })
+    );
+});
+
+router.post("/my-course/download", function (req, res, next) {
+  filepath = path.join(__dirname, "../uploads") + "/" + req.body.filename;
+  res.status(200).sendFile(filepath);
 });
 
 router.get("/all", (req, res) => {

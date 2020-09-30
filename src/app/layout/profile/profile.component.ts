@@ -13,6 +13,11 @@ import { mimeType } from "../add-product/mime-type.validator";
 export class ProfileComponent implements OnInit {
   form: FormGroup;
   public profile: Profile;
+  fullName: string;
+  email: string;
+  role: string;
+  image: string;
+
   imagePreview: string;
   constructor(private router: Router, private profileService: ProfileService) {}
 
@@ -39,7 +44,10 @@ export class ProfileComponent implements OnInit {
     });
 
     this.profileService.userProfile().subscribe((data) => {
-      console.log(data);
+      this.email = data.profile.email;
+      this.fullName = data.profile.fullName;
+      this.role = data.profile.role;
+      this.image = data.profile.image;
       this.profile = {
         _id: data.profile._id,
         fullName: data.profile.fullName,

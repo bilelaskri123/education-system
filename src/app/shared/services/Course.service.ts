@@ -19,4 +19,20 @@ export class CourseService {
   private handleError(error: any) {
     return throwError(error);
   }
+
+  getCourses(id: string) {
+    return this.http.get("http://localhost:3000/api/subject/my-course/" + id);
+  }
+
+  downloadFile(file: string) {
+    var body = { filename: file };
+
+    return this.http.post(
+      "http://localhost:3000/api/subject/my-course/" + "download",
+      body,
+      {
+        responseType: "blob",
+      }
+    );
+  }
 }

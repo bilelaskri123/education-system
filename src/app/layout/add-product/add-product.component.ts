@@ -64,7 +64,7 @@ export class AddProductComponent implements OnInit {
               description: productData.description,
               imagePath: productData.imagePath,
             };
-            this.form.setValue({
+            this.form.patchValue({
               name: this.product.name,
               category: this.product.category,
               stock: this.product.stock,

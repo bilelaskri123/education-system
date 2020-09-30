@@ -39,7 +39,7 @@ export class PayementComponent implements OnInit {
       )
       .subscribe((data) => {
         // console.log(data);
-        this.router.navigate(["/ecms/dashbord"]);
+        this.router.navigate(["/ecms/dashboard"]);
       });
   }
 }

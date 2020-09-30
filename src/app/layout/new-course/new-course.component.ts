@@ -107,6 +107,7 @@ export class NewCourseComponent implements OnInit {
   uploadFile(file: File, fileNum: number) {
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("subjectId", this.subjectId);
     this.courseService.uploadWithProgress(formData).subscribe(
       (event) => {
         if (event.type === HttpEventType.UploadProgress) {

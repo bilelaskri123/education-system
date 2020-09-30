@@ -23,6 +23,7 @@
             #emailInput="ngModel"
             required
             email
+            autocomplete="on"
           />
           <mat-error *ngIf="emailInput.invalid"
             >Please enter a valid email.</mat-error
@@ -37,6 +38,7 @@
             placeholder="Password"
             #passwordInput="ngModel"
             required
+            autocomplete="on"
           />
           <button
             mat-icon-button

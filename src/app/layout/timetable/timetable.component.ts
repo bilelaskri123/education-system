@@ -35,6 +35,7 @@ export class TimetableComponent implements OnInit {
   download(filename) {
     this.timeTableService.downloadFile(filename).subscribe((data) => {
       saveAs(data, filename);
+      console.log(data);
     });
   }
 }

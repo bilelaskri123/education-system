@@ -9,28 +9,36 @@
               src="../../../assets/images/faces/face1.jpg"
               alt="profile image"
             /> -->
+            <div class="image-preview img-circle" *ngIf="!image">
+              <img
+                src="../../../assets/images/default.png"
+                alt="Profile image"
+              />
+            </div>
 
-            <div class="image-preview img-circle">
+            <div class="image-preview img-circle" *ngIf="image != null">
               <img [src]="profile.image" [alt]="form.value.title" />
             </div>
             <ul class="meta list list-unstyled">
               <li class="name">
-                {{ profile.fullName }}
+                {{ fullName }}
               </li>
-              <li class="name">{{ profile.role }}</li>
+              <li class="name">{{ role }}</li>
               <li class="email">
-                {{ profile.email }}
+                {{ email }}
               </li>
             </ul>
           </div>
           <nav class="side-menu">
             <ul class="nav">
               <li class="active">
-                <a href="#"><span class="fa fa-user"></span> Profile</a>
+                <a [routerLink]="['/ecms/profile']"
+                  ><span class="fa fa-user"></span> Profile</a
+                >
               </li>
-              <li>
+              <!-- <li>
                 <a href="#"><span class="fa fa-cog"></span> Settings</a>
-              </li>
+              </li> -->
             </ul>
           </nav>
         </div>

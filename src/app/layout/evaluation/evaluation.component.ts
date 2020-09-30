@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { Group } from "src/app/shared/models/Group";
 import { Section } from "src/app/shared/models/Section";
@@ -15,9 +16,12 @@ export class EvaluationComponent implements OnInit {
   isLoading = false;
   sections: Section[] = [];
   groups: Group[] = [];
+  selectGroups = [];
   private sectionSub: Subscription;
   private groupSub: Subscription;
   lessons: any;
+  form: FormGroup;
+  students = [];
 
   constructor(
     private sectionService: SectionService,
@@ -47,7 +51,31 @@ export class EvaluationComponent implements OnInit {
 
     this.programService.getAllSubject().subscribe((lessons) => {
       this.lessons = lessons;
-      console.log(this.lessons);
+      // console.log(this.lessons);
     });
+
+    this.form = new FormGroup({
+      group: new FormControl(null, { validators: [Validators.required] }),
+      course: new FormControl(null, {
+        validators: [Validators.required],
+      }),
+    });
+
+    let myFormValueCahnges = this.form.controls["group"].valueChanges;
+    myFormValueCahnges.subscribe((data) => {
+      for (let i = 0; i < this.groups.length; i++) {
+        if (this.groups[i].id == data) {
+          this.selectGroups = this.groups[i].students;
+        }
+      }
+    });
+  }
+
+  onSaveEvaluation() {
+    if (this.form.invalid) {
+      return;
+    }
+
+    console.log(this.form.value);
   }
 }

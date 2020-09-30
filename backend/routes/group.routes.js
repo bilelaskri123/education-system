@@ -28,8 +28,8 @@ router.get("", (req, res) => {
   const currentPage = +req.query.page;
   const groupQuery = Group.find()
     .select("name section students")
-    .populate("section", "-_id name")
-    .populate("students", "-_id fullName email");
+    .populate("section", "_id name")
+    .populate("students", "_id fullName email");
   let fetchedGroups;
 
   if (pageSize && currentPage) {

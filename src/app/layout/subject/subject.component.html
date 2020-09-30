@@ -44,7 +44,7 @@
                 type="button"
                 class="btn btn-primary"
                 title="view course"
-                (click)="OnView(lesson.id)"
+                [routerLink]="['/ecms/my-course', lesson.id]"
               >
                 <i class="far fa-eye"></i>
               </button>
