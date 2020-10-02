@@ -41,8 +41,12 @@ export class LibrarianService {
       });
   }
 
-  getLibrarians(librarianPerPage: number, currentPage: number) {
-    const queryParams = `?pagesize=${librarianPerPage}&page=${currentPage}`;
+  getLibrarians(
+    librarianPerPage: number,
+    currentPage: number,
+    filtredBy: string
+  ) {
+    const queryParams = `?pagesize=${librarianPerPage}&page=${currentPage}&search=${filtredBy}`;
     this.http
       .get<{ message: string; librarians: any; count: number }>(
         "http://localhost:3000/api/librarian" + queryParams

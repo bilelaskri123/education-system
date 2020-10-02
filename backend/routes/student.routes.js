@@ -97,7 +97,15 @@ router.post("", async (req, res, next) => {
 router.get("", (req, res) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const studentQuery = User.find({ role: "student" })
+  const filter = req.query.search;
+  const studentQuery = User.find({
+    $and: [
+      { role: "student" },
+      {
+        $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
+      },
+    ],
+  })
     .populate("section", "name")
     .populate("group", "name");
   let count;

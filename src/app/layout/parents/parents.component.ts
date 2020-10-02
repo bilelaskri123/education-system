@@ -7,6 +7,7 @@ import { User } from "src/app/shared/models/User";
 import { Subscription } from "rxjs";
 import { ParentService } from "src/app/shared/services/parent.service";
 import { StudentService } from "src/app/shared/services/student.service";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-parents",
@@ -15,12 +16,13 @@ import { StudentService } from "src/app/shared/services/student.service";
 })
 export class ParentsComponent implements OnInit, OnDestroy {
   isLoading = false;
+  form: FormGroup;
 
   parents: User[] = [];
   private parentsSub: Subscription;
 
   totalParents = 0;
-  parentPerPage = 2;
+  parentPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
   constructor(
@@ -31,7 +33,19 @@ export class ParentsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
-    this.parentService.getParents(this.parentPerPage, this.currentPage);
+    this.form = new FormGroup({
+      search: new FormControl(null, { validators: [Validators.nullValidator] }),
+    });
+
+    this.getParents("");
+  }
+
+  getParents(filtredBy: string) {
+    this.parentService.getParents(
+      this.parentPerPage,
+      this.currentPage,
+      filtredBy
+    );
     this.parentsSub = this.parentService
       .getParentUpdateListener()
       .subscribe((parentData: { parents: User[]; parentCount: number }) => {
@@ -41,16 +55,20 @@ export class ParentsComponent implements OnInit, OnDestroy {
       });
   }
 
+  test() {
+    this.getParents(this.form.value.search);
+  }
+
   onChangedPage(pageData: PageEvent) {
     this.currentPage = pageData.pageIndex + 1;
     this.parentPerPage = pageData.pageSize;
-    this.parentService.getParents(this.parentPerPage, this.currentPage);
+    this.parentService.getParents(this.parentPerPage, this.currentPage, "");
   }
 
   deleteParent(parentId: string) {
     this.parentService.deleteParent(parentId).subscribe(() => {
       this.isLoading = true;
-      this.parentService.getParents(this.parentPerPage, this.currentPage);
+      this.parentService.getParents(this.parentPerPage, this.currentPage, "");
     });
   }
 

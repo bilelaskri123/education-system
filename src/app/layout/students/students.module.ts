@@ -5,6 +5,7 @@ import { StudentsRoutingModule } from "./students-routing.module";
 import { StudentComponent } from "./students.component";
 import { MaterialModule } from "../../shared/material/material.module";
 import { AngularFontAwesomeModule } from "angular-font-awesome";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [StudentComponent],
@@ -13,6 +14,7 @@ import { AngularFontAwesomeModule } from "angular-font-awesome";
     StudentsRoutingModule,
     MaterialModule,
     AngularFontAwesomeModule,
+    ReactiveFormsModule,
   ],
 })
 export class StudentsModule {}

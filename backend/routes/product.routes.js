@@ -80,8 +80,14 @@ router.put(
 router.get("", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
+  const filter = req.query.search;
   const productQuery = Product.find();
   let fetchedProducts;
+  if (filter != null) {
+    productQuery.where({
+      $or: [{ name: { $regex: filter } }, { category: { $regex: filter } }],
+    });
+  }
   if (pageSize && currentPage) {
     productQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
   }

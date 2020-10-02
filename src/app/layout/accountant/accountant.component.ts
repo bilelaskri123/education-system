@@ -5,6 +5,7 @@ import { User } from "src/app/shared/models/User";
 import { Subscription } from "rxjs";
 import { PageEvent } from "@angular/material/paginator";
 import { AccountantService } from "src/app/shared/services/accountant.service";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-accountant",
@@ -14,10 +15,11 @@ import { AccountantService } from "src/app/shared/services/accountant.service";
 export class AccountantComponent implements OnInit, OnDestroy {
   accountants: User[] = [];
   isLoading = false;
+  form: FormGroup;
   private accountantsSub: Subscription;
 
   totalAccountants = 0;
-  accountantPerPage = 2;
+  accountantPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
   constructor(
@@ -27,9 +29,18 @@ export class AccountantComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
+
+    this.form = new FormGroup({
+      search: new FormControl(null, { validators: [Validators.nullValidator] }),
+    });
+    this.getAccountants("");
+  }
+
+  getAccountants(filtredBy: string) {
     this.accountantService.getAccountants(
       this.accountantPerPage,
-      this.currentPage
+      this.currentPage,
+      filtredBy
     );
     this.accountantsSub = this.accountantService
       .getAccountantUpdateListener()
@@ -42,12 +53,17 @@ export class AccountantComponent implements OnInit, OnDestroy {
       );
   }
 
+  test() {
+    this.getAccountants(this.form.value.search);
+  }
+
   onChangedPage(pageData: PageEvent) {
     this.currentPage = pageData.pageIndex + 1;
     this.accountantPerPage = pageData.pageSize;
     this.accountantService.getAccountants(
       this.accountantPerPage,
-      this.currentPage
+      this.currentPage,
+      ""
     );
   }
 
@@ -56,7 +72,8 @@ export class AccountantComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       this.accountantService.getAccountants(
         this.accountantPerPage,
-        this.currentPage
+        this.currentPage,
+        ""
       );
     });
   }

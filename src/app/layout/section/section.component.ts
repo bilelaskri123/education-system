@@ -18,7 +18,7 @@ export class SectionComponent implements OnInit, OnDestroy {
   private sectionSub: Subscription;
 
   totalSections = 0;
-  sectionPerPage = 2;
+  sectionPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 

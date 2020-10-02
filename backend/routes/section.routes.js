@@ -33,6 +33,8 @@ router.post(
     const section = new Section({
       name: req.body.name,
       hours: parseInt(req.body.hours),
+      prix: parseInt(req.body.prix),
+      local: req.body.local,
       description: req.body.description,
       imagePath: url + "/images/" + req.file.filename,
     });
@@ -62,6 +64,8 @@ router.put(
       _id: req.params.id,
       name: req.body.name,
       hours: parseInt(req.body.hours),
+      prix: parseInt(req.body.prix),
+      local: req.body.local,
       description: req.body.description,
       imagePath: imagePath,
     });

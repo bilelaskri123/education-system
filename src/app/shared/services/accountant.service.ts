@@ -40,8 +40,12 @@ export class AccountantService {
       });
   }
 
-  getAccountants(accountantPerPage: number, currentPage: number) {
-    const queryParams = `?pagesize=${accountantPerPage}&page=${currentPage}`;
+  getAccountants(
+    accountantPerPage: number,
+    currentPage: number,
+    filtredBy: string
+  ) {
+    const queryParams = `?pagesize=${accountantPerPage}&page=${currentPage}&search=${filtredBy}`;
     this.http
       .get<{ message: string; accountants: any; count: number }>(
         "http://localhost:3000/api/accountant" + queryParams

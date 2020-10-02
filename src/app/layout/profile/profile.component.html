@@ -3,165 +3,255 @@
     <section class="module">
       <div class="module-inner">
         <div class="side-bar">
-          <div class="user-info">
-            <!-- <img
-              class="img-profile img-circle img-responsive center-block"
-              src="../../../assets/images/faces/face1.jpg"
-              alt="profile image"
-            /> -->
-            <div class="image-preview img-circle" *ngIf="!image">
-              <img
-                src="../../../assets/images/default.png"
-                alt="Profile image"
-              />
-            </div>
-
-            <div class="image-preview img-circle" *ngIf="image != null">
-              <img [src]="profile.image" [alt]="form.value.title" />
-            </div>
-            <ul class="meta list list-unstyled">
-              <li class="name">
-                {{ fullName }}
-              </li>
-              <li class="name">{{ role }}</li>
-              <li class="email">
-                {{ email }}
-              </li>
-            </ul>
-          </div>
-          <nav class="side-menu">
-            <ul class="nav">
-              <li class="active">
-                <a [routerLink]="['/ecms/profile']"
-                  ><span class="fa fa-user"></span> Profile</a
-                >
-              </li>
-              <!-- <li>
-                <a href="#"><span class="fa fa-cog"></span> Settings</a>
-              </li> -->
-            </ul>
-          </nav>
-        </div>
-        <div class="content-panel">
-          <form
-            class="form-horizontal"
-            [formGroup]="form"
-            (submit)="onSaveProfile()"
-          >
-            <fieldset class="fieldset">
-              <h3 class="fieldset-title">Personal Info</h3>
-              <div class="form-group avatar">
-                <div class="form-inline col-md-10 col-sm-9 col-xs-12">
-                  <button
-                    mat-stroked-button
-                    type="button"
-                    (click)="filePicker.click()"
-                  >
-                    Pick Image
-                  </button>
-                  <input
-                    type="file"
-                    #filePicker
-                    (change)="onImagePicked($event)"
-                  />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
-                  >User Name</label
-                >
-                <div class="col-md-10 col-sm-9 col-xs-12">
-                  <input
-                    matInput
-                    type="text"
-                    formControlName="fullName"
-                    class="form-control"
-                  />
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
-                  >adress</label
-                >
-                <div class="col-md-10 col-sm-9 col-xs-12">
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="adress"
-                  />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
-                  >Birdhday</label
-                >
-                <div class="col-md-10 col-sm-9 col-xs-12">
-                  <input
-                    formControlName="birdhday"
-                    class="textbox-n form-control"
-                    type="text"
-                    onfocus="(this.type='date')"
-                    id="date"
-                  />
-                </div>
-              </div>
-            </fieldset>
-            <fieldset class="fieldset">
-              <h3 class="fieldset-title">Contact Info</h3>
-              <!-- <div class="form-group">
-                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
-                  >Email</label
-                >
-                <div class="col-md-10 col-sm-9 col-xs-12">
-                  <input
-                    type="email"
-                    formControlName="email"
-                    class="form-control"
-                  />
-                </div>
-              </div> -->
-              <div class="form-group">
-                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
-                  >Phone</label
-                >
-                <div class="col-md-10 col-sm-9 col-xs-12">
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="phone"
-                  />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-2 col-sm-3 col-xs-12 control-label"
-                  >Linkedin</label
-                >
-                <div class="col-md-10 col-sm-9 col-xs-12">
-                  <input
-                    type="url"
-                    class="form-control"
-                    formControlName="linkedin"
-                  />
-                  <p class="help-block">
-                    eg. https://www.linkedin.com/in/yourname
-                  </p>
-                </div>
-              </div>
-            </fieldset>
-            <hr />
-            <div class="form-group">
-              <div
-                class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0"
-              >
-                <input
-                  class="btn btn-primary"
-                  type="submit"
-                  value="Update Profile"
+          <div class="container">
+            <div class="user-info">
+              <div class="image-preview img-circle" *ngIf="!image">
+                <img
+                  src="../../../assets/images/default.png"
+                  alt="Profile image"
+                  class="center"
                 />
               </div>
+
+              <div class="image-preview img-circle" *ngIf="image != null">
+                <img [src]="profile.image" [alt]="form.value.title" />
+              </div>
+              <ul class="meta list list-unstyled">
+                <li class="name">
+                  {{ fullName }}
+                </li>
+                <!-- <li class="name">{{ role }}</li>
+                <li class="email">
+                  {{ email }}
+                </li> -->
+              </ul>
             </div>
-          </form>
+            <div id="content">
+              <div id="main-content">
+                <mat-tab-group>
+                  <mat-tab label="Profile">
+                    <div class="content-panel">
+                      <form
+                        class="form-horizontal"
+                        [formGroup]="form"
+                        (submit)="onSaveProfile()"
+                      >
+                        <fieldset class="fieldset">
+                          <h3 class="fieldset-title">Personal Info</h3>
+                          <div class="form-group avatar">
+                            <div
+                              class="form-inline col-md-10 col-sm-9 col-xs-12"
+                            >
+                              <button
+                                mat-stroked-button
+                                type="button"
+                                (click)="filePicker.click()"
+                              >
+                                Pick Image
+                              </button>
+                              <input
+                                type="file"
+                                #filePicker
+                                (change)="onImagePicked($event)"
+                              />
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              class="col-md-2 col-sm-3 col-xs-12 control-label"
+                              >User Name</label
+                            >
+                            <div class="col-md-10 col-sm-9 col-xs-12">
+                              <input
+                                matInput
+                                type="text"
+                                formControlName="fullName"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label
+                              class="col-md-2 col-sm-3 col-xs-12 control-label"
+                              >adress</label
+                            >
+                            <div class="col-md-10 col-sm-9 col-xs-12">
+                              <input
+                                type="text"
+                                class="form-control"
+                                formControlName="adress"
+                              />
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              class="col-md-2 col-sm-3 col-xs-12 control-label"
+                              >Birdhday</label
+                            >
+                            <div class="col-md-10 col-sm-9 col-xs-12">
+                              <input
+                                formControlName="birdhday"
+                                class="textbox-n form-control"
+                                type="text"
+                                onfocus="(this.type='date')"
+                                id="date"
+                              />
+                            </div>
+                          </div>
+                        </fieldset>
+                        <fieldset class="fieldset">
+                          <h3 class="fieldset-title">Contact Info</h3>
+                          <div class="form-group">
+                            <label
+                              class="col-md-2 col-sm-3 col-xs-12 control-label"
+                              >Email</label
+                            >
+                            <div class="col-md-10 col-sm-9 col-xs-12">
+                              <input
+                                type="email"
+                                formControlName="email"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              class="col-md-2 col-sm-3 col-xs-12 control-label"
+                              >Phone</label
+                            >
+                            <div class="col-md-10 col-sm-9 col-xs-12">
+                              <input
+                                type="text"
+                                class="form-control"
+                                formControlName="phone"
+                              />
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              class="col-md-2 col-sm-3 col-xs-12 control-label"
+                              >Linkedin</label
+                            >
+                            <div class="col-md-10 col-sm-9 col-xs-12">
+                              <input
+                                type="url"
+                                class="form-control"
+                                formControlName="linkedin"
+                              />
+                              <p class="help-block">
+                                eg. https://www.linkedin.com/in/yourname
+                              </p>
+                            </div>
+                          </div>
+                        </fieldset>
+                        <hr />
+                        <div class="form-group">
+                          <div
+                            class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0"
+                          >
+                            <input
+                              class="btn btn-primary"
+                              type="submit"
+                              value="Update Profile"
+                            />
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </mat-tab>
+                  <mat-tab label="Change Password">
+                    <form class="container" [formGroup]="pwChangeForm">
+                      <mat-form-field>
+                        <input
+                          matInput
+                          id="current"
+                          [type]="hide ? 'password' : 'text'"
+                          placeholder="Current Password"
+                          formControlName="current"
+                          type="password"
+                          required
+                          autocomplete="current-password"
+                        />
+                        <button
+                          mat-icon-button
+                          type="button"
+                          matSuffix
+                          (click)="hide = !hide"
+                          [attr.aria-label]="'Hide password'"
+                          [attr.aria-pressed]="hide"
+                        >
+                          <mat-icon>{{
+                            hide ? "visibility_off" : "visibility"
+                          }}</mat-icon>
+                        </button>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input
+                          matInput
+                          id="newPW"
+                          [type]="hide ? 'password' : 'text'"
+                          placeholder="new password"
+                          formControlName="newPW"
+                          type="password"
+                          required
+                          autocomplete="new-password"
+                        />
+                        <button
+                          mat-icon-button
+                          type="button"
+                          matSuffix
+                          (click)="hide = !hide"
+                          [attr.aria-label]="'Hide password'"
+                          [attr.aria-pressed]="hide"
+                        >
+                          <mat-icon>{{
+                            hide ? "visibility_off" : "visibility"
+                          }}</mat-icon>
+                        </button>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input
+                          matInput
+                          id="confirm"
+                          [type]="hide ? 'password' : 'text'"
+                          placeholder="Confirm new password"
+                          formControlName="confirm"
+                          type="password"
+                          required
+                          autocomplete="new-password"
+                        />
+                        <button
+                          mat-icon-button
+                          type="button"
+                          matSuffix
+                          (click)="hide = !hide"
+                          [attr.aria-label]="'Hide password'"
+                          [attr.aria-pressed]="hide"
+                        >
+                          <mat-icon>{{
+                            hide ? "visibility_off" : "visibility"
+                          }}</mat-icon>
+                        </button>
+                      </mat-form-field>
+
+                      <div>
+                        <button
+                          type="submit"
+                          mat-raised-button
+                          class="btn-space"
+                          color="primary"
+                          style="width: 150px"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </mat-tab>
+                </mat-tab-group>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -111,7 +111,15 @@ router.put("/:id", (req, res) => {
 router.get("", (req, res) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const accountantQuery = User.find({ role: "accountant" });
+  const filter = req.query.search;
+  const accountantQuery = User.find({
+    $and: [
+      { role: "accountant" },
+      {
+        $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
+      },
+    ],
+  });
   let count;
   User.countDocuments({ role: "accountant" }).then((result) => {
     count = result;

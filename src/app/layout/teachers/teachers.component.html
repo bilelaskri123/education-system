@@ -9,6 +9,23 @@
   </mat-toolbar>
 </p>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<div class="form">
+  <form [formGroup]="form">
+    <mat-form-field class="example-full-width">
+      <input
+        matInput
+        (keyup)="test()"
+        formControlName="search"
+        type="text"
+        placeholder="Search"
+        aria-label="Search"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </form>
+</div>
+
 <div class="container">
   <div class="row">
     <div class="col-12">

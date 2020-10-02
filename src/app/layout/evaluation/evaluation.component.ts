@@ -59,6 +59,7 @@ export class EvaluationComponent implements OnInit {
       course: new FormControl(null, {
         validators: [Validators.required],
       }),
+      note: new FormControl(null, {}),
     });
 
     let myFormValueCahnges = this.form.controls["group"].valueChanges;

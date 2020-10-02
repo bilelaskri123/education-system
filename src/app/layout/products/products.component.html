@@ -1,6 +1,23 @@
 <app-header></app-header>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<div class="form">
+  <form [formGroup]="form">
+    <mat-form-field class="example-full-width">
+      <input
+        matInput
+        (keyup)="test()"
+        formControlName="search"
+        type="text"
+        placeholder="Search"
+        aria-label="Search"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </form>
+</div>
+
 <mat-accordion multi="true" *ngIf="products.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let product of products">
     <mat-expansion-panel-header>

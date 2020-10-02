@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { Profile } from "src/app/shared/models/Profile";
 import { ProfileService } from "src/app/shared/services/profile.service";
@@ -11,7 +16,10 @@ import { mimeType } from "../add-product/mime-type.validator";
   styleUrls: ["./profile.component.scss"],
 })
 export class ProfileComponent implements OnInit {
+  hide = true;
   form: FormGroup;
+  pwChangeForm: FormGroup;
+
   public profile: Profile;
   fullName: string;
   email: string;
@@ -19,7 +27,11 @@ export class ProfileComponent implements OnInit {
   image: string;
 
   imagePreview: string;
-  constructor(private router: Router, private profileService: ProfileService) {}
+  constructor(
+    private router: Router,
+    private profileService: ProfileService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -41,6 +53,12 @@ export class ProfileComponent implements OnInit {
         validators: [Validators.required],
         asyncValidators: [mimeType],
       }),
+    });
+
+    this.pwChangeForm = this.fb.group({
+      current: ["", Validators.required],
+      newPW: ["", Validators.required],
+      confirm: ["", Validators.required],
     });
 
     this.profileService.userProfile().subscribe((data) => {

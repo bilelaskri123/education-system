@@ -33,6 +33,8 @@ export class AddSectionComponent implements OnInit {
       hours: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(2)],
       }),
+      prix: new FormControl(null, { validators: [Validators.required] }),
+      local: new FormControl(null, { validators: [Validators.required] }),
       description: new FormControl(null, { validators: [Validators.required] }),
       image: new FormControl(null, {
         validators: [Validators.required],
@@ -53,12 +55,16 @@ export class AddSectionComponent implements OnInit {
               id: sectionData._id,
               name: sectionData.name,
               hours: sectionData.hours,
+              prix: sectionData.prix,
+              local: sectionData.local,
               description: sectionData.description,
               imagePath: sectionData.imagePath,
             };
-            this.form.setValue({
+            this.form.patchValue({
               name: this.section.name,
               hours: this.section.hours,
+              prix: this.section.prix,
+              local: this.section.local,
               description: this.section.description,
               image: this.section.imagePath,
             });
@@ -91,6 +97,8 @@ export class AddSectionComponent implements OnInit {
       this.sectionService.addSection(
         this.form.value.name,
         this.form.value.hours,
+        this.form.value.prix,
+        this.form.value.local,
         this.form.value.description,
         this.form.value.image
       );
@@ -99,6 +107,8 @@ export class AddSectionComponent implements OnInit {
         this.sectionId,
         this.form.value.name,
         this.form.value.hours,
+        this.form.value.prix,
+        this.form.value.local,
         this.form.value.description,
         this.form.value.image
       );

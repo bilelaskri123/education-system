@@ -18,6 +18,7 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatChipsModule } from "@angular/material/chips";
+import { MatTabsModule } from "@angular/material/tabs";
 
 const materialComponents = [
   MatTableModule,
@@ -38,6 +39,7 @@ const materialComponents = [
   MatAutocompleteModule,
   MatCheckboxModule,
   MatChipsModule,
+  MatTabsModule,
 ];
 
 @NgModule({

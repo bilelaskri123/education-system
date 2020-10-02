@@ -35,7 +35,7 @@ export class AddParentComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = true;
-    this.studentService.getStudents(1000, 1);
+    this.studentService.getStudents(1000, 1, "");
     this.studentsSub = this.studentService
       .getStudentUpdateListener()
       .subscribe((studentData: { students: User[]; studentCount: number }) => {

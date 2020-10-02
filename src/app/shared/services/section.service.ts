@@ -30,6 +30,8 @@ export class SectionService {
               return {
                 name: section.name,
                 hours: section.hours,
+                prix: section.prix,
+                local: section.local,
                 description: section.description,
                 id: section._id,
                 imagePath: section.imagePath,
@@ -57,17 +59,29 @@ export class SectionService {
       _id: string;
       name: string;
       hours: number;
+      prix: number;
+      local: string;
       description: string;
       imagePath: string;
     }>("http://localhost:3000/api/section/" + id);
   }
 
-  addSection(name: string, hours: number, description: string, image: File) {
+  addSection(
+    name: string,
+    hours: number,
+    prix: number,
+    local: string,
+    description: string,
+    image: File
+  ) {
     const sectionData = new FormData();
     let hoursUpdated = hours.toString();
+    let prixUpdated = prix.toString();
 
     sectionData.append("name", name);
     sectionData.append("hours", hoursUpdated);
+    sectionData.append("prix", prixUpdated);
+    sectionData.append("local", local);
     sectionData.append("description", description);
     sectionData.append("image", image, name);
 
@@ -86,15 +100,20 @@ export class SectionService {
     id: string,
     name: string,
     hours: number,
+    prix: number,
+    local: string,
     description: string,
     image: File | string
   ) {
     let sectionData: Section | FormData;
     if (typeof image === "object") {
       let hoursUpdated = hours.toString();
+      let prixUpdated = prix.toString();
       sectionData = new FormData();
       sectionData.append("name", name);
       sectionData.append("hours", hoursUpdated);
+      sectionData.append("prix", prixUpdated),
+        sectionData.append("local", local);
       sectionData.append("description", description);
       sectionData.append("image", image, name);
     } else {
@@ -102,6 +121,8 @@ export class SectionService {
         id: id,
         name: name,
         hours: hours,
+        prix: prix,
+        local: local,
         description: description,
         imagePath: image,
       };

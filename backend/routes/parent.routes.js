@@ -115,7 +115,15 @@ router.put("/:id", (req, res) => {
 router.get("", (req, res) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const parentQuery = User.find({ role: "parent" });
+  const filter = req.query.search;
+  const parentQuery = User.find({
+    $and: [
+      { role: "parent" },
+      {
+        $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
+      },
+    ],
+  });
   let count;
   User.countDocuments({ role: "parent" }).then((result) => {
     count = result;

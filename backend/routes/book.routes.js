@@ -83,10 +83,13 @@ router.get("", (req, res, next) => {
   const currentPage = +req.query.page;
   const filter = req.query.search;
   console.log(filter);
-  const bookQuery = Book.find({
-    $or: [{ title: { $regex: filter } }, { auther: { $regex: filter } }],
-  });
+  const bookQuery = Book.find();
   let fetchedBooks;
+  if (filter != null) {
+    bookQuery.where({
+      $or: [{ title: { $regex: filter } }, { auther: { $regex: filter } }],
+    });
+  }
   if (pageSize && currentPage) {
     bookQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
   }

@@ -3,6 +3,7 @@ import { Product } from "src/app/shared/models/Product";
 import { productsService } from "src/app/shared/services/product.service";
 import { Subscription } from "rxjs";
 import { PageEvent } from "@angular/material/paginator";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-products",
@@ -13,6 +14,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   isLoading = false;
   private productsSub: Subscription;
+  form: FormGroup;
 
   totalProducts = 0;
   productPerPage = 5;
@@ -22,7 +24,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
-    this.productsService.getProducts(this.productPerPage, this.currentPage);
+    this.form = new FormGroup({
+      search: new FormControl(null, { validators: [Validators.nullValidator] }),
+    });
+    this.getProducts("");
+  }
+
+  public getProducts(filtredBy: string) {
+    this.productsService.getProducts(
+      this.productPerPage,
+      this.currentPage,
+      filtredBy
+    );
     this.productsSub = this.productsService
       .getProductUpdateListener()
       .subscribe(
@@ -34,16 +47,24 @@ export class ProductsComponent implements OnInit, OnDestroy {
       );
   }
 
+  test() {
+    this.getProducts(this.form.value.search);
+  }
+
   onChangedPage(pageData: PageEvent) {
     this.currentPage = pageData.pageIndex + 1;
     this.productPerPage = pageData.pageSize;
-    this.productsService.getProducts(this.productPerPage, this.currentPage);
+    this.productsService.getProducts(this.productPerPage, this.currentPage, "");
   }
 
   onDelete(productId: string) {
     this.productsService.deleteProduct(productId).subscribe(() => {
       this.isLoading = true;
-      this.productsService.getProducts(this.productPerPage, this.currentPage);
+      this.productsService.getProducts(
+        this.productPerPage,
+        this.currentPage,
+        ""
+      );
     });
   }
 

@@ -27,6 +27,28 @@
       >
     </mat-form-field>
     <mat-form-field>
+      <input
+        matInput
+        type="number"
+        formControlName="prix"
+        placeholder="price of formation"
+      />
+      <mat-error *ngIf="form.get('prix').invalid"
+        >Please enter the price of formation.</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="local"
+        placeholder="enter the local of formation"
+      />
+      <mat-error *ngIf="form.get('local').invalid"
+        >Please enter ths local of formation.</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
       <textarea
         matInput
         rows="4"

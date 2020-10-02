@@ -6,6 +6,7 @@ import { AuthService } from "src/app/shared/services/auth.service";
 import { Subscription } from "rxjs";
 import { PageEvent } from "@angular/material/paginator";
 import { LibrarianService } from "src/app/shared/services/librarian.service";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-librarian",
@@ -14,10 +15,12 @@ import { LibrarianService } from "src/app/shared/services/librarian.service";
 })
 export class LibrarianComponent implements OnInit {
   isLoading = false;
+  form: FormGroup;
+
   librarians: User[];
   librarianSub: Subscription;
   totalLibrarians = 0;
-  librarianPerPage = 2;
+  librarianPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
   constructor(
@@ -27,9 +30,18 @@ export class LibrarianComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = true;
+
+    this.form = new FormGroup({
+      search: new FormControl(null, { validators: [Validators.nullValidator] }),
+    });
+    this.getLibrarians("");
+  }
+
+  getLibrarians(filtredBy: string) {
     this.librarianService.getLibrarians(
       this.librarianPerPage,
-      this.currentPage
+      this.currentPage,
+      filtredBy
     );
     this.librarianSub = this.librarianService
       .getLibrarianUpdateListener()
@@ -42,12 +54,17 @@ export class LibrarianComponent implements OnInit {
       );
   }
 
+  test() {
+    this.getLibrarians(this.form.value.search);
+  }
+
   onChangedPage(pageData: PageEvent) {
     this.currentPage = pageData.pageIndex + 1;
     this.librarianPerPage = pageData.pageSize;
     this.librarianService.getLibrarians(
       this.librarianPerPage,
-      this.currentPage
+      this.currentPage,
+      ""
     );
   }
 
@@ -60,7 +77,8 @@ export class LibrarianComponent implements OnInit {
       this.isLoading = true;
       this.librarianService.getLibrarians(
         this.librarianPerPage,
-        this.currentPage
+        this.currentPage,
+        ""
       );
     });
   }

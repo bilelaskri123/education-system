@@ -28,13 +28,11 @@ export class BookComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       search: new FormControl(null, { validators: [Validators.nullValidator] }),
     });
-
     this.isLoading = true;
     this.getBooks("");
   }
 
   public getBooks(filtredBy: string) {
-    console.log(filtredBy);
     this.bookservice.getBooks(this.bookPerPage, this.currentPage, filtredBy);
     this.booksSub = this.bookservice
       .getBookUpdateListener()
@@ -52,21 +50,13 @@ export class BookComponent implements OnInit, OnDestroy {
   onChangedPage(pageData: PageEvent) {
     this.currentPage = pageData.pageIndex + 1;
     this.bookPerPage = pageData.pageSize;
-    this.bookservice.getBooks(
-      this.bookPerPage,
-      this.currentPage,
-      this.form.value.search
-    );
+    this.bookservice.getBooks(this.bookPerPage, this.currentPage, "");
   }
 
   onDelete(productId: string) {
     this.bookservice.deleteBook(productId).subscribe(() => {
       this.isLoading = true;
-      this.bookservice.getBooks(
-        this.bookPerPage,
-        this.currentPage,
-        this.form.value.search
-      );
+      this.bookservice.getBooks(this.bookPerPage, this.currentPage, "");
     });
   }
 
