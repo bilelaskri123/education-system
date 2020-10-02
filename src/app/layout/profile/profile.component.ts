@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -19,6 +20,7 @@ export class ProfileComponent implements OnInit {
   hide = true;
   form: FormGroup;
   pwChangeForm: FormGroup;
+  cvForm: FormGroup;
 
   public profile: Profile;
   fullName: string;
@@ -61,6 +63,11 @@ export class ProfileComponent implements OnInit {
       confirm: ["", Validators.required],
     });
 
+    this.cvForm = this.fb.group({
+      skills: this.fb.array([]),
+      projects: this.fb.array([]),
+    });
+
     this.profileService.userProfile().subscribe((data) => {
       this.email = data.profile.email;
       this.fullName = data.profile.fullName;
@@ -91,6 +98,44 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  projects(): FormArray {
+    return this.cvForm.get("projects") as FormArray;
+  }
+
+  skills(): FormArray {
+    return this.cvForm.get("skills") as FormArray;
+  }
+
+  newProject(): FormGroup {
+    return this.fb.group({
+      project: "",
+      description: "",
+    });
+  }
+
+  newSkill(): FormGroup {
+    return this.fb.group({
+      skill: "",
+      level: 0,
+    });
+  }
+
+  addProject() {
+    this.projects().push(this.newProject());
+  }
+
+  addSkill() {
+    this.skills().push(this.newSkill());
+  }
+
+  removeProject(i: number) {
+    this.projects().removeAt(i);
+  }
+
+  removeSkill(i: number) {
+    this.skills().removeAt(i);
+  }
+
   onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({ image: file });
@@ -117,5 +162,9 @@ export class ProfileComponent implements OnInit {
     );
 
     this.form.reset();
+  }
+
+  saveCv() {
+    console.log(this.cvForm.value);
   }
 }

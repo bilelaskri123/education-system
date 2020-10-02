@@ -248,6 +248,126 @@
                       </div>
                     </form>
                   </mat-tab>
+                  <mat-tab label="Personal cv">
+                    <div class="container">
+                      <h1>Personal cv</h1>
+
+                      <form [formGroup]="cvForm" (ngSubmit)="saveCv()">
+                        <table
+                          class="table table-bordered"
+                          formArrayName="skills"
+                        >
+                          <tr>
+                            <th colspan="2">Skills</th>
+                            <th width="150px">
+                              <button
+                                type="button"
+                                (click)="addSkill()"
+                                class="btn btn-primary"
+                              >
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                              </button>
+                            </th>
+                          </tr>
+                          <tr
+                            *ngFor="
+                              let skill of skills().controls;
+                              let i = index
+                            "
+                            [formGroupName]="i"
+                          >
+                            <td>
+                              <h5>skill</h5>
+                              <input
+                                type="text"
+                                formControlName="skill"
+                                class="form-control"
+                              />
+                            </td>
+                            <td>
+                              <h5>level</h5>
+                              <input
+                                type="number"
+                                formControlName="level"
+                                class="form-control"
+                                max="5"
+                              />
+                            </td>
+                            <td>
+                              <button
+                                (click)="removeSkill(i)"
+                                class="btn btn-danger"
+                              >
+                                <i class="far fa-trash-alt"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <table
+                          class="table table-bordered"
+                          formArrayName="projects"
+                        >
+                          <tr>
+                            <th colspan="2">Projects</th>
+                            <th width="150px">
+                              <button
+                                type="button"
+                                (click)="addProject()"
+                                class="btn btn-primary"
+                              >
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                              </button>
+                            </th>
+                          </tr>
+                          <tr
+                            *ngFor="
+                              let project of projects().controls;
+                              let i = index
+                            "
+                            [formGroupName]="i"
+                          >
+                            <td>
+                              <h5>project</h5>
+                              <input
+                                type="text"
+                                formControlName="project"
+                                class="form-control"
+                              />
+                            </td>
+                            <td>
+                              <h5>Description</h5>
+                              <textarea
+                                type="text"
+                                formControlName="description"
+                                class="form-control"
+                                rows="3"
+                              ></textarea>
+                            </td>
+                            <td>
+                              <button
+                                (click)="removeProject(i)"
+                                class="btn btn-danger"
+                              >
+                                <i class="far fa-trash-alt"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <div class="position">
+                          <button
+                            mat-raised-button
+                            type="submit"
+                            color="primary"
+                            style="width: 100px"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </mat-tab>
                 </mat-tab-group>
               </div>
             </div>
