@@ -27,6 +27,7 @@ const timeTableRoutes = require("./routes/timeTable.routes");
 const eventRoutes = require("./routes/event.routes");
 const noteRoutes = require("./routes/note.routes");
 const profileRoutes = require("./routes/profile.routes");
+const cvRoutes = require("./routes/cv.routes");
 
 const app = express();
 
@@ -84,4 +85,5 @@ app.use("/api/program", programRoutes);
 app.use("/api/timeTable", timeTableRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/note", noteRoutes);
+app.use("/api/cv", cvRoutes);
 module.exports = app;

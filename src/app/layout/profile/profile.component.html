@@ -161,7 +161,11 @@
                     </div>
                   </mat-tab>
                   <mat-tab label="Change Password">
-                    <form class="container" [formGroup]="pwChangeForm">
+                    <form
+                      class="container"
+                      [formGroup]="pwChangeForm"
+                      (submit)="changePassword()"
+                    >
                       <mat-form-field>
                         <input
                           matInput
@@ -185,6 +189,9 @@
                             hide ? "visibility_off" : "visibility"
                           }}</mat-icon>
                         </button>
+                        <mat-error *ngIf="pwChangeForm.get('current').invalid"
+                          >Please enter a valid current password.</mat-error
+                        >
                       </mat-form-field>
                       <mat-form-field>
                         <input
@@ -209,6 +216,14 @@
                             hide ? "visibility_off" : "visibility"
                           }}</mat-icon>
                         </button>
+                        <mat-error
+                          *ngIf="
+                            pwChangeForm.get('newPW').invalid ||
+                            pwChangeForm.get('current').value ==
+                              pwChangeForm.get('newPW').value
+                          "
+                          >Please enter another password.</mat-error
+                        >
                       </mat-form-field>
                       <mat-form-field>
                         <input
@@ -233,6 +248,9 @@
                             hide ? "visibility_off" : "visibility"
                           }}</mat-icon>
                         </button>
+                        <mat-error *ngIf="pwChangeForm.get('confirm').invalid">
+                          Password and confirm password must be match</mat-error
+                        >
                       </mat-form-field>
 
                       <div>
@@ -291,6 +309,7 @@
                                 formControlName="level"
                                 class="form-control"
                                 max="5"
+                                min="0"
                               />
                             </td>
                             <td>

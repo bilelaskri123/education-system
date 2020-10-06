@@ -8,8 +8,12 @@ import {
 } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Profile } from "src/app/shared/models/Profile";
+import { AuthService } from "src/app/shared/services/auth.service";
+import { CvService } from "src/app/shared/services/cv.service";
+
 import { ProfileService } from "src/app/shared/services/profile.service";
 import { mimeType } from "../add-product/mime-type.validator";
+import { ConfirmedValidator } from "./confirmed.validator";
 
 @Component({
   selector: "app-profile",
@@ -32,7 +36,9 @@ export class ProfileComponent implements OnInit {
   constructor(
     private router: Router,
     private profileService: ProfileService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cvService: CvService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -57,11 +63,16 @@ export class ProfileComponent implements OnInit {
       }),
     });
 
-    this.pwChangeForm = this.fb.group({
-      current: ["", Validators.required],
-      newPW: ["", Validators.required],
-      confirm: ["", Validators.required],
-    });
+    this.pwChangeForm = this.fb.group(
+      {
+        current: ["", [Validators.required]],
+        newPW: ["", [Validators.required]],
+        confirm: ["", Validators.required],
+      },
+      {
+        validator: ConfirmedValidator("newPW", "confirm"),
+      }
+    );
 
     this.cvForm = this.fb.group({
       skills: this.fb.array([]),
@@ -136,6 +147,10 @@ export class ProfileComponent implements OnInit {
     this.skills().removeAt(i);
   }
 
+  get f() {
+    return this.pwChangeForm.controls;
+  }
+
   onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({ image: file });
@@ -165,6 +180,24 @@ export class ProfileComponent implements OnInit {
   }
 
   saveCv() {
-    console.log(this.cvForm.value);
+    // console.log(this.cvForm.value);
+    this.cvService.saveCv(this.cvForm.value);
+    this.cvForm.reset();
+  }
+
+  changePassword() {
+    if (this.pwChangeForm.invalid) {
+      return;
+    }
+
+    this.authService
+      .changePassword(
+        this.pwChangeForm.value.current,
+        this.pwChangeForm.value.newPW,
+        this.pwChangeForm.value.confirm
+      )
+      .subscribe((response) => {
+        this.router.navigate(["/login"]);
+      });
   }
 }

@@ -47,9 +47,6 @@ export class ReservationBookService {
       user: user,
       book: book,
     };
-
-    // console.log(reserData);
-
     this.http
       .post<{ message: string }>(
         "http://localhost:3000/api/reserBook",
@@ -70,10 +67,11 @@ export class ReservationBookService {
         map((reserData) => {
           return {
             reservations: reserData.reservations.map((reservation) => {
+              console.log(reservation);
               return {
-                role: reservation.user.role,
                 email: reservation.user.email,
                 book: reservation.book.title,
+                role: reservation.user.role,
                 id: reservation._id,
                 date: reservation.dateReservation,
               };
@@ -83,6 +81,7 @@ export class ReservationBookService {
         })
       )
       .subscribe((transformedData) => {
+        console.log(transformedData.reservations);
         this.reservations = transformedData.reservations;
         this.reservationsUpdated.next({
           reservations: [...this.reservations],

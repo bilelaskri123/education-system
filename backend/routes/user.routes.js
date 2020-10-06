@@ -94,4 +94,39 @@ router.get("/:id", checkAuth, (req, res) => {
     });
 });
 
+// change password function
+
+router.post("/change-password", checkAuth, async (req, res) => {
+  const userId = req.userData.userId;
+  let user = await User.findById(userId);
+
+  if (!user) {
+    return res.status(404).json({
+      message: "invalid password",
+    });
+  }
+
+  const checkPassword = await bcrypt.compare(req.body.current, user.password);
+
+  if (!checkPassword) {
+    return res.status(404).json({
+      message: "Invalid password",
+    });
+  }
+
+  const saltRounds = 10;
+  let salt = await bcrypt.genSalt(saltRounds);
+  newPassword = await bcrypt.hash(req.body.newPW, salt);
+
+  user.password = newPassword;
+  user
+    .save()
+    .then(() => {
+      res.status(200).json({ message: "password changed with success" });
+    })
+    .catch((error) =>
+      res.status(500).json({ message: "change password failed" })
+    );
+});
+
 module.exports = router;

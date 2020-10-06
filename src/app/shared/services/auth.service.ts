@@ -129,4 +129,16 @@ export class AuthService {
       "http://localhost:3000/api/auth/detail"
     );
   }
+
+  changePassword(current: string, newPw: string, confirm: string) {
+    const changePasswordData = {
+      current: current,
+      newPW: newPw,
+      confirm: confirm,
+    };
+    return this.http.post(
+      "http://localhost:3000/api/auth/change-password",
+      changePasswordData
+    );
+  }
 }
