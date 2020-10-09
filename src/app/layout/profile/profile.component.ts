@@ -7,6 +7,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
+import { map } from "rxjs/operators";
 import { Profile } from "src/app/shared/models/Profile";
 import { AuthService } from "src/app/shared/services/auth.service";
 import { CvService } from "src/app/shared/services/cv.service";
@@ -75,8 +76,13 @@ export class ProfileComponent implements OnInit {
     );
 
     this.cvForm = this.fb.group({
+      profile: new FormControl("", [Validators.required]),
       skills: this.fb.array([]),
       projects: this.fb.array([]),
+    });
+
+    this.cvService.getCv().subscribe((cvData) => {
+      console.log(cvData);
     });
 
     this.profileService.userProfile().subscribe((data) => {
@@ -180,7 +186,6 @@ export class ProfileComponent implements OnInit {
   }
 
   saveCv() {
-    // console.log(this.cvForm.value);
     this.cvService.saveCv(this.cvForm.value);
     this.cvForm.reset();
   }

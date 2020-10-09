@@ -314,6 +314,11 @@ const routes: Routes = [
         loadChildren: () =>
           import("./my-course/my-course.module").then((m) => m.MyCourseModule),
       },
+      {
+        path: "cv-detail",
+        loadChildren: () =>
+          import("./cv-detail/cv-detail.module").then((m) => m.CvDetailModule),
+      },
     ],
   },
 ];

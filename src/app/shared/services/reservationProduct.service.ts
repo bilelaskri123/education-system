@@ -46,9 +46,7 @@ export class ReservationProductService {
       user: user,
       product: product,
     };
-
-    console.log(reserData);
-
+    
     this.http
       .post<{ message: string }>(
         "http://localhost:3000/api/reserProduct",

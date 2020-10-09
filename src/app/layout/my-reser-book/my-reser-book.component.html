@@ -20,7 +20,7 @@
 </ul>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<div class="container">
+<div class="container" *ngIf="data != null && !isLoading">
   <div class="row">
     <div class="col-12">
       <table class="table table-bordered">
@@ -47,3 +47,7 @@
     </div>
   </div>
 </div>
+
+<p class="info-text mat-body-1" *ngIf="data == null && !isLoading">
+  you don't have any reservation
+</p>

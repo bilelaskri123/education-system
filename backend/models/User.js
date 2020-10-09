@@ -27,6 +27,7 @@ const userSchema = mongoose.Schema({
 
   speciality: { type: String },
   salary: { type: Number },
+  level: { type: Number },
   adress: { type: String },
   birdhday: { type: String },
   phone: { type: String },

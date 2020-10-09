@@ -271,6 +271,14 @@
                       <h1>Personal cv</h1>
 
                       <form [formGroup]="cvForm" (ngSubmit)="saveCv()">
+                        <h5>profile</h5>
+                        <textarea
+                          name="profile"
+                          class="form-control"
+                          formControlName="profile"
+                          cols="30"
+                          rows="5"
+                        ></textarea>
                         <table
                           class="table table-bordered"
                           formArrayName="skills"

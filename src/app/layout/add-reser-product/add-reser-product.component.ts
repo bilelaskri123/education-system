@@ -16,12 +16,12 @@ export class AddReserProductComponent implements OnInit {
   ngOnInit() {
     this.reservationProductService.getFreeProducts().subscribe((products) => {
       this.products = products.products;
-      console.log(this.products);
+      // console.log(this.products);
     });
 
     this.reservationProductService.getUsers().subscribe((users) => {
       this.users = users;
-      console.log(users);
+      // console.log(users);
     });
   }
 

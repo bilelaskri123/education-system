@@ -3,6 +3,8 @@ const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const router = express.Router();
+const ReservationBook = require('../models/ReservationBook');
+const ReservationProduct = require('../models/ReservationBook');
 
 const User = require("../models/User");
 const Group = require("../models/Group");
@@ -174,6 +176,7 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res, next) => {
+  
   User.deleteOne({ _id: req.params.id })
     .then(() => {
       res.status(200).json({

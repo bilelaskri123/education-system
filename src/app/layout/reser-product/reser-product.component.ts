@@ -53,4 +53,14 @@ export class ReserProductComponent implements OnInit {
   newReservation() {
     this.router.navigate(["/ecms/new-reservation-product"]);
   }
+
+  deleteReservation(id: string) {
+    this.reservationProductService.deleteReservation(id).subscribe(() => {
+      this.isLoading = true;
+      this.reservationProductService.getReservations(
+        this.reservationPerPage,
+        this.currentPage
+      );
+    })
+  }
 }
