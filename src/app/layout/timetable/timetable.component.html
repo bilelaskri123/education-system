@@ -47,8 +47,16 @@
                 title="download"
                 (click)="download(timeTable.name)"
               >
-                download
+              <i class="fa fa-download" aria-hidden="true"></i>
               </button>
+              <button
+              type="button"
+              class="btn btn-danger"
+              title="delete"
+              (click)="deleteTable(timeTable._id)"
+            >
+            <i class="fas fa-trash-alt"></i>
+            </button>
             </td>
           </tr>
         </tbody>

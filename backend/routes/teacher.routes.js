@@ -3,6 +3,8 @@ const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const router = express.Router();
+const ReservationBook = require('../models/ReservationBook');
+const ReservationProduct = require('../models/ReservationProduct')
 
 const User = require("../models/User");
 
@@ -191,8 +193,27 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.delete("/:id", (req, res, next) => {
-  User.deleteOne({ _id: req.params.id })
+router.delete("/:id", async (req, res, next) => {
+  let reserBook;
+  let reserProduct;
+  
+  await ReservationBook.findOne({user: req.params.id}).then((result) => {
+    if(result) {
+      reserBook = result
+    }
+  }).catch(error => res.status(500).json({message: 'deleting user failed!'}))
+ 
+  await ReservationProduct.findOne({user: req.params.id}).then((result2) => {
+    if(result2) {
+      reserProduct = result2
+    }
+
+   }).catch(error => res.status(500).json({message: 'deleting user failed'}))
+
+  if (reserBook || reserProduct) {
+    res.status(403).json({message: 'user has a reservation can not delete'})
+  } else {
+    await  User.deleteOne({ _id: req.params.id })
     .then(() => {
       res.status(200).json({
         message: "teacher deleted successfuly",
@@ -201,6 +222,9 @@ router.delete("/:id", (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
+  }
+
+ 
 });
 
 module.exports = router;

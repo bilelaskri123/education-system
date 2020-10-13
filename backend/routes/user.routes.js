@@ -8,7 +8,7 @@ const checkAuth = require("../middleware/check-auth");
 const multer = require("multer");
 
 router.post("/login", async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   let user = await User.findOne({ email: req.body.email });
   if (!user) {
     return res.status(404).json({

@@ -4,6 +4,7 @@ const multer = require("multer");
 const path = require("path");
 
 const TimeTable = require("../models/TimeTable");
+const Group = require('../models/Group');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -16,8 +17,8 @@ const storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-router.post("", upload.single("file"), (req, res) => {
-  console.log(req.file);
+router.post("", upload.single("file"), async (req, res) => {
+  // console.log(req.file);
   console.log(req.body);
   let timeTable = new TimeTable({
     group: req.body.group,
@@ -25,7 +26,11 @@ router.post("", upload.single("file"), (req, res) => {
   });
   timeTable
     .save()
-    .then((data) => {
+    .then(async (data) => {
+      await Group.findById(req.body.group).then((group) => {
+        group.hasTable = true;
+        group.save();
+      }).catch(error => res.status(500).json({message: 'can not find this group'}))
       res.status(201).json({
         message: "time table created successfuly",
       });
@@ -35,6 +40,8 @@ router.post("", upload.single("file"), (req, res) => {
         error: error,
       });
     });
+
+  
 });
 
 router.post("/download", function (req, res, next) {
@@ -53,6 +60,17 @@ router.get("", (req, res) => {
         error: error,
       });
     });
+});
+
+router.delete('/:id', (req, res) => {
+  TimeTable.findByIdAndDelete(req.params.id).then(async (data) => {
+    console.log(data);
+    await Group.findById(data.group).then((group) => {
+      group.hasTable = false;
+      group.save();
+      res.status(200).json({message: 'deleted'})
+    })
+  }).catch(error => res.status(500).json({message: 'deleting time table  failed'}))
 });
 
 module.exports = router;

@@ -175,17 +175,40 @@ router.put("/:id", (req, res) => {
   });
 });
 
-router.delete("/:id", (req, res, next) => {
-  
-  User.deleteOne({ _id: req.params.id })
+router.delete("/:id", async (req, res) => {
+  let reserBook;
+  let reserProduct;
+
+  await ReservationBook.findOne({user: req.params.id}).then((result) => {
+    if(result) {
+      reserBook = result
+    }
+    // console.log(result)
+  }).catch(error => res.status(500).json({message: 'deleting user failed!'}))
+ 
+  await ReservationProduct.findOne({user: req.params.id}).then((result2) => {
+    if(result2) {
+      reserProduct = result2
+    }
+    // console.log(result2);
+   }).catch(error => res.status(500).json({message: 'deleting user failed'}))
+     
+
+  if(reserBook || reserProduct) {
+    res.status(403).json({message: 'user has a reservation can not delete'})
+  } else {
+    await User.deleteOne({ _id: req.params.id })
     .then(() => {
       res.status(200).json({
-        message: "parent deleted successfuly",
+        message: "student deleted successfuly",
       });
     })
     .catch((err) => {
       console.log(err);
     });
+  }
+
+  
 });
 
 module.exports = router;

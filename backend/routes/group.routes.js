@@ -51,7 +51,7 @@ router.get("", (req, res) => {
 });
 
 router.get("/all", (req, res) => {
-  Group.find()
+  Group.find({hasTable: false})
     .then((groups) => {
       res.status(200).send(groups);
     })

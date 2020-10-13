@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { TimeTableService } from "src/app/shared/services/timeTable.service";
 import { saveAs } from "file-saver";
 import { AuthService } from "src/app/shared/services/auth.service";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: "app-timetable",
@@ -12,6 +13,7 @@ import { AuthService } from "src/app/shared/services/auth.service";
 export class TimetableComponent implements OnInit {
   timeTables: any;
   role: string;
+  private timeTableSub: Subscription;
   constructor(
     private router: Router,
     private timeTableService: TimeTableService,
@@ -22,10 +24,12 @@ export class TimetableComponent implements OnInit {
     this.authService.userDetail().subscribe((detail) => {
       this.role = detail.role;
     });
-    this.timeTableService.getTimeTables().subscribe((timeTables) => {
-      this.timeTables = timeTables;
-      // console.log(timeTables);
-    });
+    this.timeTableService.getTimeTables();
+    this.timeTableSub=this.timeTableService.getTimeTablesUpdatedListener().subscribe((timeTableData: {timeTables: any}) => {
+      this.timeTables = timeTableData.timeTables;
+    })
+
+    this.timeTableService.getTimeTables();
   }
 
   addTimeTable() {
@@ -37,5 +41,11 @@ export class TimetableComponent implements OnInit {
       saveAs(data, filename);
       console.log(data);
     });
+  }
+
+  deleteTable(id: string) {
+    this.timeTableService.deleteTable(id).subscribe((message) => {
+      this.timeTableService.getTimeTables();
+    })
   }
 }

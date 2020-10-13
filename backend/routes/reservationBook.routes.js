@@ -14,11 +14,11 @@ router.post("/", (req, res) => {
 
   ReservationBook.findOne({ user: req.body.user }, (err, reservat) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).json({message : err.message});
     }
 
     if (reservat != null) {
-      res.send("user have a reservation can not reserve another book");
+      res.status(403).json({ message: "user have a reservation can not reserve another book"});
     } else {
       Book.findById(req.body.book)
         .then((book) => {
