@@ -30,6 +30,7 @@ export class AddStudentComponent implements OnInit, OnDestroy {
 
   public groupSub: Subscription;
   public groups: Group[] = [];
+  public selectedGroups: Group[] = [];
   constructor(
     public studentService: StudentService,
     private sectionService: SectionService,
@@ -150,6 +151,17 @@ export class AddStudentComponent implements OnInit, OnDestroy {
     }
 
     this.form.reset();
+  }
+
+  getSection(obj){
+    let sectionId = obj.value;
+    this.selectedGroups = [];
+    this.groups.forEach((group) => {
+      if (group.section._id == sectionId) {
+        this.selectedGroups.push(group);
+      }
+    })
+    console.log(this.selectedGroups);
   }
 
   cancelForm() {

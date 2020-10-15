@@ -38,11 +38,12 @@ export class ParentService {
       });
   }
 
-  getParents(parentPerPage: number, currentPage: number, filtredBy: string) {
-    const queryParams = `?pagesize=${parentPerPage}&page=${currentPage}&search=${filtredBy}`;
+  getParents() {
+    // parentPerPage: number, currentPage: number, filtredBy: string
+    // const queryParams = `?pagesize=${parentPerPage}&page=${currentPage}&search=${filtredBy}`;
     this.http
       .get<{ message: string; parents: any; count: number }>(
-        "http://localhost:3000/api/parent" + queryParams
+        "http://localhost:3000/api/parent"
       )
       .pipe(
         map((parentData) => {

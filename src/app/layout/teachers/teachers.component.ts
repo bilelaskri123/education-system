@@ -17,60 +17,79 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 export class TeachersComponent implements OnInit, OnDestroy {
   teachers: User[] = [];
   isLoading = false;
-  form: FormGroup;
   private teachersSub: Subscription;
-
-  totalTeachers = 0;
-  teacherPerPage = 5;
-  currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
+  settings = {
+    columns : {
+      fullName : {
+        title: 'Full Name'
+      },
+      email : {
+        title: 'Email'
+      },
+      speciality : {
+        title: 'Speciality'
+      },
+      salary : {
+        title: 'Salary'
+      },
+    },
+    actions: {
+      custom : [
+        {
+          name: 'edit',
+          title: '<i class="fas fa-edit"></i>'
+        },
+        {
+          name: 'delete',
+          title: '<i class="far fa-trash-alt"></i>'
+        },
+        {
+          name: 'view',
+          title: ' <i class="fas fa-eye"></i>'
+        }
+      ],
+      add: false,
+      edit: false,
+      delete: false,
+      position: 'right'
+    },
+    attr: {
+      class: 'table table-bordered'
+    }
+  }
 
   constructor(private teacherService: TeacherService, private router: Router) {}
 
   ngOnInit() {
     this.isLoading = true;
-
-    this.form = new FormGroup({
-      search: new FormControl(null, { validators: [Validators.nullValidator] }),
-    });
-
-    this.getTeachers("");
+    this.getTeachers();
   }
 
-  public getTeachers(filtredBy: string) {
-    this.teacherService.getTeachers(
-      this.teacherPerPage,
-      this.currentPage,
-      filtredBy
-    );
+  public getTeachers() {
+    this.teacherService.getTeachers();
     this.teachersSub = this.teacherService
       .getTeacherUpdateListener()
       .subscribe((teacherData: { teachers: User[]; teacherCount: number }) => {
         this.isLoading = false;
-        this.totalTeachers = teacherData.teacherCount;
         this.teachers = teacherData.teachers;
       });
   }
 
-  test() {
-    this.getTeachers(this.form.value.search);
-  }
-
-  onChangedPage(pageData: PageEvent) {
-    this.currentPage = pageData.pageIndex + 1;
-    this.teacherPerPage = pageData.pageSize;
-    this.teacherService.getTeachers(this.teacherPerPage, this.currentPage, "");
-  }
-
-  deleteTeacher(teacherId: string) {
-    this.teacherService.deleteTeacher(teacherId).subscribe(() => {
-      this.isLoading = true;
-      this.teacherService.getTeachers(
-        this.teacherPerPage,
-        this.currentPage,
-        ""
-      );
-    });
+  onCustom(event) {
+    if(event.action == 'edit') {
+      this.router.navigate(['/ecms/edit-teacher/' + event.data.id])
+    }
+    else if (event.action == 'delete') {
+      if (confirm('are you sure to delete '+ event.data.fullName)) {
+        this.teacherService.deleteTeacher(event.data.id).subscribe(() => {
+          this.isLoading = true;
+          this.teacherService.getTeachers();
+        })
+      }
+    }
+    else {
+      this.router.navigate(['/ecms/cv-detail/' + event.data.id])
+    }
   }
 
   addTeacher() {

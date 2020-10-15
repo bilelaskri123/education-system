@@ -11,7 +11,9 @@
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
-<div class="form">
+<ng2-smart-table [settings]="settings" [source]="parents" (custom)="onCustom($event)"></ng2-smart-table>
+
+<!-- <div class="form">
   <form [formGroup]="form">
     <mat-form-field class="example-full-width">
       <input
@@ -44,12 +46,6 @@
             <td>{{ parent.email }}</td>
             <td>{{ parent.childEmail }}</td>
             <td>
-              <!-- <button type="button" class="btn btn-primary">
-                <i class="far fa-eye"></i>
-              </button>
-              <button type="button" class="btn btn-success">
-                <i class="fas fa-edit"></i>
-              </button> -->
               <a
                 type="button"
                 class="btn btn-success"
@@ -79,4 +75,4 @@
   [pageSize]="teacherPerPage"
   [pageSizeOptions]="pageSizeOptions"
   (page)="onChangedPage($event)"
-></mat-paginator>
+></mat-paginator> -->

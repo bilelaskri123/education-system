@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit {
     });
 
     this.isLoading = true;
-    this.studentService.getStudents(1000, 1, "");
+    this.studentService.getStudents();
     this.studentsSub = this.studentService
       .getStudentUpdateListener()
       .subscribe((studentData: { students: User[]; studentCount: number }) => {
@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
         this.students = studentData.studentCount;
       });
 
-    this.teacherService.getTeachers(1000, 1, "");
+    this.teacherService.getTeachers();
     this.teachersSub = this.teacherService
       .getTeacherUpdateListener()
       .subscribe((teacherData: { teachers: User[]; teacherCount: number }) => {
@@ -113,7 +113,6 @@ export class DashboardComponent implements OnInit {
         this.isLoading = false;
         this.notes = noteData.notes;
         this.totalNotes = noteData.notesCount;
-        // console.log(this.notes);
       });
 
     this.eventsrv.getEvents();

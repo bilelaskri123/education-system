@@ -4,7 +4,7 @@ import { CommonModule } from "@angular/common";
 import { AccountantRoutingModule } from "./accountant-routing.module";
 import { AccountantComponent } from "./accountant.component";
 import { MaterialModule } from "../../shared/material/material.module";
-import { ReactiveFormsModule } from "@angular/forms";
+import { Ng2SmartTableModule } from "ng2-smart-table"
 
 @NgModule({
   declarations: [AccountantComponent],
@@ -12,7 +12,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     CommonModule,
     AccountantRoutingModule,
     MaterialModule,
-    ReactiveFormsModule,
+    Ng2SmartTableModule
   ],
 })
 export class AccountantModule {}

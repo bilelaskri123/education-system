@@ -131,8 +131,8 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>First name</th>
+                  <!-- <th>#</th> -->
+                  <th *ngIf="[role] == 'admin'">First name</th>
                   <th>title</th>
                   <th>problem</th>
                   <th>solution</th>
@@ -141,8 +141,8 @@
               </thead>
               <tbody>
                 <tr *ngFor="let note of notes; let i = index">
-                  <td class="font-weight-medium">{{ i + 1 }}</td>
-                  <td>{{ note.fullName }}</td>
+                  <!-- <td class="font-weight-medium">{{ i + 1 }}</td> -->
+                  <td *ngIf="[role] == 'admin'">{{ note.fullName }}</td>
                   <td>{{ note.title }}</td>
                   <td>{{ note.problem }}</td>
                   <td>{{ note.solution }}</td>

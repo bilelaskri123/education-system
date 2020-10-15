@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const cvSchema = mongoose.Schema({
-  id: { type: mongoose.Types.ObjectId, ref: "User", unique: true },
+  userId: { type: mongoose.Types.ObjectId, ref: "User", unique: true },
   profile: { type: String },
   skills: [{ skill: String, level: Number }],
   projects: [{ project: String, description: String }],

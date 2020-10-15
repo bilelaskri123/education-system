@@ -119,51 +119,75 @@ router.get("/:id", (req, res) => {
 });
 
 router.get("", (req, res) => {
-  const pageSize = +req.query.pagesize;
-  const currentPage = +req.query.page;
-  const filter = req.query.search;
-  const librarianQuery = User.find({
-    $and: [
-      { role: "teacher" },
-      {
-        $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
-      },
-    ],
-  });
   let count;
-  User.countDocuments({ role: "teacher" }).then((result) => {
-    count = result;
-  });
   let teachers = [];
   let teacher = {};
-  if (pageSize && currentPage) {
-    librarianQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
-  }
-  librarianQuery
-    .then((result) => {
-      result.forEach((data) => {
-        teacher.fullName = data.fullName;
-        teacher.email = data.email;
-        teacher.speciality = data.speciality;
-        teacher.role = data.role;
-        teacher.salary = data.salary;
-        teacher._id = data._id;
-
-        teachers.push(teacher);
-        teacher = {};
-      });
-      res.status(200).json({
-        message: "Teacher fetched successfuly!",
-        count: count,
-        teachers: teachers,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        message: "fetching teachers failed",
-      });
-    });
+  User.countDocuments({role: 'teacher'}).then((result) => {
+    count = result;
+  })
+  User.find({role: 'teacher'})
+      .select("-password")
+      .then((result) => {
+        result.forEach((data) => {
+          teacher.fullName = data.fullName;
+          teacher.email = data.email;
+          teacher.speciality = data.speciality;
+          teacher.role = data.role;
+          teacher.salary = data.salary;
+          teacher._id = data._id;
+          teachers.push(teacher);
+          teacher = {};
+        })
+        res.status(200).json({teachers: teachers, count: count})
+      }).catch(error => res.status(500).json({message: 'an error occurred'}))
 });
+
+// router.get("", (req, res) => {
+//   const pageSize = +req.query.pagesize;
+//   const currentPage = +req.query.page;
+//   const filter = req.query.search;
+//   const librarianQuery = User.find({
+//     $and: [
+//       { role: "teacher" },
+//       {
+//         $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
+//       },
+//     ],
+//   });
+//   let count;
+//   User.countDocuments({ role: "teacher" }).then((result) => {
+//     count = result;
+//   });
+//   let teachers = [];
+//   let teacher = {};
+//   if (pageSize && currentPage) {
+//     librarianQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+//   }
+//   librarianQuery
+//     .then((result) => {
+//       result.forEach((data) => {
+//         teacher.fullName = data.fullName;
+//         teacher.email = data.email;
+//         teacher.speciality = data.speciality;
+//         teacher.role = data.role;
+//         teacher.salary = data.salary;
+//         teacher._id = data._id;
+
+//         teachers.push(teacher);
+//         teacher = {};
+//       });
+//       res.status(200).json({
+//         message: "Teacher fetched successfuly!",
+//         count: count,
+//         teachers: teachers,
+//       });
+//     })
+//     .catch((err) => {
+//       res.status(500).json({
+//         message: "fetching teachers failed",
+//       });
+//     });
+// });
 
 router.put("/:id", (req, res) => {
   User.findById(req.params.id)

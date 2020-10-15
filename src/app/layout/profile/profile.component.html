@@ -382,6 +382,58 @@
                           </tr>
                         </table>
 
+                        <table
+                          class="table table-bordered"
+                          formArrayName="langues"
+                        >
+                          <tr>
+                            <th colspan="2">Langues</th>
+                            <th width="150px">
+                              <button
+                                type="button"
+                                (click)="addLangue()"
+                                class="btn btn-primary"
+                              >
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                              </button>
+                            </th>
+                          </tr>
+                          <tr
+                            *ngFor="
+                              let langue of langues().controls;
+                              let i = index
+                            "
+                            [formGroupName]="i"
+                          >
+                            <td>
+                              <h5>Langue</h5>
+                              <input
+                                type="text"
+                                formControlName="langue"
+                                class="form-control"
+                              />
+                            </td>
+                            <td>
+                              <h5>level</h5>
+                              <input
+                                type="number"
+                                formControlName="level"
+                                class="form-control"
+                                max="5"
+                                min="0"
+                              />
+                            </td>
+                            <td>
+                              <button
+                                (click)="removeLangue(i)"
+                                class="btn btn-danger"
+                              >
+                                <i class="far fa-trash-alt"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        </table>
+
                         <div class="position">
                           <button
                             mat-raised-button

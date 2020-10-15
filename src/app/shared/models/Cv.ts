@@ -1,6 +1,6 @@
 export interface Cv {
   profile: string;
-  skills: [{ skill: string; level: number }];
-  projects: [{ project: string; description: string }];
-  langues?: [{ langue: string; level: number }];
+  skills: [{ id?: string,  skill: string; level: number }];
+  projects: [{id?:string,  project: string; description: string }];
+  langues?: [{id?:string,  langue: string; level: number }];
 }

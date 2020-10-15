@@ -112,51 +112,75 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.get("", (req, res) => {
-  const pageSize = +req.query.pagesize;
-  const currentPage = +req.query.page;
-  const filter = req.query.search;
-  const parentQuery = User.find({
-    $and: [
-      { role: "parent" },
-      {
-        $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
-      },
-    ],
-  });
+router.get('', (req, res) => {
   let count;
-  User.countDocuments({ role: "parent" }).then((result) => {
-    count = result;
-  });
   let parents = [];
   let parent = {};
-  if (pageSize && currentPage) {
-    parentQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
-  }
-  parentQuery
-    .then((result) => {
-      result.forEach((data) => {
-        parent.fullName = data.fullName;
-        parent.email = data.email;
-        parent.role = data.role;
-        parent.childEmail = data.childEmail;
-        parent._id = data._id;
+  User.countDocuments({role: 'parent'}).then((result) => {
+    count = result;
+  })
+  User.find({role: 'parent'})
+      .select("-password")
+      .then((result) => {
+        result.forEach((data) => {
+          parent.fullName = data.fullName;
+          parent.email = data.email;
+          parent.role = data.role;
+          parent.childEmail = data.childEmail;
+          parent._id = data._id;
 
-        parents.push(parent);
-        parent = {};
-      });
-      res.status(200).json({
-        message: "parent fetched successfuly!",
-        count: count,
-        parents: parents,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
-      });
-    });
+          parents.push(parent);
+          parent = {};
+        })
+        res.status(200).json({parents: parents, count: count})
+      }).catch(error => res.status(500).json({message: 'an error occurred'}))
 });
+
+// router.get("", (req, res) => {
+//   const pageSize = +req.query.pagesize;
+//   const currentPage = +req.query.page;
+//   const filter = req.query.search;
+//   const parentQuery = User.find({
+//     $and: [
+//       { role: "parent" },
+//       {
+//         $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
+//       },
+//     ],
+//   });
+//   let count;
+//   User.countDocuments({ role: "parent" }).then((result) => {
+//     count = result;
+//   });
+//   let parents = [];
+//   let parent = {};
+//   if (pageSize && currentPage) {
+//     parentQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+//   }
+//   parentQuery
+//     .then((result) => {
+//       result.forEach((data) => {
+//         parent.fullName = data.fullName;
+//         parent.email = data.email;
+//         parent.role = data.role;
+//         parent.childEmail = data.childEmail;
+//         parent._id = data._id;
+
+//         parents.push(parent);
+//         parent = {};
+//       });
+//       res.status(200).json({
+//         message: "parent fetched successfuly!",
+//         count: count,
+//         parents: parents,
+//       });
+//     })
+//     .catch((err) => {
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
+// });
 
 router.delete("/:id", (req, res, next) => {
   User.deleteOne({ _id: req.params.id })

@@ -7,7 +7,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { map } from "rxjs/operators";
 import { Profile } from "src/app/shared/models/Profile";
 import { AuthService } from "src/app/shared/services/auth.service";
 import { CvService } from "src/app/shared/services/cv.service";
@@ -79,12 +78,9 @@ export class ProfileComponent implements OnInit {
       profile: new FormControl("", [Validators.required]),
       skills: this.fb.array([]),
       projects: this.fb.array([]),
+      langues: this.fb.array([]),
     });
-
-    this.cvService.getCv().subscribe((cvData) => {
-      console.log(cvData);
-    });
-
+    
     this.profileService.userProfile().subscribe((data) => {
       this.email = data.profile.email;
       this.fullName = data.profile.fullName;
@@ -123,6 +119,10 @@ export class ProfileComponent implements OnInit {
     return this.cvForm.get("skills") as FormArray;
   }
 
+  langues(): FormArray {
+    return this.cvForm.get("langues") as FormArray;
+  }
+
   newProject(): FormGroup {
     return this.fb.group({
       project: "",
@@ -137,6 +137,13 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  newLangue(): FormGroup {
+    return this.fb.group({
+      langue: "",
+      level: 0
+    })
+  }
+
   addProject() {
     this.projects().push(this.newProject());
   }
@@ -145,12 +152,20 @@ export class ProfileComponent implements OnInit {
     this.skills().push(this.newSkill());
   }
 
+  addLangue() {
+    this.langues().push(this.newLangue());
+  }
+
   removeProject(i: number) {
     this.projects().removeAt(i);
   }
 
   removeSkill(i: number) {
     this.skills().removeAt(i);
+  }
+
+  removeLangue(i:number) {
+    this.langues().removeAt(i);
   }
 
   get f() {

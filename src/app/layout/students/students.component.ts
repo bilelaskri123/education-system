@@ -3,8 +3,6 @@ import { Router } from "@angular/router";
 import { StudentService } from "src/app/shared/services/student.service";
 import { User } from "src/app/shared/models/User";
 import { Subscription } from "rxjs";
-import { PageEvent } from "@angular/material/paginator";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-students",
@@ -13,63 +11,85 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 })
 export class StudentComponent implements OnInit, OnDestroy {
   isLoading = false;
-  form: FormGroup;
-
   students: User[] = [];
   private studentsSub: Subscription;
 
-  totalStudents = 0;
-  studentPerPage = 5;
-  currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
+  settings = {
+    columns : {
+      fullName : {
+        title: 'Full Name'
+      },
+      email : {
+        title: 'Email'
+      },
+      emailParent : {
+        title: 'Parent Email'
+      },
+      section : {
+        title: 'Section'
+      },
+      group : {
+        title: 'Group'
+      }
+    },
+    actions: {
+      custom : [
+        {
+          name: 'edit',
+          title: '<i class="fas fa-edit"></i>'
+        },
+        {
+          name: 'delete',
+          title: '<i class="far fa-trash-alt"></i>'
+        },
+        {
+          name: 'view',
+          title: ' <i class="fas fa-eye"></i>'
+        }
+      ],
+      add: false,
+      edit: false,
+      delete: false,
+      position: 'right'
+    },
+    attr: {
+      class: 'table table-bordered'
+    }
+  }
+
   constructor(private studentService: StudentService, private router: Router) {}
   ngOnInit() {
     this.isLoading = true;
-
-    this.form = new FormGroup({
-      search: new FormControl(null, { validators: [Validators.nullValidator] }),
-    });
-
-    this.getStudents("");
+    this.getStudents();
   }
 
-  public getStudents(filtredBy: string) {
-    this.studentService.getStudents(
-      this.studentPerPage,
-      this.currentPage,
-      filtredBy
-    );
+  public getStudents() {
+    this.studentService.getStudents();
     this.studentsSub = this.studentService
       .getStudentUpdateListener()
       .subscribe((studentData: { students: User[]; studentCount: number }) => {
         this.isLoading = false;
-        this.totalStudents = studentData.studentCount;
         this.students = studentData.students;
       });
   }
 
-  test() {
-    this.getStudents(this.form.value.search);
+  onCustom(event) {
+    if(event.action == 'edit') {
+      this.router.navigate(['/ecms/edit-student/' + event.data.id])
+    }
+    else if (event.action == 'delete') {
+      if (confirm('are you sure to delete '+ event.data.fullName)) {
+        this.studentService.deleteStudent(event.data.id).subscribe(() => {
+          this.isLoading = true;
+          this.studentService.getStudents();
+        })
+      }
+    }
+    else {
+      this.router.navigate(['/ecms/cv-detail/' + event.data.id])
+    }
   }
-
-  onChangedPage(pageData: PageEvent) {
-    this.currentPage = pageData.pageIndex + 1;
-    this.studentPerPage = pageData.pageSize;
-    this.studentService.getStudents(this.studentPerPage, this.currentPage, "");
-  }
-
-  deleteStudent(studentId: string) {
-    console.log(studentId);
-    this.studentService.deleteStudent(studentId).subscribe(() => {
-      this.isLoading = true;
-      this.studentService.getStudents(
-        this.studentPerPage,
-        this.currentPage,
-        ""
-      );
-    });
-  }
-
+ 
   addStudent() {
     this.router.navigate(["/ecms/add-student"]);
   }

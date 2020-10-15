@@ -10,7 +10,9 @@
 </p>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
-<div class="form">
+<ng2-smart-table [settings]="settings" [source]="teachers" (custom)="onCustom($event)"></ng2-smart-table>
+
+<!-- <div class="form">
   <form [formGroup]="form">
     <mat-form-field class="example-full-width">
       <input
@@ -48,12 +50,6 @@
             <td>{{ teacher.salary }}</td>
             <td>{{ teacher.speciality }}</td>
             <td>
-              <!-- <button type="button" class="btn btn-primary">
-                <i class="far fa-eye"></i>
-              </button>
-              <button type="button" class="btn btn-success">
-                <i class="fas fa-edit"></i>
-              </button> -->
               <a
                 type="button"
                 class="btn btn-success"
@@ -70,6 +66,14 @@
               >
                 <i class="far fa-trash-alt"></i>
               </button>
+              <a
+                type="button"
+                class="btn btn-primary"
+                title="view cv"
+                [routerLink]="['/ecms/cv-detail', teacher.id]"
+              >
+              <i class="fas fa-eye"></i>
+              </a>
             </td>
           </tr>
         </tbody>
@@ -83,4 +87,4 @@
   [pageSize]="teacherPerPage"
   [pageSizeOptions]="pageSizeOptions"
   (page)="onChangedPage($event)"
-></mat-paginator>
+></mat-paginator> -->

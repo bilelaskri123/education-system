@@ -53,7 +53,8 @@
               type="button"
               class="btn btn-danger"
               title="delete"
-              (click)="deleteTable(timeTable._id)"
+              (click)="deleteTable(timeTable._id)" 
+              *ngIf="[role] == 'admin'"
             >
             <i class="fas fa-trash-alt"></i>
             </button>

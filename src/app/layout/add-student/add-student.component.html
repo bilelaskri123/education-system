@@ -67,8 +67,9 @@
         matNativeControl
         placeholder="section"
         formControlName="section"
+        (selectionChange)="getSection($event)"
       >
-        <mat-option *ngFor="let section of sections" [value]="section.id">{{
+        <mat-option *ngFor="let section of sections" [value]="section.id" >{{
           section.name
         }}</mat-option>
       </mat-select>
@@ -80,7 +81,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Group</mat-label>
       <mat-select matNativeControl placeholder="Group" formControlName="group">
-        <mat-option *ngFor="let group of groups" [value]="group.id">{{
+        <mat-option *ngFor="let group of selectedGroups" [value]="group.id">{{
           group.name
         }}</mat-option>
       </mat-select>

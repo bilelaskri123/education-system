@@ -15,13 +15,41 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 export class AccountantComponent implements OnInit, OnDestroy {
   accountants: User[] = [];
   isLoading = false;
-  form: FormGroup;
   private accountantsSub: Subscription;
 
-  totalAccountants = 0;
-  accountantPerPage = 5;
-  currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
+  settings = {
+    columns : {
+      fullName : {
+        title: 'Full Name'
+      },
+      email : {
+        title: 'Email'
+      },
+      salary : {
+        title: 'Salary'
+      },
+    },
+    actions: {
+      custom : [
+        {
+          name: 'edit',
+          title: '<i class="fas fa-edit"></i>'
+        },
+        {
+          name: 'delete',
+          title: '<i class="far fa-trash-alt"></i>'
+        },
+      ],
+      add: false,
+      edit: false,
+      delete: false,
+      position: 'right'
+    },
+    attr: {
+      class: 'table table-bordered'
+    }
+  }
+
   constructor(
     private accountantService: AccountantService,
     private router: Router
@@ -29,52 +57,39 @@ export class AccountantComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
-
-    this.form = new FormGroup({
-      search: new FormControl(null, { validators: [Validators.nullValidator] }),
-    });
-    this.getAccountants("");
+    this.getAccountants();
   }
 
-  getAccountants(filtredBy: string) {
-    this.accountantService.getAccountants(
-      this.accountantPerPage,
-      this.currentPage,
-      filtredBy
-    );
+  getAccountants() {
+    this.accountantService.getAccountants();
     this.accountantsSub = this.accountantService
       .getAccountantUpdateListener()
       .subscribe(
         (accountantData: { accountants: User[]; accountantCount: number }) => {
           this.isLoading = false;
-          this.totalAccountants = accountantData.accountantCount;
           this.accountants = accountantData.accountants;
         }
       );
   }
 
-  test() {
-    this.getAccountants(this.form.value.search);
-  }
-
-  onChangedPage(pageData: PageEvent) {
-    this.currentPage = pageData.pageIndex + 1;
-    this.accountantPerPage = pageData.pageSize;
-    this.accountantService.getAccountants(
-      this.accountantPerPage,
-      this.currentPage,
-      ""
-    );
+  onCustom(event) {
+    if(event.action == 'edit') {
+      this.router.navigate(['/ecms/edit-accountant/' + event.data.id])
+    }
+    else if (event.action == 'delete') {
+      if (confirm('are you sure to delete '+ event.data.fullName)) {
+        this.accountantService.deleteAccountant(event.data.id).subscribe(() => {
+          this.isLoading = true;
+          this.accountantService.getAccountants();
+        })
+      }
+    }
   }
 
   deleteAccountant(accountantId: string) {
     this.accountantService.deleteAccountant(accountantId).subscribe(() => {
       this.isLoading = true;
-      this.accountantService.getAccountants(
-        this.accountantPerPage,
-        this.currentPage,
-        ""
-      );
+      this.accountantService.getAccountants();
     });
   }
 

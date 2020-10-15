@@ -315,7 +315,7 @@ const routes: Routes = [
           import("./my-course/my-course.module").then((m) => m.MyCourseModule),
       },
       {
-        path: "cv-detail",
+        path: "cv-detail/:userId",
         loadChildren: () =>
           import("./cv-detail/cv-detail.module").then((m) => m.CvDetailModule),
       },

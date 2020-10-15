@@ -37,19 +37,15 @@ export class LibrarianService {
     return this.http
       .post("http://localhost:3000/api/librarian", librarianData)
       .subscribe((responseData) => {
-        this.router.navigate(["/ecms/accountant"]);
+        this.router.navigate(["/ecms/librarian"]);
       });
   }
 
-  getLibrarians(
-    librarianPerPage: number,
-    currentPage: number,
-    filtredBy: string
-  ) {
-    const queryParams = `?pagesize=${librarianPerPage}&page=${currentPage}&search=${filtredBy}`;
+  getLibrarians() {
+    // const queryParams = `?pagesize=${librarianPerPage}&page=${currentPage}&search=${filtredBy}`;
     this.http
       .get<{ message: string; librarians: any; count: number }>(
-        "http://localhost:3000/api/librarian" + queryParams
+        "http://localhost:3000/api/librarian"
       )
       .pipe(
         map((librarianData) => {

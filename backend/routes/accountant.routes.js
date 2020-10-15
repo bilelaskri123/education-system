@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
+const nodemailer = require('nodemailer');
 
 const User = require("../models/User");
 
@@ -108,51 +109,75 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.get("", (req, res) => {
-  const pageSize = +req.query.pagesize;
-  const currentPage = +req.query.page;
-  const filter = req.query.search;
-  const accountantQuery = User.find({
-    $and: [
-      { role: "accountant" },
-      {
-        $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
-      },
-    ],
-  });
+router.get('', (req, res) => {
   let count;
-  User.countDocuments({ role: "accountant" }).then((result) => {
-    count = result;
-  });
   let accountants = [];
   let accountant = {};
-  if (pageSize && currentPage) {
-    accountantQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
-  }
-  accountantQuery
-    .then((result) => {
-      result.forEach((data) => {
-        accountant.fullName = data.fullName;
-        accountant.email = data.email;
-        accountant.role = data.role;
-        accountant.salary = data.salary;
-        accountant._id = data._id;
-
-        accountants.push(accountant);
-        accountant = {};
-      });
-      res.status(200).json({
-        message: "Accountant fetched successfuly!",
-        count: count,
-        accountants: accountants,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
-      });
-    });
+  User.countDocuments({role: 'accountant'}).then((result) => {
+    count = result;
+  })
+  User.find({role: 'accountant'})
+      .select("-password")
+      .then((result) => {
+        result.forEach((data) => {
+          accountant.fullName = data.fullName;
+          accountant.email = data.email;
+          accountant.role = data.role;
+          accountant.salary = data.salary;
+          accountant._id = data._id;
+  
+          accountants.push(accountant);
+          accountant = {};
+        })
+        res.status(200).json({accountants: accountants, count: count})
+      }).catch(error => res.status(500).json({message: 'an error occurred'}))
 });
+
+// router.get("", (req, res) => {
+//   const pageSize = +req.query.pagesize;
+//   const currentPage = +req.query.page;
+//   const filter = req.query.search;
+//   const accountantQuery = User.find({
+//     $and: [
+//       { role: "accountant" },
+//       {
+//         $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
+//       },
+//     ],
+//   });
+//   let count;
+//   User.countDocuments({ role: "accountant" }).then((result) => {
+//     count = result;
+//   });
+//   let accountants = [];
+//   let accountant = {};
+//   if (pageSize && currentPage) {
+//     accountantQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+//   }
+//   accountantQuery
+//     .then((result) => {
+//       result.forEach((data) => {
+//         accountant.fullName = data.fullName;
+//         accountant.email = data.email;
+//         accountant.role = data.role;
+//         accountant.salary = data.salary;
+//         accountant._id = data._id;
+
+//         accountants.push(accountant);
+//         accountant = {};
+//       });
+//       res.status(200).json({
+//         message: "Accountant fetched successfuly!",
+//         count: count,
+//         accountants: accountants,
+//       });
+//     })
+//     .catch((err) => {
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
+// });
 
 router.delete("/:id", (req, res) => {
   console.log(req.params.id);

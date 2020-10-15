@@ -16,15 +16,42 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 })
 export class ParentsComponent implements OnInit, OnDestroy {
   isLoading = false;
-  form: FormGroup;
-
   parents: User[] = [];
   private parentsSub: Subscription;
 
-  totalParents = 0;
-  parentPerPage = 5;
-  currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
+  settings = {
+    columns : {
+      fullName : {
+        title: 'Full Name'
+      },
+      email : {
+        title: 'Email'
+      },
+      childEmail : {
+        title: 'Child'
+      },
+    },
+    actions: {
+      custom : [
+        {
+          name: 'edit',
+          title: '<i class="fas fa-edit"></i>'
+        },
+        {
+          name: 'delete',
+          title: '<i class="far fa-trash-alt"></i>'
+        }
+      ],
+      add: false,
+      edit: false,
+      delete: false,
+      position: 'right'
+    },
+    attr: {
+      class: 'table table-bordered'
+    }
+  }
+
   constructor(
     private parentService: ParentService,
     private studentService: StudentService,
@@ -33,43 +60,31 @@ export class ParentsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
-    this.form = new FormGroup({
-      search: new FormControl(null, { validators: [Validators.nullValidator] }),
-    });
-
-    this.getParents("");
+    this.getParents();
   }
 
-  getParents(filtredBy: string) {
-    this.parentService.getParents(
-      this.parentPerPage,
-      this.currentPage,
-      filtredBy
-    );
+  getParents() {
+    this.parentService.getParents();
     this.parentsSub = this.parentService
       .getParentUpdateListener()
       .subscribe((parentData: { parents: User[]; parentCount: number }) => {
         this.isLoading = false;
-        this.totalParents = parentData.parentCount;
         this.parents = parentData.parents;
       });
   }
 
-  test() {
-    this.getParents(this.form.value.search);
-  }
-
-  onChangedPage(pageData: PageEvent) {
-    this.currentPage = pageData.pageIndex + 1;
-    this.parentPerPage = pageData.pageSize;
-    this.parentService.getParents(this.parentPerPage, this.currentPage, "");
-  }
-
-  deleteParent(parentId: string) {
-    this.parentService.deleteParent(parentId).subscribe(() => {
-      this.isLoading = true;
-      this.parentService.getParents(this.parentPerPage, this.currentPage, "");
-    });
+  onCustom(event) {
+    if(event.action == 'edit') {
+      this.router.navigate(['/ecms/edit-parent/' + event.data.id])
+    }
+    else if (event.action == 'delete') {
+      if (confirm('are you sure to delete '+ event.data.fullName)) {
+        this.parentService.deleteParent(event.data.id).subscribe(() => {
+          this.isLoading = true;
+          this.parentService.getParents();
+        })
+      }
+    }
   }
 
   addParent() {

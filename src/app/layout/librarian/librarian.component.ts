@@ -15,14 +15,43 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 })
 export class LibrarianComponent implements OnInit {
   isLoading = false;
-  form: FormGroup;
-
   librarians: User[];
   librarianSub: Subscription;
-  totalLibrarians = 0;
-  librarianPerPage = 5;
-  currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
+
+  settings = {
+    columns : {
+      fullName : {
+        title: 'Full Name'
+      },
+      email : {
+        title: 'Email'
+      },
+      salary : {
+        title: 'Salary'
+      },
+    },
+    actions: {
+      custom : [
+        {
+          name: 'edit',
+          title: '<i class="fas fa-edit"></i>'
+        },
+        {
+          name: 'delete',
+          title: '<i class="far fa-trash-alt"></i>'
+        },
+      ],
+      add: false,
+      edit: false,
+      delete: false,
+      position: 'right'
+    },
+    attr: {
+      class: 'table table-bordered'
+    }
+  }
+
+  
   constructor(
     private librarianService: LibrarianService,
     private router: Router
@@ -30,58 +59,49 @@ export class LibrarianComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = true;
-
-    this.form = new FormGroup({
-      search: new FormControl(null, { validators: [Validators.nullValidator] }),
-    });
-    this.getLibrarians("");
+    this.getLibrarians();
   }
 
-  getLibrarians(filtredBy: string) {
-    this.librarianService.getLibrarians(
-      this.librarianPerPage,
-      this.currentPage,
-      filtredBy
-    );
+  getLibrarians() {
+    this.librarianService.getLibrarians();
     this.librarianSub = this.librarianService
       .getLibrarianUpdateListener()
       .subscribe(
         (librarianData: { librarians: User[]; librarianCount: number }) => {
           this.isLoading = false;
-          this.totalLibrarians = librarianData.librarianCount;
           this.librarians = librarianData.librarians;
         }
       );
-  }
-
-  test() {
-    this.getLibrarians(this.form.value.search);
-  }
-
-  onChangedPage(pageData: PageEvent) {
-    this.currentPage = pageData.pageIndex + 1;
-    this.librarianPerPage = pageData.pageSize;
-    this.librarianService.getLibrarians(
-      this.librarianPerPage,
-      this.currentPage,
-      ""
-    );
   }
 
   ngOnDestroy() {
     this.librarianSub.unsubscribe();
   }
 
-  deleteLibrarian(accountantId: string) {
-    this.librarianService.deleteLibrarian(accountantId).subscribe(() => {
-      this.isLoading = true;
-      this.librarianService.getLibrarians(
-        this.librarianPerPage,
-        this.currentPage,
-        ""
-      );
-    });
+  onCustom(event) {
+    if(event.action == 'edit') {
+      this.router.navigate(['/ecms/edit-librarian/' + event.data.id])
+    }
+    else if (event.action == 'delete') {
+      if (confirm('are you sure to delete '+ event.data.fullName)) {
+        this.librarianService.deleteLibrarian(event.data.id).subscribe(() => {
+          this.isLoading = true;
+          this.librarianService.getLibrarians();
+        })
+      }
+    }
   }
+
+  // deleteLibrarian(accountantId: string) {
+  //   this.librarianService.deleteLibrarian(accountantId).subscribe(() => {
+  //     this.isLoading = true;
+  //     this.librarianService.getLibrarians(
+  //       this.librarianPerPage,
+  //       this.currentPage,
+  //       ""
+  //     );
+  //   });
+  // }
 
   addLibrarian() {
     this.router.navigate(["/ecms/add-librarian"]);

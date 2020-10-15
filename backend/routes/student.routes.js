@@ -96,58 +96,86 @@ router.post("", async (req, res, next) => {
     });
 });
 
-router.get("", (req, res) => {
-  const pageSize = +req.query.pagesize;
-  const currentPage = +req.query.page;
-  const filter = req.query.search;
-  const studentQuery = User.find({
-    $and: [
-      { role: "student" },
-      {
-        $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
-      },
-    ],
-  })
-    .populate("section", "name")
-    .populate("group", "name");
+router.get('', (req, res) => {
   let count;
-  User.countDocuments({ role: "student" }).then((result) => {
-    count = result;
-  });
   let students = [];
   let student = {};
-  if (pageSize && currentPage) {
-    studentQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
-  }
-  studentQuery
-    .then((result) => {
-      result.forEach((data) => {
-        student.fullName = data.fullName;
-        student.email = data.email;
-        student.role = data.role;
-        student.emailParent = data.emailParent;
-        student._id = data._id;
-        student.section = data.section.name;
-        student.group = data.group.name;
-        student.payement = data.payement;
+  User.countDocuments({role: 'student'}).then((result) => {
+    count = result;
+  })
+  User.find({role: 'student'})
+      .populate("section", "name")
+      .populate("group", "name")
+      .select("-password")
+      .then((result) => {
+        result.forEach((data) => {
+          student.fullName = data.fullName;
+          student.email = data.email;
+          student.role = data.role;
+          student.emailParent = data.emailParent;
+          student._id = data._id;
+          student.section = data.section.name;
+          student.group = data.group.name;
+          student.payement = data.payement;
 
-        students.push(student);
-        student = {};
-      });
-      // console.log(students);
-      res.status(200).json({
-        message: "student fetched successfuly!",
-        count: count,
-        students: students,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
+          students.push(student);
+          student = {};
+        })
+        res.status(200).json({students: students, count: count})
+      }).catch(error => res.status(500).json({message: 'an error occurred'}))
 });
+
+// router.get("", (req, res) => {
+//   const pageSize = +req.query.pagesize;
+//   const currentPage = +req.query.page;
+//   const filter = req.query.search;
+//   const studentQuery = User.find({
+//     $and: [
+//       { role: "student" },
+//       {
+//         $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
+//       },
+//     ],
+//   })
+//     .populate("section", "name")
+//     .populate("group", "name");
+//   let count;
+//   User.countDocuments({ role: "student" }).then((result) => {
+//     count = result;
+//   });
+//   let students = [];
+//   let student = {};
+//   if (pageSize && currentPage) {
+//     studentQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+//   }
+//   studentQuery
+//     .then((result) => {
+//       result.forEach((data) => {
+//         student.fullName = data.fullName;
+//         student.email = data.email;
+//         student.role = data.role;
+//         student.emailParent = data.emailParent;
+//         student._id = data._id;
+//         student.section = data.section.name;
+//         student.group = data.group.name;
+//         student.payement = data.payement;
+
+//         students.push(student);
+//         student = {};
+//       });
+//       res.status(200).json({
+//         message: "student fetched successfuly!",
+//         count: count,
+//         students: students,
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).json({
+//         message: 'can not find students'
+//       });
+//     });
+// });
 
 router.put("/:id", (req, res) => {
   console.log(req.params.id);

@@ -11,7 +11,9 @@
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
-<div class="form">
+<ng2-smart-table [settings]="settings" [source]="accountants" (custom)="onCustom($event)"></ng2-smart-table>
+
+<!-- <div class="form">
   <form [formGroup]="form">
     <mat-form-field class="example-full-width">
       <input
@@ -76,4 +78,4 @@
   [pageSize]="AccountantPerPage"
   [pageSizeOptions]="pageSizeOptions"
   (page)="onChangedPage($event)"
-></mat-paginator>
+></mat-paginator> -->

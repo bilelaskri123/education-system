@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
+const nodemailer = require('nodemailer');
 
 const User = require("../models/User");
 
@@ -95,51 +96,75 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.get("", (req, res) => {
-  const pageSize = +req.query.pagesize;
-  const currentPage = +req.query.page;
-  const filter = req.query.search;
-  const librarianQuery = User.find({
-    $and: [
-      { role: "librarian" },
-      {
-        $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
-      },
-    ],
-  });
+router.get('', (req, res) => {
   let count;
-  User.countDocuments({ role: "librarian" }).then((result) => {
-    count = result;
-  });
   let librarians = [];
   let librarian = {};
-  if (pageSize && currentPage) {
-    librarianQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
-  }
-  librarianQuery
-    .then((result) => {
-      result.forEach((data) => {
-        librarian.fullName = data.fullName;
-        librarian.email = data.email;
-        librarian.role = data.role;
-        librarian.salary = data.salary;
-        librarian._id = data._id;
+  User.countDocuments({role: 'librarian'}).then((result) => {
+    count = result;
+  })
+  User.find({role: 'librarian'})
+      .select("-password")
+      .then((result) => {
+        result.forEach((data) => {
+          librarian.fullName = data.fullName;
+          librarian.email = data.email;
+          librarian.role = data.role;
+          librarian.salary = data.salary;
+          librarian._id = data._id;
 
-        librarians.push(librarian);
-        librarian = {};
-      });
-      res.status(200).json({
-        message: "Librarian fetched successfuly!",
-        count: count,
-        librarians: librarians,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
-      });
-    });
+          librarians.push(librarian);
+          librarian = {};
+        })
+        res.status(200).json({librarians: librarians, count: count})
+      }).catch(error => res.status(500).json({message: 'an error occurred'}))
 });
+
+// router.get("", (req, res) => {
+//   const pageSize = +req.query.pagesize;
+//   const currentPage = +req.query.page;
+//   const filter = req.query.search;
+//   const librarianQuery = User.find({
+//     $and: [
+//       { role: "librarian" },
+//       {
+//         $or: [{ fullName: { $regex: filter } }, { email: { $regex: filter } }],
+//       },
+//     ],
+//   });
+//   let count;
+//   User.countDocuments({ role: "librarian" }).then((result) => {
+//     count = result;
+//   });
+//   let librarians = [];
+//   let librarian = {};
+//   if (pageSize && currentPage) {
+//     librarianQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+//   }
+//   librarianQuery
+//     .then((result) => {
+//       result.forEach((data) => {
+//         librarian.fullName = data.fullName;
+//         librarian.email = data.email;
+//         librarian.role = data.role;
+//         librarian.salary = data.salary;
+//         librarian._id = data._id;
+
+//         librarians.push(librarian);
+//         librarian = {};
+//       });
+//       res.status(200).json({
+//         message: "Librarian fetched successfuly!",
+//         count: count,
+//         librarians: librarians,
+//       });
+//     })
+//     .catch((err) => {
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
+// });
 
 router.delete("/:id", (req, res, next) => {
   User.deleteOne({ _id: req.params.id })
