@@ -19,6 +19,7 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatTabsModule } from "@angular/material/tabs";
+import { MatStepperModule } from '@angular/material/stepper';
 
 const materialComponents = [
   MatTableModule,
@@ -40,6 +41,7 @@ const materialComponents = [
   MatCheckboxModule,
   MatChipsModule,
   MatTabsModule,
+  MatStepperModule
 ];
 
 @NgModule({

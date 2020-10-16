@@ -319,6 +319,16 @@ const routes: Routes = [
         loadChildren: () =>
           import("./cv-detail/cv-detail.module").then((m) => m.CvDetailModule),
       },
+      {
+        path: "new-attandance",
+        loadChildren: () => 
+        import("./new-attandance/new-attandance.module").then((m) => m.NewAttandanceModule)
+      },
+      {
+        path: "new-evaluation",
+        loadChildren: () => 
+        import('./new-evaluation/new-evaluation.module').then((m) => m.NewEvaluationModule)
+      }
     ],
   },
 ];

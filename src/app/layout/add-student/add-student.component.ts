@@ -161,7 +161,6 @@ export class AddStudentComponent implements OnInit, OnDestroy {
         this.selectedGroups.push(group);
       }
     })
-    console.log(this.selectedGroups);
   }
 
   cancelForm() {

@@ -1,0 +1,117 @@
+    <mat-horizontal-stepper linear #stepper>
+    <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>choose section</ng-template>
+        <mat-form-field>
+            <mat-select
+            matNativeControl
+            placeholder="section"
+            formControlName="firstCtrl"
+            (selectionChange)="getSection($event)"
+            >
+            <mat-option *ngFor="let section of sections" [value]="section.id" >{{
+            section.name
+            }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>choose group</ng-template>
+        <mat-form-field>
+            <mat-select
+            matNativeControl
+            placeholder="group"
+            formControlName="secondCtrl"
+            (selectionChange)="getGroup($event)"
+        >
+            <mat-option *ngFor="let group of selectedGroups" [value]="group.id" >{{
+            group.name
+            }}</mat-option>
+      </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="thirdFormGroup" [editable]="isEditable">
+        <form [formGroup]="thirdFormGroup">
+          <ng-template matStepLabel>choose lesson</ng-template>
+          <mat-form-field>
+            <mat-select
+            matNativeControl
+            placeholder="lesson"
+            formControlName="thirdCtrl"
+        >
+            <mat-option *ngFor="let lesson of selectedLessons" [value]="lesson.name" >{{
+            lesson.name
+            }}</mat-option>
+      </mat-select>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+    </mat-step>
+
+    <mat-step [stepControl]="fourthFormGroup" [editable]="isEditable">
+      <form [formGroup]="fourthFormGroup">
+        <ng-template matStepLabel>create attandance</ng-template>
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">email</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Absent</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let student of fourthFormGroup.get('students').value; let i=index">
+                    <td>{{student.email}}</td>
+                    <td>{{student.fullName}}</td>
+                    <td>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" 
+                        class="custom-control-input" 
+                        id="{{student.email}}" 
+                        value="{{student.absent}}"
+                        (change)="student.absent = true"
+                        >
+                        <label class="custom-control-label" for="{{student.email}}"></label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+  </mat-step>
+    
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="saveAttandance()">Save</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+  

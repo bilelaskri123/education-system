@@ -3,66 +3,13 @@
     <i class="fas fa-calendar-check"></i> &nbsp;
     <span> Attandance </span>
     <span class="example-spacer"></span>
+    <button
+    class="btn btn-primary"
+    (click)="newAttandance()"
+  >
+    <i class="fas fa-plus-square"></i> &nbsp; new Attandance
+  </button>
   </mat-toolbar>
 </p>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<form [formGroup]="form" (submit)="onSaveAttendance()" *ngIf="!isLoading">
-  <div class="espace">
-    <!-- <mat-form-field appearance="fill" class="col-lg-4 col-md-4 col-sm-12">
-      <mat-label>Section</mat-label>
-      <mat-select matNativeControl formControlName="section" required>
-        <mat-option *ngFor="let section of sections" [value]="section.id">
-          {{ section.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field> -->
-
-    <mat-form-field appearance="fill" class="col-lg-6 col-md-6 col-sm-12">
-      <mat-label>Group</mat-label>
-      <mat-select matNativeControl formControlName="group" required>
-        <mat-option *ngFor="let group of groups" [value]="group.id">
-          {{ group.name }}-{{ group.section.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="col-lg-6 col-md-6 col-sm-12">
-      <mat-label>Course</mat-label>
-      <mat-select matNativeControl formControlName="course" required>
-        <mat-option *ngFor="let lesson of lessons" [value]="lesson._id">
-          {{ lesson.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <table class="table" *ngIf="selectGroups.length > 0">
-      <thead>
-        <tr>
-          <th scope="col">id</th>
-          <th scope="col">name</th>
-          <th scope="col">email</th>
-          <th scope="col">status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let student of selectGroups; let i = index">
-          <th scope="row">{{ i + 1 }}</th>
-          <td>{{ student.fullName }}</td>
-          <td>{{ student.email }}</td>
-          <td>
-            <mat-radio-group>
-              <mat-radio-button class="example-margin" value="present"
-                >Present</mat-radio-button
-              >
-              <br />
-              <mat-radio-button class="example-margin" value="absent"
-                >Absent</mat-radio-button
-              >
-            </mat-radio-group>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p *ngIf="selectGroups.length <= 0">No Group Selected</p>
-  </div>
-</form>

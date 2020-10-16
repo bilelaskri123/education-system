@@ -41,6 +41,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.totalPrograms = programData.programCount;
           this.programs = programData.programs;
+          console.log(this.programs);
         }
       );
   }

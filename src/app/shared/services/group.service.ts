@@ -32,6 +32,7 @@ export class GroupService {
                 name: group.name,
                 section: group.section,
                 students: group.students,
+                level: group.level
               };
             }),
             maxGroup: groupData.maxGroup,
@@ -51,10 +52,11 @@ export class GroupService {
     return this.groupsUpdated.asObservable();
   }
 
-  addGroup(name: string, section: string) {
+  addGroup(name: string, section: string, level: string) {
     let group = {
       name: name,
       section: section,
+      level: level
     };
 
     console.log(group);

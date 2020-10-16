@@ -6,6 +6,7 @@ router.post("", (req, res) => {
   const group = new Group({
     name: req.body.name,
     section: req.body.section,
+    level: parseInt(req.body.level)
   });
 
   console.log(group);
@@ -16,9 +17,10 @@ router.post("", (req, res) => {
         message: "group created successfuly",
       });
     })
-    .catch((err) => {
+    .catch((error) => {
+      console.log(error)
       res.status(500).json({
-        error: err,
+        message: 'failed to added this group'
       });
     });
 });
@@ -27,7 +29,7 @@ router.get("", (req, res) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   const groupQuery = Group.find()
-    .select("name section students")
+    .select("name section students level")
     .populate("section", "_id name")
     .populate("students", "_id fullName email");
   let fetchedGroups;
@@ -41,7 +43,6 @@ router.get("", (req, res) => {
       return Group.countDocuments();
     })
     .then((count) => {
-      // console.log(fetchedGroups);
       res.status(200).json({
         message: "Group fetched successfully!",
         groups: fetchedGroups,

@@ -13,8 +13,8 @@ import { AuthService } from "src/app/shared/services/auth.service";
 })
 export class GroupComponent implements OnInit {
   role: string;
-  groups: Group[] = [];
   isLoading = false;
+  groups: Group[] = [];
   private groupSub: Subscription;
 
   totalGroup = 0;

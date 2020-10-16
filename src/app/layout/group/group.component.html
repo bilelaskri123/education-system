@@ -17,10 +17,10 @@
 <mat-accordion multi="true" *ngIf="groups.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let group of groups">
     <mat-expansion-panel-header>
-      {{ group.name }} &nbsp; &nbsp; &nbsp; {{ group.section.name }}
+    {{group.level}} &nbsp; {{ group.section.name }} &nbsp;  {{ group.name }} 
     </mat-expansion-panel-header>
     <section>
-      <div>
+      <div *ngIf="group.students.length > 0">
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -47,6 +47,7 @@
           </tbody>
         </table>
       </div>
+      <p *ngIf="group.students.length <= 0"> no students added </p>
       <mat-action-row *ngIf="[role] == 'admin'">
         <a
           mat-button
