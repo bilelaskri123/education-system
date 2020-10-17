@@ -6,6 +6,7 @@ import { BookComponent } from "./book.component";
 import { MaterialModule } from "../../shared/material/material.module";
 import { HeaderBookComponent } from "../header-book/header-book.component";
 import { ReactiveFormsModule } from "@angular/forms";
+import { Ng2SmartTableModule } from "ng2-smart-table"
 
 @NgModule({
   declarations: [BookComponent, HeaderBookComponent],
@@ -14,6 +15,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     BookRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
+    Ng2SmartTableModule
   ],
 })
 export class BookModule {}

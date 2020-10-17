@@ -14,11 +14,12 @@ export class productsService {
   }>();
   constructor(private http: HttpClient, private router: Router) {}
 
-  getProducts(productsPerPage: number, currentPage: number, filtredBy: string) {
-    const queryParams = `?pagesize=${productsPerPage}&page=${currentPage}&search=${filtredBy}`;
+  getProducts() {
+    // productsPerPage: number, currentPage: number, filtredBy: string
+    // const queryParams = `?pagesize=${productsPerPage}&page=${currentPage}&search=${filtredBy}`;
     this.http
       .get<{ message: string; products: any; maxProducts: number }>(
-        "http://localhost:3000/api/product" + queryParams
+        "http://localhost:3000/api/product"
       )
       .pipe(
         map((productData) => {

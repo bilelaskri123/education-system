@@ -6,6 +6,7 @@ import { ProductsComponent } from "./products.component";
 import { MaterialModule } from "../../shared/material/material.module";
 import { HeaderComponent } from "../header/header.component";
 import { ReactiveFormsModule } from "@angular/forms";
+import { Ng2SmartTableModule } from "ng2-smart-table"
 
 @NgModule({
   declarations: [ProductsComponent, HeaderComponent],
@@ -14,6 +15,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     ProductsRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
+    Ng2SmartTableModule
   ],
 })
 export class ProductsModule {}

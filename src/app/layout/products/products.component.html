@@ -2,7 +2,9 @@
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
-<div class="form">
+<ng2-smart-table [settings]="settings" [source]="products" (custom)="onCustom($event)"></ng2-smart-table>
+
+<!-- <div class="form">
   <form [formGroup]="form">
     <mat-form-field class="example-full-width">
       <input
@@ -82,4 +84,4 @@
 ></mat-paginator>
 <p class="info-text mat-body-1" *ngIf="products.length <= 0 && !isLoading">
   No products added yet!
-</p>
+</p> -->

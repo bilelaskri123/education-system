@@ -1,7 +1,11 @@
 <app-header-book></app-header-book>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<div class="form">
+
+<ng2-smart-table [settings]="settings" [source]="books" (custom)="onCustom($event)"></ng2-smart-table>
+
+
+<!-- <div class="form">
   <form [formGroup]="form">
     <mat-form-field class="example-full-width">
       <input
@@ -85,4 +89,4 @@
 ></mat-paginator>
 <p class="info-text mat-body-1" *ngIf="books.length <= 0 && !isLoading">
   No books added yet!
-</p>
+</p> -->
