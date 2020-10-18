@@ -86,7 +86,7 @@
                         class="custom-control-input" 
                         id="{{student.email}}" 
                         value="{{student.absent}}"
-                        (change)="student.absent = true"
+                        (change)="student.absent = !student.absent"
                         >
                         <label class="custom-control-label" for="{{student.email}}"></label>
                       </div>

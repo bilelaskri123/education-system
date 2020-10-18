@@ -29,10 +29,10 @@ export class NewAttandanceComponent implements OnInit {
   private programsSub: Subscription;
   programs: Program[] = [];
   selectedLessons = []
-  
-
 
   isEditable = true;
+
+  
   constructor(private _formBuilder: FormBuilder,
      private sectionService: SectionService,
      private groupService: GroupService,
