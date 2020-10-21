@@ -12,6 +12,7 @@ import { AuthService } from "src/app/shared/services/auth.service";
 import { CvService } from "src/app/shared/services/cv.service";
 
 import { ProfileService } from "src/app/shared/services/profile.service";
+import { SettingService } from 'src/app/shared/services/setting.service';
 import { mimeType } from "../add-product/mime-type.validator";
 import { ConfirmedValidator } from "./confirmed.validator";
 
@@ -25,6 +26,7 @@ export class ProfileComponent implements OnInit {
   form: FormGroup;
   pwChangeForm: FormGroup;
   cvForm: FormGroup;
+  settingForm: FormGroup;
 
   public profile: Profile;
   fullName: string;
@@ -38,7 +40,8 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private fb: FormBuilder,
     private cvService: CvService,
-    private authService: AuthService
+    private authService: AuthService,
+    private settingService: SettingService
   ) {}
 
   ngOnInit() {
@@ -80,7 +83,15 @@ export class ProfileComponent implements OnInit {
       projects: this.fb.array([]),
       langues: this.fb.array([]),
     });
+
+    this.settingForm = this.fb.group({
+      paginator: ["", [Validators.required]],
+      score: ["", [Validators.required]],
+      admis: ["", [Validators.required]]
+    })
     
+
+
     this.profileService.userProfile().subscribe((data) => {
       this.email = data.profile.email;
       this.fullName = data.profile.fullName;
@@ -109,6 +120,25 @@ export class ProfileComponent implements OnInit {
         image: this.profile.image,
       });
     });
+
+    this.getSetting();
+  }
+
+  getSetting() {
+    this.settingService.getSettings().subscribe((setting) => {
+      console.log(setting)
+      if(setting == null) {
+        this.settingForm.patchValue({
+          paginator: 8,
+          score: 20,
+          admis: 10
+        })
+      } else {
+        this.settingForm.patchValue({
+          
+        })
+      }
+    })
   }
 
   projects(): FormArray {

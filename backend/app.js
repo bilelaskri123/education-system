@@ -7,6 +7,9 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
+const User = require('./models/User');
+const Setting = require('./models/Settings');
+
 const productsRoutes = require("./routes/product.routes");
 const booksRoutes = require("./routes/book.routes");
 const sectionRoutes = require("./routes/section.routes");
@@ -28,6 +31,8 @@ const eventRoutes = require("./routes/event.routes");
 const noteRoutes = require("./routes/note.routes");
 const profileRoutes = require("./routes/profile.routes");
 const cvRoutes = require("./routes/cv.routes");
+const evaluationRoutes = require('./routes/evaluation.routes');
+const settingRoutes = require('./routes/setting.routes');
 
 const app = express();
 
@@ -66,6 +71,25 @@ app.use((req, res, next) => {
   next();
 });
 
+function initial(req, res) {
+  User.estimatedDocumentCount((error, count) => {
+    if(!error && count === 0) {
+      new User({
+        fullName: 'admin',
+        email: 'admin@gmail.com',
+        password: 'admin',
+        role: 'admin'
+      }).save(err => {
+        if (err) {
+          console.log("error", err);
+        }
+        console.log('added admin succcessfuly')
+      })
+    }
+  })
+}
+initial();
+
 app.use("/api/product", productsRoutes);
 app.use("/api/book", booksRoutes);
 app.use("/api/section", sectionRoutes);
@@ -87,4 +111,6 @@ app.use("/api/timeTable", timeTableRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/note", noteRoutes);
 app.use("/api/cv", cvRoutes);
+app.use('/api/evaluation', evaluationRoutes);
+app.use('/api/setting', settingRoutes);
 module.exports = app;

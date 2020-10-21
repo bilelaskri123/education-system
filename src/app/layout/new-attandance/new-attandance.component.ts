@@ -111,7 +111,8 @@ export class NewAttandanceComponent implements OnInit {
     })
 
     let studentsGroup = this.fourthFormGroup.get('students') as FormArray;
-
+    studentsGroup.clear();
+    
     this.group.students.map((student) => {
       let newStudent = this._formBuilder.group({
         email: student.email,

@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
 const nodemailer = require('nodemailer');
+const Setting = require('../models/Settings');
 
 const User = require("../models/User");
 

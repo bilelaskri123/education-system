@@ -22,6 +22,10 @@ export class EvaluationComponent implements OnInit {
   ngOnInit() {
   }
 
+  // first i will call the section exist 
+  // second i will organise the groups 
+  // third i will show the result of lessons 
+
   newEvaluation() {
     this.router.navigate(['/ecms/new-evaluation']);
   }

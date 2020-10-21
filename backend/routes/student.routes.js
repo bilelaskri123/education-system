@@ -8,6 +8,7 @@ const ReservationProduct = require('../models/ReservationBook');
 
 const User = require("../models/User");
 const Group = require("../models/Group");
+const Setting = require('../models/Settings');
 
 router.post("", async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email });
@@ -44,6 +45,10 @@ router.post("", async (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
+  
+  await new Setting({
+    userId: user._id
+  }).save(err => console.log(err))
   await user
     .save()
     .then((userCreated) => {

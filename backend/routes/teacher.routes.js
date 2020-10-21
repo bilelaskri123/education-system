@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 const router = express.Router();
 const ReservationBook = require('../models/ReservationBook');
 const ReservationProduct = require('../models/ReservationProduct')
+const Setting = require('../models/Settings');
 
 const User = require("../models/User");
 
@@ -29,8 +30,11 @@ router.post("", async (req, res, next) => {
   const saltRounds = 10;
   let salt = await bcrypt.genSalt(saltRounds);
   user.password = await bcrypt.hash(user.password, salt);
+ 
 
   await user.save().then((userCreated) => {
+    
+
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {

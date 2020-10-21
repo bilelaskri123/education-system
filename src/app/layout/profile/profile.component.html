@@ -447,6 +447,68 @@
                       </form>
                     </div>
                   </mat-tab>
+                  <mat-tab label="Settings">
+                    <form
+                      class="container"
+                      [formGroup]="settingForm"
+                      (submit)="changeSetting()"
+                    >
+                      <mat-form-field>
+                        <input
+                          matInput
+                          id="paginator"
+                          placeholder="paginator value"
+                          formControlName="paginator"
+                          type="number"
+                          min="1"
+                        />
+                        <mat-error *ngIf="settingForm.get('paginator').invalid"
+                          >Please enter a paginator value.</mat-error
+                        >
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input
+                          matInput
+                          id="score"
+                          placeholder="score max for evaluation"
+                          formControlName="score"
+                          type="number"
+                          min="1"
+                        />
+                        <mat-error
+                          *ngIf="
+                          settingForm.get('score').invalid"
+                          >Please enter a max score value.</mat-error
+                        >
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input
+                          matInput
+                          id="admis"
+                          placeholder="score for admis"
+                          formControlName="admis"
+                          type="number"
+                          min="1"
+                        />
+                        <mat-error *ngIf="settingForm.get('admis').invalid">
+                          Please enter a score for admis</mat-error
+                        >
+                      </mat-form-field>
+
+                      <div>
+                        <button
+                          type="submit"
+                          mat-raised-button
+                          class="btn-space"
+                          color="primary"
+                          style="width: 150px"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+
+                  </mat-tab>
                 </mat-tab-group>
               </div>
             </div>

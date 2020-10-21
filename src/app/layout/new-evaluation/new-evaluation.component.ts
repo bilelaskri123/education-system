@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Group } from 'src/app/shared/models/Group';
 import { Program } from 'src/app/shared/models/Program';
 import { Section } from 'src/app/shared/models/Section';
+import { EvaluationService } from 'src/app/shared/services/evaluation.service';
 import { GroupService } from 'src/app/shared/services/group.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
 import { SectionService } from 'src/app/shared/services/section.service';
@@ -36,7 +37,8 @@ export class NewEvaluationComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder,
      private sectionService: SectionService,
      private groupService: GroupService,
-     private programService: ProgramService) { }
+     private programService: ProgramService,
+     private evaluationService: EvaluationService) { }
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
@@ -84,6 +86,7 @@ export class NewEvaluationComponent implements OnInit {
       .subscribe(
         (programData: { programs: Program[]; programCount: number }) => {
           this.programs = programData.programs;
+          // console.log(this.programs);
         }
       );
   }
@@ -110,6 +113,7 @@ export class NewEvaluationComponent implements OnInit {
     })
 
     let studentsGroup = this.fourthFormGroup.get('students') as FormArray;
+    studentsGroup.clear();
 
     this.group.students.map((student) => {
       let newStudent = this._formBuilder.group({
@@ -120,15 +124,13 @@ export class NewEvaluationComponent implements OnInit {
 
       studentsGroup.push(newStudent);
     })
-
-    console.log(studentsGroup.value);
   }
 
   saveAttandance() {
-    console.log(this.firstFormGroup.value,
-      this.secondFormGroup.value,
-      this.thirdFormGroup.value,
-      this.fourthFormGroup.value)
+    this.evaluationService.addEvaluation(this.firstFormGroup.value.firstCtrl,
+      this.secondFormGroup.value.secondCtrl,
+      this.thirdFormGroup.value.thirdCtrl,
+      this.fourthFormGroup.value.students)
   }
 
 }

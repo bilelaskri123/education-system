@@ -12,70 +12,9 @@
   </mat-toolbar>
 </p>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<!-- <form [formGroup]="form" (submit)="onSaveEvaluation()" *ngIf="!isLoading">
-  <div class="espace">
-    <mat-form-field appearance="fill" class="col-lg-6 col-md-6 col-sm-12">
-      <mat-label>Group</mat-label>
-      <mat-select matNativeControl formControlName="group" required>
-        <mat-option *ngFor="let group of groups" [value]="group.id">
-          {{ group.name }}-{{ group.section.name }}
-        </mat-option>
-      </mat-select>
-      <mat-error *ngIf="form.get('group').invalid"
-        >Please choose a group.</mat-error
-      >
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="col-lg-6 col-md-6 col-sm-12">
-      <mat-label>Course</mat-label>
-      <mat-select matNativeControl formControlName="course" required>
-        <mat-option *ngFor="let lesson of lessons" [value]="lesson._id">
-          {{ lesson.name }}
-        </mat-option>
-      </mat-select>
-      <mat-error *ngIf="form.get('course').invalid"
-        >Please choose a lesson.</mat-error
-      >
-    </mat-form-field>
 
-    <table class="table" *ngIf="selectGroups.length > 0">
-      <thead>
-        <tr>
-          <th scope="col">id</th>
-          <th scope="col">name</th>
-          <th scope="col">email</th>
-          <th scope="col">score</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let student of selectGroups; let i = index">
-          <th scope="row">{{ i + 1 }}</th>
-          <td>{{ student.fullName }}</td>
-          <td>{{ student.email }}</td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input
-                matInput
-                type="number"
-                min="0"
-                placeholder="note"
-                formControlName="note"
-              />
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr class="position">
-          <button
-            mat-raised-button
-            class="btn-space"
-            color="primary"
-            style="width: 150px"
-            type="submit"
-          >
-            Save
-          </button>
-        </tr>
-      </tbody>
-    </table>
-    <p *ngIf="selectGroups.length <= 0">No Group Selected</p>
-  </div>
-</form> -->
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="First"> Content 1 </mat-tab>
+  <mat-tab label="Second"> Content 2 </mat-tab>
+  <mat-tab label="Third"> Content 3 </mat-tab>
+</mat-tab-group>

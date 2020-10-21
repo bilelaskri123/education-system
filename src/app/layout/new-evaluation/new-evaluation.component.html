@@ -29,9 +29,9 @@
             formControlName="secondCtrl"
             (selectionChange)="getGroup($event)"
         >
-            <mat-option *ngFor="let group of selectedGroups" [value]="group.id" >{{
-            group.name
-            }}</mat-option>
+            <mat-option *ngFor="let group of selectedGroups" [value]="group.id" >
+             {{group.level}}  {{ group.name}}
+            </mat-option>
       </mat-select>
         </mat-form-field>
         <div>
@@ -50,7 +50,7 @@
             placeholder="lesson"
             formControlName="thirdCtrl"
         >
-            <mat-option *ngFor="let lesson of selectedLessons" [value]="lesson.name" >{{
+            <mat-option *ngFor="let lesson of selectedLessons" [value]="lesson._id" >{{
             lesson.name
             }}</mat-option>
       </mat-select>
@@ -64,7 +64,7 @@
 
     <mat-step [stepControl]="fourthFormGroup" [editable]="isEditable">
       <form [formGroup]="fourthFormGroup">
-        <ng-template matStepLabel>create attandance</ng-template>
+        <ng-template matStepLabel>create evaluation</ng-template>
         <div class="container">
           <div class="row">
             <div class="col-12">
@@ -85,6 +85,7 @@
                         <input 
                         type="number"
                         #box
+                        min="0"
                         id="{{student.email}}" 
                         placeholder="{{student.note}}"
                         (change)="student.note = box.value"
