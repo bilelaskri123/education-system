@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit {
     });
 
     this.isLoading = true;
-    this.studentService.getStudents();
+    this.studentService.getStudents(1000,1, "");
     this.studentsSub = this.studentService
       .getStudentUpdateListener()
       .subscribe((studentData: { students: User[]; studentCount: number }) => {

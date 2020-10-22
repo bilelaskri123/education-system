@@ -3,7 +3,6 @@ const router = express.Router()
 const _ = require('lodash')
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer')
-const Setting = require('../models/Settings')
 
 const User = require('../models/User')
 

@@ -55,12 +55,11 @@ export class StudentService {
     return this.studentStatusListener.asObservable();
   }
 
-  getStudents() {
-    // studentPerPage: number, currentPage: number, filtredBy: string
-    // const queryParams = `?pagesize=${studentPerPage}&page=${currentPage}&search=${filtredBy}`;
+  getStudents(studentPerPage: number, currentPage: number, filtredBy: string) {
+    const queryParams = `?pagesize=${studentPerPage}&page=${currentPage}&search=${filtredBy}`;
     this.http
       .get<{ message: string; students: any; count: number }>(
-        "http://localhost:3000/api/student"
+        "http://localhost:3000/api/student" + queryParams
       )
       .pipe(
         map((studentData) => {

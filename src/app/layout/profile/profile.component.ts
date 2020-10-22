@@ -7,6 +7,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Subscription } from 'rxjs';
 import { Profile } from "src/app/shared/models/Profile";
 import { AuthService } from "src/app/shared/services/auth.service";
 import { CvService } from "src/app/shared/services/cv.service";
@@ -35,6 +36,9 @@ export class ProfileComponent implements OnInit {
   image: string;
 
   imagePreview: string;
+
+  private settingSub: Subscription;
+
   constructor(
     private router: Router,
     private profileService: ProfileService,
@@ -125,18 +129,25 @@ export class ProfileComponent implements OnInit {
   }
 
   getSetting() {
-    this.settingService.getSettings().subscribe((setting) => {
-      console.log(setting)
+    this.settingService.getSettings();
+    this.settingService.getSettingUpdateListener().subscribe((setting) => {
       if(setting == null) {
-        this.settingForm.patchValue({
+        let settingData = {
           paginator: 8,
           score: 20,
           admis: 10
-        })
+        };
+        this.settingForm.patchValue({
+          paginator: settingData.paginator,
+          score: settingData.score,
+          admis: settingData.admis
+        });        
       } else {
         this.settingForm.patchValue({
-          
-        })
+          paginator: setting.paginator,
+          admis: setting.admis,
+          score: setting.score
+        });
       }
     })
   }
@@ -249,5 +260,14 @@ export class ProfileComponent implements OnInit {
       .subscribe((response) => {
         this.router.navigate(["/login"]);
       });
+  }
+
+  changeSetting() {
+    console.log(this.settingForm.value);
+    this.settingService.changeSetting(
+      this.settingForm.value.paginator,
+      this.settingForm.value.score,
+      this.settingForm.value.admis
+    )
   }
 }
