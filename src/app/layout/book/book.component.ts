@@ -5,6 +5,7 @@ import { Subscription } from "rxjs";
 import { PageEvent } from "@angular/material/paginator";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
+import { SettingService } from 'src/app/shared/services/setting.service';
 
 @Component({
   selector: "app-book",
@@ -70,22 +71,35 @@ export class BookComponent implements OnInit, OnDestroy {
     }
   }
 
+  totalBooks = 0;
+  bookPerPage = 0;
+  currentPage = 1;
+  pageSizeOptions = [1,2,5,10]
 
-  constructor(public bookservice: bookService, private router: Router) {}
+
+  constructor(public bookservice: bookService,
+    private settingService: SettingService,
+    private router: Router) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.getBooks();
+    this.getBooks("");
+    this.getPaginator();
   }
 
-  public getBooks() {
-    this.bookservice.getBooks();
+  public getBooks(filter: string) {
+    this.bookservice.getBooks(this.bookPerPage, this.currentPage, filter);
     this.booksSub = this.bookservice
       .getBookUpdateListener()
       .subscribe((bookData: { books: Book[]; bookCount: number }) => {
         this.isLoading = false;
+        this.totalBooks = bookData.bookCount;
         this.books = bookData.books;
       });
+  }
+
+  bookFilter(filter: string) {
+    this.getBooks(filter);
   }
 
   onCustom(event) {
@@ -96,18 +110,27 @@ export class BookComponent implements OnInit, OnDestroy {
       if (confirm('are you sure to delete '+ event.data.title)) {
         this.bookservice.deleteBook(event.data.id).subscribe(() => {
           this.isLoading = true;
-          this.bookservice.getBooks();
+          this.bookservice.getBooks(this.bookPerPage, this.currentPage, "");
         })
       }
     }
   }
 
-  // onDelete(productId: string) {
-  //   this.bookservice.deleteBook(productId).subscribe(() => {
-  //     this.isLoading = true;
-  //     this.bookservice.getBooks(this.bookPerPage, this.currentPage, "");
-  //   });
-  // }
+  onChangedPage(pageData: PageEvent) {
+    this.isLoading = true;
+    this.currentPage = pageData.pageIndex + 1;
+    this.bookPerPage = pageData.pageSize;
+    this.bookservice.getBooks(this.bookPerPage, this.currentPage,"");
+  }
+
+  getPaginator(){
+    this.settingService.getSettings();
+    this.settingService.getSettingUpdateListener().subscribe((setting) => {
+      this.bookPerPage = setting.paginator;
+      this.bookservice.getBooks(setting.paginator, this.currentPage,"");
+    })
+  }
+
 
   ngOnDestroy() {
     this.booksSub.unsubscribe();

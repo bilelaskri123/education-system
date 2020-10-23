@@ -8,6 +8,7 @@ import { Subscription } from "rxjs";
 import { ParentService } from "src/app/shared/services/parent.service";
 import { StudentService } from "src/app/shared/services/student.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { SettingService } from 'src/app/shared/services/setting.service';
 
 @Component({
   selector: "app-parents",
@@ -52,25 +53,37 @@ export class ParentsComponent implements OnInit, OnDestroy {
     }
   }
 
+  totalParents = 0;
+  parentsPerPage = 0;
+  currentPage = 1;
+  pageSizeOptions = [1, 2, 5, 10];
+
   constructor(
     private parentService: ParentService,
     private studentService: StudentService,
+    private settingService: SettingService,
     private router: Router
   ) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.getParents();
+    this.getParents("");
+    this.getPaginator();
   }
 
-  getParents() {
-    this.parentService.getParents();
+  getParents(filter: string) {
+    this.parentService.getParents(this.parentsPerPage, this.currentPage, filter);
     this.parentsSub = this.parentService
       .getParentUpdateListener()
       .subscribe((parentData: { parents: User[]; parentCount: number }) => {
         this.isLoading = false;
+        this.totalParents = parentData.parentCount;
         this.parents = parentData.parents;
       });
+  }
+
+  parentFilter(serach: string) {
+    this.getParents(serach);
   }
 
   onCustom(event) {
@@ -81,10 +94,25 @@ export class ParentsComponent implements OnInit, OnDestroy {
       if (confirm('are you sure to delete '+ event.data.fullName)) {
         this.parentService.deleteParent(event.data.id).subscribe(() => {
           this.isLoading = true;
-          this.parentService.getParents();
+          this.parentService.getParents(this.parentsPerPage, this.currentPage, "");
         })
       }
     }
+  }
+
+  onChangedPage(pageData: PageEvent) {
+    this.isLoading = true;
+    this.currentPage = pageData.pageIndex + 1;
+    this.parentsPerPage = pageData.pageSize;
+    this.parentService.getParents(this.parentsPerPage, this.currentPage,"");
+  }
+
+  getPaginator(){
+    this.settingService.getSettings();
+    this.settingService.getSettingUpdateListener().subscribe((setting) => {
+      this.parentsPerPage = setting.paginator;
+      this.parentService.getParents(this.parentsPerPage, this.currentPage,"");
+    })
   }
 
   addParent() {

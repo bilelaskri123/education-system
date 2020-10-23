@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
         this.students = studentData.studentCount;
       });
 
-    this.teacherService.getTeachers();
+    this.teacherService.getTeachers(1000,1,"");
     this.teachersSub = this.teacherService
       .getTeacherUpdateListener()
       .subscribe((teacherData: { teachers: User[]; teacherCount: number }) => {

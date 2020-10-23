@@ -2,6 +2,10 @@
   flex: 1 1 auto;
 }
 
+mat-paginator {
+  margin-top: 1rem;
+}
+
 mat-spinner {
   margin: auto;
 }
@@ -22,4 +26,8 @@ mat-spinner {
   word-break: keep-all;
   background-color: #bbb9b938;
   border: 1px solid #000 !important;
+}
+
+.example-header {
+  text-align: center;
 }

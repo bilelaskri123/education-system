@@ -36,6 +36,7 @@ export class ProfileComponent implements OnInit {
   image: string;
 
   imagePreview: string;
+  updateSetting: string = '';
 
   private settingSub: Subscription;
 
@@ -268,6 +269,12 @@ export class ProfileComponent implements OnInit {
       this.settingForm.value.paginator,
       this.settingForm.value.score,
       this.settingForm.value.admis
-    )
+    ).subscribe((message) => {
+      console.log(message);
+      this.updateSetting = message.message;
+      setTimeout(() => {
+        this.updateSetting = '';
+      }, 2000)
+    })
   }
 }

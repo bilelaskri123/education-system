@@ -2,7 +2,23 @@
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
+<div class="example-header">
+  <mat-form-field>      
+   <input matInput (keyup)="productFilter($event.target.value)" 
+    placeholder="Search">
+  <mat-icon matPrefix>search</mat-icon>
+  </mat-form-field>
+</div>
+
 <ng2-smart-table [settings]="settings" [source]="products" (custom)="onCustom($event)"></ng2-smart-table>
+
+
+<mat-paginator
+  [length]="totalProducts"
+  [pageSize]="productPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>
 
 <!-- <div class="form">
   <form [formGroup]="form">

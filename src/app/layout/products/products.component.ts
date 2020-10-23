@@ -5,6 +5,7 @@ import { Subscription } from "rxjs";
 import { PageEvent } from "@angular/material/paginator";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
+import { SettingService } from 'src/app/shared/services/setting.service';
 
 @Component({
   selector: "app-products",
@@ -17,10 +18,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
   private productsSub: Subscription;
   // form: FormGroup;
 
-  // totalProducts = 0;
-  // productPerPage = 5;
-  // currentPage = 1;
-  // pageSizeOptions = [1, 2, 5, 10];
+  totalProducts = 0;
+  productPerPage = 5;
+  currentPage = 1;
+  pageSizeOptions = [1, 2, 5, 10];
 
   settings = {
     columns : {
@@ -62,23 +63,31 @@ export class ProductsComponent implements OnInit, OnDestroy {
       class: 'table table-bordered'
     }
   }
-  constructor(private productsService: productsService, private router: Router) {}
+  constructor(private productsService: productsService,
+    private settingService: SettingService,
+    private router: Router) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.getProducts();
+    this.getProducts("");
+    this.getPaginator();
   }
 
-  public getProducts() {
-    this.productsService.getProducts();
+  public getProducts(filter: string) {
+    this.productsService.getProducts(this.productPerPage, this.currentPage, filter);
     this.productsSub = this.productsService
       .getProductUpdateListener()
       .subscribe(
         (productData: { products: Product[]; productCount: number }) => {
           this.isLoading = false;
+          this.totalProducts = productData.productCount;
           this.products = productData.products;
         }
       );
+  }
+
+  productFilter(filter: string) {
+    this.getProducts(filter);
   }
 
   onCustom(event) {
@@ -89,32 +98,25 @@ export class ProductsComponent implements OnInit, OnDestroy {
       if (confirm('are you sure to delete '+ event.data.name)) {
         this.productsService.deleteProduct(event.data.id).subscribe(() => {
           this.isLoading = true;
-          this.productsService.getProducts();
+          this.productsService.getProducts(this.productPerPage, this.currentPage, "");
         })
       }
     }
   }
 
-  // test() {
-  //   this.getProducts(this.form.value.search);
-  // }
+  onChangedPage(pageData: PageEvent) {
+    this.currentPage = pageData.pageIndex + 1;
+    this.productPerPage = pageData.pageSize;
+    this.productsService.getProducts(this.productPerPage, this.currentPage, "");
+  }
 
-  // onChangedPage(pageData: PageEvent) {
-  //   this.currentPage = pageData.pageIndex + 1;
-  //   this.productPerPage = pageData.pageSize;
-  //   this.productsService.getProducts(this.productPerPage, this.currentPage, "");
-  // }
-
-  // onDelete(productId: string) {
-  //   this.productsService.deleteProduct(productId).subscribe(() => {
-  //     this.isLoading = true;
-  //     this.productsService.getProducts(
-  //       this.productPerPage,
-  //       this.currentPage,
-  //       ""
-  //     );
-  //   });
-  // }
+  getPaginator(){
+    this.settingService.getSettings();
+    this.settingService.getSettingUpdateListener().subscribe((setting) => {
+      this.productPerPage = setting.paginator;
+      this.productsService.getProducts(setting.paginator, this.currentPage,"");
+    })
+  }
 
   ngOnDestroy() {
     this.productsSub.unsubscribe();

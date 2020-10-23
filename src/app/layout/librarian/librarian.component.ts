@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { Router } from "@angular/router";
 import { User } from "src/app/shared/models/User";
@@ -7,13 +7,14 @@ import { Subscription } from "rxjs";
 import { PageEvent } from "@angular/material/paginator";
 import { LibrarianService } from "src/app/shared/services/librarian.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { SettingService } from 'src/app/shared/services/setting.service';
 
 @Component({
   selector: "app-librarian",
   templateUrl: "./librarian.component.html",
   styleUrls: ["./librarian.component.scss"],
 })
-export class LibrarianComponent implements OnInit {
+export class LibrarianComponent implements OnInit, OnDestroy {
   isLoading = false;
   librarians: User[];
   librarianSub: Subscription;
@@ -51,31 +52,39 @@ export class LibrarianComponent implements OnInit {
     }
   }
 
+  totalLibrarians = 0;
+  librariansPerPage = 0;
+  currentPage = 1;
+  pageSizeOptions = [1, 2, 5, 10];
+
   
   constructor(
     private librarianService: LibrarianService,
+    private settingService: SettingService,
     private router: Router
   ) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.getLibrarians();
+    this.getLibrarians("");
+    this.getPaginator();
   }
 
-  getLibrarians() {
-    this.librarianService.getLibrarians();
+  getLibrarians(filter: string) {
+    this.librarianService.getLibrarians(this.librariansPerPage, this.currentPage, filter);
     this.librarianSub = this.librarianService
       .getLibrarianUpdateListener()
       .subscribe(
         (librarianData: { librarians: User[]; librarianCount: number }) => {
           this.isLoading = false;
+          this.totalLibrarians = librarianData.librarianCount;
           this.librarians = librarianData.librarians;
         }
       );
   }
 
-  ngOnDestroy() {
-    this.librarianSub.unsubscribe();
+  librarianFilter(serach: string) {
+    this.getLibrarians(serach);
   }
 
   onCustom(event) {
@@ -86,24 +95,32 @@ export class LibrarianComponent implements OnInit {
       if (confirm('are you sure to delete '+ event.data.fullName)) {
         this.librarianService.deleteLibrarian(event.data.id).subscribe(() => {
           this.isLoading = true;
-          this.librarianService.getLibrarians();
+          this.librarianService.getLibrarians(this.librariansPerPage, this.currentPage,"");
         })
       }
     }
   }
 
-  // deleteLibrarian(accountantId: string) {
-  //   this.librarianService.deleteLibrarian(accountantId).subscribe(() => {
-  //     this.isLoading = true;
-  //     this.librarianService.getLibrarians(
-  //       this.librarianPerPage,
-  //       this.currentPage,
-  //       ""
-  //     );
-  //   });
-  // }
+  onChangedPage(pageData: PageEvent) {
+    this.isLoading = true;
+    this.currentPage = pageData.pageIndex + 1;
+    this.librariansPerPage = pageData.pageSize;
+    this.librarianService.getLibrarians(this.librariansPerPage, this.currentPage,"");
+  }
+
+  getPaginator(){
+    this.settingService.getSettings();
+    this.settingService.getSettingUpdateListener().subscribe((setting) => {
+      this.librariansPerPage = setting.paginator;
+      this.librarianService.getLibrarians(setting.paginator, this.currentPage,"");
+    })
+  }
 
   addLibrarian() {
     this.router.navigate(["/ecms/add-librarian"]);
+  }
+
+  ngOnDestroy() {
+    this.librarianSub.unsubscribe();
   }
 }

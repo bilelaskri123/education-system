@@ -7,6 +7,10 @@ mat-spinner {
   margin: auto;
 }
 
+mat-paginator {
+  margin-top: 1rem;
+}
+
 .info-text {
   text-align: center;
 }
@@ -56,4 +60,8 @@ form {
   word-break: keep-all;
   background-color: #bbb9b938;
   border: 1px solid #000 !important;
+}
+
+.example-header {
+  text-align: center;
 }

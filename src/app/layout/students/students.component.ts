@@ -59,17 +59,18 @@ export class StudentComponent implements OnInit, OnDestroy {
     }
   }
 
-  paginator = 0;
   totalStudents = 0;
   studentsPerPage = 0;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 
-  constructor(private studentService: StudentService, private settingService: SettingService, private router: Router) {}
+  constructor(private studentService: StudentService,
+    private settingService: SettingService,
+    private router: Router) {}
   ngOnInit() {
     this.isLoading = true;
-    this.getPaginator();
     this.getStudents("");
+    this.getPaginator();
   }
 
   public getStudents(filter: string) {

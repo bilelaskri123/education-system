@@ -448,6 +448,9 @@
                     </div>
                   </mat-tab>
                   <mat-tab label="Settings">
+                    <div class="alert alert-success" role="alert" *ngIf="updateSetting != ''">
+                      {{updateSetting}}
+                    </div>
                     <form
                       class="container"
                       [formGroup]="settingForm"
@@ -503,7 +506,7 @@
                           color="primary"
                           style="width: 150px"
                         >
-                          Submit
+                          Update
                         </button>
                       </div>
                     </form>

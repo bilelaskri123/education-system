@@ -42,12 +42,11 @@ export class TeacherService {
       });
   }
 
-  getTeachers() {
-    // teacherPerPage: number, currentPage: number, filtredBy: string
-    // const queryParams = `?pagesize=${teacherPerPage}&page=${currentPage}&search=${filtredBy}`;
+  getTeachers(teacherPerPage: number, currentPage: number, filtredBy: string) {
+    const queryParams = `?pagesize=${teacherPerPage}&page=${currentPage}&search=${filtredBy}`;
     this.http
       .get<{ message: string; teachers: any; count: number }>(
-        "http://localhost:3000/api/teacher"
+        "http://localhost:3000/api/teacher" + queryParams
       )
       .pipe(
         map((teacherData) => {

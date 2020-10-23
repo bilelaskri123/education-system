@@ -6,6 +6,7 @@ import { Subscription } from "rxjs";
 import { PageEvent } from "@angular/material/paginator";
 import { AccountantService } from "src/app/shared/services/accountant.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { SettingService } from 'src/app/shared/services/setting.service';
 
 @Component({
   selector: "app-accountant",
@@ -50,26 +51,38 @@ export class AccountantComponent implements OnInit, OnDestroy {
     }
   }
 
+  totalAccountants = 0;
+  accountantsPerPage = 0;
+  currentPage = 1;
+  pageSizeOptions = [1, 2, 5, 10];
+
   constructor(
     private accountantService: AccountantService,
+    private settingService: SettingService,
     private router: Router
   ) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.getAccountants();
+    this.getAccountants("");
+    this.getPaginator();
   }
 
-  getAccountants() {
-    this.accountantService.getAccountants();
+  getAccountants(filter: string) {
+    this.accountantService.getAccountants(this.accountantsPerPage, this.currentPage, filter);
     this.accountantsSub = this.accountantService
       .getAccountantUpdateListener()
       .subscribe(
         (accountantData: { accountants: User[]; accountantCount: number }) => {
           this.isLoading = false;
+          this.totalAccountants = accountantData.accountantCount;
           this.accountants = accountantData.accountants;
         }
       );
+  }
+
+  accountantFilter(serach: string) {
+    this.getAccountants(serach);
   }
 
   onCustom(event) {
@@ -80,17 +93,25 @@ export class AccountantComponent implements OnInit, OnDestroy {
       if (confirm('are you sure to delete '+ event.data.fullName)) {
         this.accountantService.deleteAccountant(event.data.id).subscribe(() => {
           this.isLoading = true;
-          this.accountantService.getAccountants();
+          this.accountantService.getAccountants(this.accountantsPerPage, this.currentPage, "");
         })
       }
     }
   }
 
-  deleteAccountant(accountantId: string) {
-    this.accountantService.deleteAccountant(accountantId).subscribe(() => {
-      this.isLoading = true;
-      this.accountantService.getAccountants();
-    });
+  onChangedPage(pageData: PageEvent) {
+    this.isLoading = true;
+    this.currentPage = pageData.pageIndex + 1;
+    this.accountantsPerPage = pageData.pageSize;
+    this.accountantService.getAccountants(this.accountantsPerPage, this.currentPage,"");
+  }
+
+  getPaginator(){
+    this.settingService.getSettings();
+    this.settingService.getSettingUpdateListener().subscribe((setting) => {
+      this.accountantsPerPage = setting.paginator;
+      this.accountantService.getAccountants(setting.paginator, this.currentPage,"");
+    })
   }
 
   addAccountant() {

@@ -1,67 +1,67 @@
-const express = require("express");
-const multer = require("multer");
+const express = require('express')
+const multer = require('multer')
 
-const Product = require("../models/Product");
+const Product = require('../models/Product')
 
-const router = express.Router();
+const router = express.Router()
 
 const MIME_TYPE_MAP = {
-  "image/png": "png",
-  "image/jpeg": "jpg",
-  "image/jpg": "jpg",
-};
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg',
+}
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const isValid = MIME_TYPE_MAP[file.mimetype];
-    let error = new Error("Invalid mime type");
+    const isValid = MIME_TYPE_MAP[file.mimetype]
+    let error = new Error('Invalid mime type')
     if (isValid) {
-      error = null;
+      error = null
     }
-    cb(error, "backend/images");
+    cb(error, 'backend/images')
   },
   filename: (req, file, cb) => {
-    const name = file.originalname.toLowerCase().split(" ").join("-");
-    const ext = MIME_TYPE_MAP[file.mimetype];
-    cb(null, name + "-" + Date.now() + "." + ext);
+    const name = file.originalname.toLowerCase().split(' ').join('-')
+    const ext = MIME_TYPE_MAP[file.mimetype]
+    cb(null, name + '-' + Date.now() + '.' + ext)
   },
-});
+})
 
 router.post(
-  "",
-  multer({ storage: storage }).single("image"),
+  '',
+  multer({ storage: storage }).single('image'),
   async (req, res, next) => {
-    const url = req.protocol + "://" + req.get("host");
+    const url = req.protocol + '://' + req.get('host')
     const product = new Product({
       name: req.body.name,
       category: req.body.category,
       stock: parseInt(req.body.stock),
       description: req.body.description,
-      imagePath: url + "/images/" + req.file.filename,
-    });
+      imagePath: url + '/images/' + req.file.filename,
+    })
     await product
       .save()
       .then((createdProduct) => {
         res.status(201).json({
-          message: "Post added successfully",
+          message: 'Post added successfully',
           product: {
             ...createdProduct,
             id: createdProduct._id,
           },
-        });
+        })
       })
-      .catch((err) => console.log(err));
-  }
-);
+      .catch((err) => console.log(err))
+  },
+)
 
 router.put(
-  "/:id",
-  multer({ storage: storage }).single("image"),
+  '/:id',
+  multer({ storage: storage }).single('image'),
   (req, res, next) => {
-    let imagePath = req.body.imagePath;
+    let imagePath = req.body.imagePath
     if (req.file) {
-      const url = req.protocol + "://" + req.get("host");
-      imagePath = url + "/images/" + req.file.filename;
+      const url = req.protocol + '://' + req.get('host')
+      imagePath = url + '/images/' + req.file.filename
     }
     const product = new Product({
       _id: req.body.id,
@@ -70,68 +70,68 @@ router.put(
       description: req.body.description,
       stock: req.body.stock,
       imagePath: imagePath,
-    });
+    })
     Product.updateOne({ _id: req.params.id }, product).then((result) => {
-      res.status(200).json({ message: "Update successful!" });
-    });
-  }
-);
+      res.status(200).json({ message: 'Update successful!' })
+    })
+  },
+)
 
-router.get("", (req, res, next) => {
-  const pageSize = +req.query.pagesize;
-  const currentPage = +req.query.page;
-  const filter = req.query.search;
-  const productQuery = Product.find();
-  let fetchedProducts;
+router.get('', (req, res, next) => {
+  const pageSize = +req.query.pagesize
+  const currentPage = +req.query.page
+  const filter = req.query.search
+  const productQuery = Product.find()
+  let fetchedProducts
   if (filter != null) {
     productQuery.where({
       $or: [{ name: { $regex: filter } }, { category: { $regex: filter } }],
-    });
+    })
   }
   if (pageSize && currentPage) {
-    productQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+    productQuery.skip(pageSize * (currentPage - 1)).limit(pageSize)
   }
   productQuery
     .then((documents) => {
-      fetchedProducts = documents;
-      return Product.countDocuments();
+      fetchedProducts = documents
+      return Product.countDocuments()
     })
     .then((count) => {
       res.status(200).json({
-        message: "Products fetched successfully!",
+        message: 'Products fetched successfully!',
         products: fetchedProducts,
         maxProducts: count,
-      });
-    });
-});
+      })
+    })
+})
 
-router.get("/free", (req, res) => {
+router.get('/free', (req, res) => {
   Product.find({ stock: { $gt: 0 } })
     .then((products) => {
       res.status(200).json({
         products: products,
-      });
+      })
     })
     .catch((err) => {
-      console.log(err);
-    });
-});
+      console.log(err)
+    })
+})
 
-router.get("/:id", (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   Product.findById(req.params.id).then((product) => {
     if (product) {
-      res.status(200).json(product);
+      res.status(200).json(product)
     } else {
-      res.status(404).json({ message: "Product not found!" });
+      res.status(404).json({ message: 'Product not found!' })
     }
-  });
-});
+  })
+})
 
-router.delete("/:id", (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
   Product.deleteOne({ _id: req.params.id }).then((result) => {
-    console.log(result);
-    res.status(200).json({ message: "Product deleted!" });
-  });
-});
+    console.log(result)
+    res.status(200).json({ message: 'Product deleted!' })
+  })
+})
 
-module.exports = router;
+module.exports = router

@@ -10,8 +10,22 @@
 </p>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
+<div class="example-header">
+  <mat-form-field>      
+   <input matInput (keyup)="teacherFilter($event.target.value)" 
+    placeholder="Search">
+  <mat-icon matPrefix>search</mat-icon>
+  </mat-form-field>
+</div>
+
 <ng2-smart-table [settings]="settings" [source]="teachers" (custom)="onCustom($event)"></ng2-smart-table>
 
+<mat-paginator
+  [length]="totalTeachers"
+  [pageSize]="teacherPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>
 <!-- <div class="form">
   <form [formGroup]="form">
     <mat-form-field class="example-full-width">

@@ -41,11 +41,11 @@ export class LibrarianService {
       });
   }
 
-  getLibrarians() {
-    // const queryParams = `?pagesize=${librarianPerPage}&page=${currentPage}&search=${filtredBy}`;
+  getLibrarians(librarianPerPage: number, currentPage: number, filtredBy: string) {
+    const queryParams = `?pagesize=${librarianPerPage}&page=${currentPage}&search=${filtredBy}`;
     this.http
       .get<{ message: string; librarians: any; count: number }>(
-        "http://localhost:3000/api/librarian"
+        "http://localhost:3000/api/librarian" + queryParams
       )
       .pipe(
         map((librarianData) => {
@@ -64,7 +64,6 @@ export class LibrarianService {
         })
       )
       .subscribe((transformedLibrarian) => {
-        // console.log(transformedLibrarian);
         this.librarians = transformedLibrarian.librarians;
         this.librariansUpdated.next({
           librarians: [...this.librarians],
