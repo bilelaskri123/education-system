@@ -13,8 +13,85 @@
 </p>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
-<mat-tab-group mat-align-tabs="center">
-  <mat-tab label="First"> Content 1 </mat-tab>
-  <mat-tab label="Second"> Content 2 </mat-tab>
-  <mat-tab label="Third"> Content 3 </mat-tab>
-</mat-tab-group>
+<div>
+
+<mat-form-field appearance="fill" class="col-lg-4 col-md-4 col-sm-12">
+  <mat-label>Section</mat-label>
+    <mat-select (selectionChange)="getSection($event)">
+      <mat-option *ngFor="let section of sections" [value]="section.id" >
+        {{ section.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+  
+
+<mat-form-field appearance="fill" class="col-lg-4 col-md-4 col-sm-12">
+  <mat-label>Group</mat-label>
+    <mat-select (selectionChange)="getGroup($event)">
+      <mat-option *ngFor="let group of selectedGroups" [value]="group.id">
+        {{group.level}}  {{ group.name}}
+      </mat-option>
+  </mat-select>
+</mat-form-field>
+  
+
+<mat-form-field appearance="fill" class="col-lg-4 col-md-4 col-sm-12">
+  <mat-label>Lesson</mat-label>
+    <mat-select (selectionChange)="getLesson($event)">
+      <mat-option *ngFor="let lesson of selectedLessons" [value]="lesson._id">
+          {{ lesson.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<mat-accordion multi="true" *ngIf="evaluations.length > 0 && !isLoading">
+  <mat-expansion-panel *ngFor="let evaluation of evaluations">
+    <mat-expansion-panel-header>
+      {{ evaluation.group.level }} &nbsp; {{evaluation.section.name}} &nbsp; {{ evaluation.group.name }} {{evaluation.lesson.name}}
+    </mat-expansion-panel-header>
+    <section>
+      <div *ngIf="evaluation.students.length > 0">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Full Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of evaluation.students">
+              <td>{{ student.fullName }}</td>
+              <td>{{ student.email }}</td>
+              <td>{{ student.note }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- <mat-action-row *ngIf="[role] == 'admin'">
+        <a
+          mat-button
+          color="primary"
+          [routerLink]="['/ecms/edit-group', group.id]"
+          >EDIT</a
+        >
+        <button mat-button color="warn" (click)="onDelete(group.id)">
+          DELETE
+        </button>
+      </mat-action-row> -->
+    </section>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<mat-paginator
+  [length]="totalEvaluations"
+  [pageSize]="evaluationPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>
+<p class="info-text mat-body-1" *ngIf="evaluations.length <= 0 && !isLoading">
+  No evaluation added yet!
+</p>

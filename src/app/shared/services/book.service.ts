@@ -11,7 +11,7 @@ export class bookService {
   private booksUpdated = new Subject<{ books: Book[]; bookCount: number }>();
   constructor(private http: HttpClient, private router: Router) {}
 
-  getBooks(    booksPerPage: number, currentPage: number, filtredBy: string) {
+  getBooks(booksPerPage: number, currentPage: number, filtredBy: string) {
     const queryParams = `?pagesize=${booksPerPage}&page=${currentPage}&search=${filtredBy}`;
     this.http
       .get<{ message: string; books: any; maxBooks: number }>(

@@ -18,7 +18,7 @@ export class GroupComponent implements OnInit {
   private groupSub: Subscription;
 
   totalGroup = 0;
-  groupPerPage = 2;
+  groupPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
   constructor(

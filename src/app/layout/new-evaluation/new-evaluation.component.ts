@@ -1,21 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { Group } from 'src/app/shared/models/Group';
-import { Program } from 'src/app/shared/models/Program';
-import { Section } from 'src/app/shared/models/Section';
-import { EvaluationService } from 'src/app/shared/services/evaluation.service';
-import { GroupService } from 'src/app/shared/services/group.service';
-import { ProgramService } from 'src/app/shared/services/program.service';
-import { SectionService } from 'src/app/shared/services/section.service';
+import { Component, OnInit } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Subscription } from "rxjs";
+import { Group } from "src/app/shared/models/Group";
+import { Program } from "src/app/shared/models/Program";
+import { Section } from "src/app/shared/models/Section";
+import { EvaluationService } from "src/app/shared/services/evaluation.service";
+import { GroupService } from "src/app/shared/services/group.service";
+import { ProgramService } from "src/app/shared/services/program.service";
+import { SectionService } from "src/app/shared/services/section.service";
 
 @Component({
-  selector: 'app-new-evaluation',
-  templateUrl: './new-evaluation.component.html',
-  styleUrls: ['./new-evaluation.component.scss']
+  selector: "app-new-evaluation",
+  templateUrl: "./new-evaluation.component.html",
+  styleUrls: ["./new-evaluation.component.scss"],
 })
 export class NewEvaluationComponent implements OnInit {
-
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
@@ -23,6 +22,7 @@ export class NewEvaluationComponent implements OnInit {
 
   sections: Section[] = [];
   private sectionSub: Subscription;
+
   groups: Group[] = [];
   selectedGroups: Group[] = [];
   group: Group;
@@ -30,29 +30,31 @@ export class NewEvaluationComponent implements OnInit {
 
   private programsSub: Subscription;
   programs: Program[] = [];
-  selectedLessons = []
+  selectedLessons = [];
 
   isEditable = true;
 
-  constructor(private _formBuilder: FormBuilder,
-     private sectionService: SectionService,
-     private groupService: GroupService,
-     private programService: ProgramService,
-     private evaluationService: EvaluationService) { }
+  constructor(
+    private _formBuilder: FormBuilder,
+    private sectionService: SectionService,
+    private groupService: GroupService,
+    private programService: ProgramService,
+    private evaluationService: EvaluationService
+  ) {}
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
+      firstCtrl: ["", Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
+      secondCtrl: ["", Validators.required],
     });
     this.thirdFormGroup = this._formBuilder.group({
-      thirdCtrl: ['', Validators.required]
-    })
+      thirdCtrl: ["", Validators.required],
+    });
     this.fourthFormGroup = this._formBuilder.group({
-      students: this._formBuilder.array([])
-    })
+      students: this._formBuilder.array([]),
+    });
 
     this.getSections();
     this.getGroups();
@@ -71,7 +73,7 @@ export class NewEvaluationComponent implements OnInit {
   }
 
   getGroups() {
-    this.groupService.getGroups(1000,1);
+    this.groupService.getGroups(1000, 1);
     this.groupSub = this.groupService
       .getGroupUpdateListener()
       .subscribe((groupData: { groups: Group[]; groupCount: number }) => {
@@ -80,7 +82,7 @@ export class NewEvaluationComponent implements OnInit {
   }
 
   getPrograms() {
-    this.programService.getPrograms(1000,1);
+    this.programService.getPrograms(1000, 1);
     this.programsSub = this.programService
       .getProgramUpdateListener()
       .subscribe(
@@ -94,43 +96,47 @@ export class NewEvaluationComponent implements OnInit {
   getSection(obj) {
     this.selectedGroups = [];
     this.groups.map((group) => {
-      if(group.section._id == obj.value) {
+      if (group.section._id == obj.value) {
         this.selectedGroups.push(group);
       }
-    })
+    });
   }
 
   getGroup(obj) {
     this.selectedGroups.map((group) => {
-      if(group.id == obj.value) {
+      if (group.id == obj.value) {
         this.group = group;
       }
-    })
+    });
     this.programs.map((program) => {
-      if ((program.section == this.group.section.name) && (program.level == this.group.level)) {
+      if (
+        program.section == this.group.section.name &&
+        program.level == this.group.level
+      ) {
         this.selectedLessons = program.lessons;
       }
-    })
+    });
 
-    let studentsGroup = this.fourthFormGroup.get('students') as FormArray;
+    let studentsGroup = this.fourthFormGroup.get("students") as FormArray;
     studentsGroup.clear();
 
     this.group.students.map((student) => {
       let newStudent = this._formBuilder.group({
         email: student.email,
         fullName: student.fullName,
-        note: 0 
+        note: 0,
       });
 
       studentsGroup.push(newStudent);
-    })
+    });
   }
 
   saveAttandance() {
-    this.evaluationService.addEvaluation(this.firstFormGroup.value.firstCtrl,
+    this.evaluationService.addEvaluation(
+      this.firstFormGroup.value.firstCtrl,
       this.secondFormGroup.value.secondCtrl,
       this.thirdFormGroup.value.thirdCtrl,
-      this.fourthFormGroup.value.students)
+      this.fourthFormGroup.value.students
+    );
   }
-
 }
