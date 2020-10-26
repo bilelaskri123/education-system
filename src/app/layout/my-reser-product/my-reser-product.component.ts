@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { AuthService } from "src/app/shared/services/auth.service";
 import { ReservationProductService } from "src/app/shared/services/reservationProduct.service";
 
 @Component({
@@ -8,11 +9,20 @@ import { ReservationProductService } from "src/app/shared/services/reservationPr
 })
 export class MyReserProductComponent implements OnInit {
   reservation: any;
-  constructor(private reservationProductService: ReservationProductService) {}
+  role: string;
+  isLoading = false;
+  constructor(
+    private reservationProductService: ReservationProductService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.reservationProductService.getMyReservation().subscribe((data) => {
       this.reservation = data;
+    });
+
+    this.authService.userDetail().subscribe((detail) => {
+      this.role = detail.role;
     });
   }
 }

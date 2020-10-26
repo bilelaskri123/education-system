@@ -26,10 +26,21 @@
 </ul>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<div class="container" *ngIf="reservations.length > 0 && !isLoading">
+
+<ng2-smart-table [settings]="settings" [source]="reservations" (custom)="onCustom($event)"></ng2-smart-table>
+
+<mat-paginator
+  [length]="totalReservations"
+  [pageSize]="reservationPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>
+
+
+<!-- <div class="container" *ngIf="reservations.length > 0 && !isLoading">
   <div class="row">
     <div class="col-12">
-      <table class="table table-bordered">
+      <table class="table table-hover" >
         <thead>
           <tr>
             <th scope="col">Email</th>
@@ -39,6 +50,13 @@
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td  scope="col"> <input type="text"></td>
+            <td  scope="col"> <input type="text"></td>
+            <td  scope="col"> <input type="text"></td>
+            <td  scope="col"> <input type="text"></td>
+            <td  scope="col"></td>
+          </tr>
           <tr *ngFor="let reservation of reservations">
             <td>{{ reservation.email }}</td>
             <td>{{ reservation.role }}</td>
@@ -58,16 +76,11 @@
         </tbody>
       </table>
     </div>
-  </div>
-  <mat-paginator
-  [length]="totalReservations"
-  [pageSize]="reservationPerPage"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="onChangedPage($event)"
-></mat-paginator>
-</div>
+  </div> 
+  
+</div> --> 
 
 
-<p class="info-text mat-body-1" *ngIf="reservations.length <= 0 && !isLoading">
+<!-- <p class="info-text mat-body-1" *ngIf="reservations.length <= 0 && !isLoading">
   reservations is empty
-</p>
+</p> -->

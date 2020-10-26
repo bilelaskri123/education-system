@@ -50,7 +50,7 @@
             placeholder="lesson"
             formControlName="thirdCtrl"
         >
-            <mat-option *ngFor="let lesson of selectedLessons" [value]="lesson.name" >{{
+            <mat-option *ngFor="let lesson of selectedLessons" [value]="lesson._id" >{{
             lesson.name
             }}</mat-option>
       </mat-select>

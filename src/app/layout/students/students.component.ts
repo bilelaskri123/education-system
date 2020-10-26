@@ -3,8 +3,8 @@ import { Router } from "@angular/router";
 import { StudentService } from "src/app/shared/services/student.service";
 import { User } from "src/app/shared/models/User";
 import { Subscription } from "rxjs";
-import { PageEvent } from '@angular/material';
-import { SettingService } from 'src/app/shared/services/setting.service';
+import { PageEvent } from "@angular/material";
+import { SettingService } from "src/app/shared/services/setting.service";
 
 @Component({
   selector: "app-students",
@@ -17,56 +17,58 @@ export class StudentComponent implements OnInit, OnDestroy {
   private studentsSub: Subscription;
 
   settings = {
-    columns : {
-      fullName : {
-        title: 'Full Name'
+    columns: {
+      fullName: {
+        title: "Full Name",
       },
-      email : {
-        title: 'Email'
+      email: {
+        title: "Email",
       },
-      emailParent : {
-        title: 'Parent Email'
+      emailParent: {
+        title: "Parent Email",
       },
-      section : {
-        title: 'Section'
+      section: {
+        title: "Section",
       },
-      group : {
-        title: 'Group'
-      }
+      group: {
+        title: "Group",
+      },
     },
     actions: {
-      custom : [
+      custom: [
         {
-          name: 'edit',
-          title: '<i class="fas fa-edit"></i>'
+          name: "edit",
+          title: '<i class="fas fa-edit"></i>',
         },
         {
-          name: 'delete',
-          title: '<i class="far fa-trash-alt"></i>'
+          name: "delete",
+          title: '<i class="far fa-trash-alt"></i>',
         },
         {
-          name: 'view',
-          title: ' <i class="fas fa-eye"></i>'
-        }
+          name: "view",
+          title: ' <i class="fas fa-eye"></i>',
+        },
       ],
       add: false,
       edit: false,
       delete: false,
-      position: 'right'
+      position: "right",
     },
     attr: {
-      class: 'table table-bordered'
-    }
-  }
+      class: "table table-bordered",
+    },
+  };
 
   totalStudents = 0;
   studentsPerPage = 0;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 
-  constructor(private studentService: StudentService,
+  constructor(
+    private studentService: StudentService,
     private settingService: SettingService,
-    private router: Router) {}
+    private router: Router
+  ) {}
   ngOnInit() {
     this.isLoading = true;
     this.getStudents("");
@@ -74,7 +76,11 @@ export class StudentComponent implements OnInit, OnDestroy {
   }
 
   public getStudents(filter: string) {
-    this.studentService.getStudents(this.studentsPerPage, this.currentPage, filter);
+    this.studentService.getStudents(
+      this.studentsPerPage,
+      this.currentPage,
+      filter
+    );
     this.studentsSub = this.studentService
       .getStudentUpdateListener()
       .subscribe((studentData: { students: User[]; studentCount: number }) => {
@@ -89,19 +95,22 @@ export class StudentComponent implements OnInit, OnDestroy {
   }
 
   onCustom(event) {
-    if(event.action == 'edit') {
-      this.router.navigate(['/ecms/edit-student/' + event.data.id])
-    }
-    else if (event.action == 'delete') {
-      if (confirm('are you sure to delete '+ event.data.fullName)) {
+    if (event.action == "edit") {
+      this.router.navigate(["/ecms/edit-student/" + event.data.id]);
+    } else if (event.action == "delete") {
+      if (confirm("are you sure to delete " + event.data.fullName)) {
         this.studentService.deleteStudent(event.data.id).subscribe(() => {
           this.isLoading = true;
-          this.studentService.getStudents(this.studentsPerPage, this.currentPage, "");
-        })
+          this.studentService.getStudents(
+            this.studentsPerPage,
+            this.currentPage,
+            ""
+          );
+        });
       }
-    }
-    else {
-      this.router.navigate(['/ecms/cv-detail/' + event.data.id])
+    } else {
+      this.router.navigate(["/ecms/cv-detail/" + event.data.id]);
+      console.log(event.data.id);
     }
   }
 
@@ -109,17 +118,17 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.studentsPerPage = pageData.pageSize;
-    this.studentService.getStudents(this.studentsPerPage, this.currentPage,"");
+    this.studentService.getStudents(this.studentsPerPage, this.currentPage, "");
   }
 
-  getPaginator(){
+  getPaginator() {
     this.settingService.getSettings();
     this.settingService.getSettingUpdateListener().subscribe((setting) => {
       this.studentsPerPage = setting.paginator;
-      this.studentService.getStudents(setting.paginator, this.currentPage,"");
-    })
+      this.studentService.getStudents(setting.paginator, this.currentPage, "");
+    });
   }
- 
+
   addStudent() {
     this.router.navigate(["/ecms/add-student"]);
   }

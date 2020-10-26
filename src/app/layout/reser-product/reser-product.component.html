@@ -26,7 +26,17 @@
 </ul>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<div class="container" *ngIf="reservations.length > 0 && !isLoading">
+
+<ng2-smart-table [settings]="settings" [source]="reservations" (custom)="onCustom($event)"></ng2-smart-table>
+
+<mat-paginator
+[length]="totalReservations"
+[pageSize]="reservationPerPage"
+[pageSizeOptions]="pageSizeOptions"
+(page)="onChangedPage($event)"
+></mat-paginator>
+
+<!-- <div class="container" *ngIf="reservations.length > 0 && !isLoading">
   <div class="row">
     <div class="col-12">
       <table class="table table-bordered">
@@ -69,6 +79,6 @@
 
 <p class="info-text mat-body-1" *ngIf="reservations.length <= 0 && !isLoading">
   reservations is empty
-</p>
+</p> -->
 
 

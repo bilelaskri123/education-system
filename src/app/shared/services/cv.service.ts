@@ -1,9 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Observable } from "rxjs";
-import { Subject } from 'rxjs/internal/Subject';
-import { map } from 'rxjs/operators';
+import { Subject } from "rxjs/internal/Subject";
+import { map } from "rxjs/operators";
 import { Cv } from "../models/Cv";
 
 @Injectable({
@@ -11,7 +10,12 @@ import { Cv } from "../models/Cv";
 })
 export class CvService {
   private cv: Cv;
-  private cvsUpdated = new Subject<{ cv: Cv }>();
+  private cvUpdated = new Subject<{
+    profile: string;
+    skills: [{ id: string; skill: string; level: number }];
+    langues: [{ id: string; langue: string; level: number }];
+    projects: [{ id: string; project: string; description: string }];
+  }>();
   constructor(private http: HttpClient, private router: Router) {}
 
   saveCv(cv: Cv) {
@@ -29,38 +33,35 @@ export class CvService {
       });
   }
 
-  getCv() {
-    return this.http.get<{cv: Cv}>("http://localhost:3000/api/cv/detail");
-    //  this.http.get<{cv: Cv}>("http://localhost:3000/api/cv/detail").pipe(map((cvData) => {
-    //    console.log(cvData)
-    //    return {
-    //      profile: cvData.cv.profile,
-    //      skills: cvData.cv.skills.map((skill) => {
-    //        return {
-    //          id: skill.id,
-    //          skill: skill.skill,
-    //          level: skill.level
-    //        }
-    //      }),
-    //      projects: cvData.cv.projects.map((project) => {
-    //        return {
-    //          id: project.id,
-    //          project: project.project,
-    //          description: project.description
-    //        }
-    //      }),
-    //      langues: cvData.cv.langues.map((langue) => {
-    //        return {
-    //          id: langue.id,
-    //          langue: langue.langue,
-    //          level: langue.level
-    //        }
-    //      }),
-    //    }
-    //  }))
+  getCvDetailById(userId: string) {
+    return this.http.get<{ cv: Cv }>("http://localhost:3000/api/cv/" + userId);
   }
 
-  // getCvUpdateListener() {
-  //   return this.cvsUpdated.asObservable();
+  // getCv() {
+  //   this.http
+  //     .get<{ cv: Cv }>("http://localhost:3000/api/cv/detail")
+  //     .pipe(
+  //       map((cvDetail) => {
+  //         return {
+  //           profile: cvDetail.cv.profile,
+  //           projects: cvDetail.cv.projects,
+  //           skills: cvDetail.cv.skills,
+  //           langues: cvDetail.cv.langues,
+  //         };
+  //       })
+  //     )
+  //     .subscribe((transformedData) => {
+  //       this.cv = transformedData;
+  //       this.cvUpdated.next({
+  //         profile: this.cv.profile,
+  //         skills: [...this.cv.skills],
+  //         langues: [...this.cv.langues],
+  //         projects: [...this.cv.projects],
+  //       });
+  //     });
+  // }
+
+  // getCvUpdatedListener() {
+  //   return this.cvUpdated.asObservable();
   // }
 }

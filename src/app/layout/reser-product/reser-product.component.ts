@@ -4,6 +4,8 @@ import { Reservation } from "src/app/shared/models/Reservation";
 import { Subscription } from "rxjs";
 import { ReservationProductService } from "src/app/shared/services/reservationProduct.service";
 import { PageEvent } from "@angular/material/paginator";
+import { AuthService } from "src/app/shared/services/auth.service";
+import { DataTable } from "./dataTable";
 
 @Component({
   selector: "app-reser-product",
@@ -19,12 +21,21 @@ export class ReserProductComponent implements OnInit {
   reservationPerPage = 2;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
+
+  role: string;
+  settings = {};
+
   constructor(
     private reservationProductService: ReservationProductService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit() {
+    this.setRole();
+  }
+
+  getReservations() {
     this.isLoading = true;
     this.reservationProductService.getReservations(
       this.reservationPerPage,
@@ -39,6 +50,39 @@ export class ReserProductComponent implements OnInit {
           this.reservations = reservationData.reservations;
         }
       );
+  }
+
+  setRole() {
+    this.authService.userDetail().subscribe((detail) => {
+      this.role = detail.role;
+      console.log(this.role);
+      let datatable = new DataTable();
+      if (detail.role == "admin") {
+        this.settings = datatable.settings_for_admin;
+        this.getReservations();
+      } else {
+        this.settings = datatable.settings_for_users;
+        this.getReservations();
+      }
+    });
+  }
+
+  onCustom(event) {
+    if (event.action == "delete") {
+      if (
+        confirm("are you sure to delete reservation of " + event.data.product)
+      ) {
+        this.reservationProductService
+          .deleteReservation(event.data.id)
+          .subscribe(() => {
+            this.isLoading = true;
+            this.reservationProductService.getReservations(
+              this.reservationPerPage,
+              this.currentPage
+            );
+          });
+      }
+    }
   }
 
   onChangedPage(pageData: PageEvent) {
@@ -61,6 +105,6 @@ export class ReserProductComponent implements OnInit {
         this.reservationPerPage,
         this.currentPage
       );
-    })
+    });
   }
 }

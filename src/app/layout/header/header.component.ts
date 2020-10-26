@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { AuthService } from "src/app/shared/services/auth.service";
 
 @Component({
   selector: "app-header",
@@ -7,9 +8,14 @@ import { Router } from "@angular/router";
   styleUrls: ["./header.component.scss"],
 })
 export class HeaderComponent implements OnInit {
-  constructor(private router: Router) {}
+  role: string;
+  constructor(private router: Router, private authService: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.userDetail().subscribe((detail) => {
+      this.role = detail.role;
+    });
+  }
 
   addProduct() {
     this.router.navigate(["/ecms/create-product"]);

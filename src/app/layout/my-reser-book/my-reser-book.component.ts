@@ -9,12 +9,21 @@ import { ReservationBookService } from "src/app/shared/services/reservationBook.
   styleUrls: ["./my-reser-book.component.scss"],
 })
 export class MyReserBookComponent implements OnInit {
-  reservation: any;
-  constructor(private reservationBookService: ReservationBookService) {}
+  public reservation: any;
+  role: string;
+  isLoading = false;
+  constructor(
+    private reservationBookService: ReservationBookService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.reservationBookService.getMyReservation().subscribe((data) => {
       this.reservation = data;
+    });
+
+    this.authService.userDetail().subscribe((detail) => {
+      this.role = detail.role;
     });
   }
 }

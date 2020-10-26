@@ -13,3 +13,88 @@
 </p>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<div>
+
+  <mat-form-field appearance="fill" class="col-lg-4 col-md-4 col-sm-12">
+    <mat-label>Section</mat-label>
+      <mat-select (selectionChange)="getSection($event)">
+        <mat-option *ngFor="let section of sections" [value]="section.id" >
+          {{ section.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  
+    
+  
+  <mat-form-field appearance="fill" class="col-lg-4 col-md-4 col-sm-12">
+    <mat-label>Group</mat-label>
+      <mat-select (selectionChange)="getGroup($event)">
+        <mat-option *ngFor="let group of selectedGroups" [value]="group.id">
+          {{group.level}}  {{ group.name}}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+    
+  
+  <mat-form-field appearance="fill" class="col-lg-4 col-md-4 col-sm-12">
+    <mat-label>Lesson</mat-label>
+      <mat-select (selectionChange)="getLesson($event)">
+        <mat-option *ngFor="let lesson of selectedLessons" [value]="lesson._id">
+            {{ lesson.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  <mat-accordion multi="true" *ngIf="attandances.length > 0 && !isLoading">
+    <mat-expansion-panel *ngFor="let attandance of attandances">
+      <mat-expansion-panel-header>
+        {{ attandance.group.level }} &nbsp; {{attandance.section.name}} &nbsp; {{ attandance.group.name }} {{attandance.lesson.name}}
+      </mat-expansion-panel-header>
+      <section>
+        <div *ngIf="attandance.students.length > 0">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Full Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Absence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of attandance.students">
+                <td>{{ student.fullName }}</td>
+                <td>{{ student.email }}</td>
+                <td> <p *ngIf="student.absent == true" style="color: red"> Absnet </p>
+                      <p *ngIf="student.absent == false" style="color: #00ce68"> Present</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- <mat-action-row *ngIf="[role] == 'admin'">
+          <a
+            mat-button
+            color="primary"
+            [routerLink]="['/ecms/edit-group', group.id]"
+            >EDIT</a
+          >
+          <button mat-button color="warn" (click)="onDelete(group.id)">
+            DELETE
+          </button>
+        </mat-action-row> -->
+      </section>
+    </mat-expansion-panel>
+  </mat-accordion>
+  
+  <mat-paginator
+    [length]="totalAttandances"
+    [pageSize]="attandancePerPage"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onChangedPage($event)"
+  ></mat-paginator>
+  <p class="info-text mat-body-1" *ngIf="attandances.length <= 0 && !isLoading">
+    No evaluation added yet!
+  </p>

@@ -44,6 +44,9 @@ export class EvaluationComponent implements OnInit, OnDestroy {
   groupSearch: string;
   lessonSearch: string;
 
+  score: number;
+  admis: number;
+
   constructor(
     private evaluationService: EvaluationService,
     private settingService: SettingService,
@@ -181,6 +184,8 @@ export class EvaluationComponent implements OnInit, OnDestroy {
     this.settingService.getSettings();
     this.settingService.getSettingUpdateListener().subscribe((setting) => {
       this.evaluationPerPage = setting.paginator;
+      this.score = setting.score;
+      this.admis = setting.admis;
       this.evaluationService.getEvaluations(
         setting.paginator,
         this.currentPage,

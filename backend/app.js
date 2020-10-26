@@ -32,6 +32,7 @@ const noteRoutes = require('./routes/note.routes')
 const profileRoutes = require('./routes/profile.routes')
 const cvRoutes = require('./routes/cv.routes')
 const evaluationRoutes = require('./routes/evaluation.routes')
+const attandanceRoutes = require('./routes/attandance.routes')
 const settingRoutes = require('./routes/setting.routes')
 
 const app = express()
@@ -51,7 +52,7 @@ mongoose
 
 app.use(cors())
 app.use(helmet())
-app.use(morgan('dev'))
+// app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/images', express.static(path.join('backend/images')))
@@ -119,5 +120,6 @@ app.use('/api/events', eventRoutes)
 app.use('/api/note', noteRoutes)
 app.use('/api/cv', cvRoutes)
 app.use('/api/evaluation', evaluationRoutes)
+app.use('/api/attandance', attandanceRoutes)
 app.use('/api/setting', settingRoutes)
 module.exports = app

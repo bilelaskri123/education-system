@@ -11,7 +11,7 @@
     <a class="nav-link" routerLink="/ecms/products">Products</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" routerLink="/ecms/product-reservation">Reservations</a>
+    <a class="nav-link" routerLink="/ecms/product-reservation" *ngIf="role == 'admin' || role =='accountant'">Reservations</a>
   </li>
   <li class="nav-item">
     <a class="nav-link active" routerLink="/ecms/my-product-reservation"
@@ -21,7 +21,7 @@
 </ul>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<div class="container" *ngIf="data != null && !isLoading">
+<div class="container" *ngIf="reservation != null && !isLoading">
   <div class="row">
     <div class="col-12">
       <table class="table table-bordered">
@@ -49,6 +49,6 @@
   </div>
 </div>
 
-<p class="info-text mat-body-1" *ngIf="data == null && !isLoading">
+<p class="info-text mat-body-1" *ngIf="reservation == null && !isLoading">
   you don't have any reservation
 </p>

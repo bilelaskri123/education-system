@@ -7,13 +7,14 @@ import {
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
+import { Cv } from "src/app/shared/models/Cv";
 import { Profile } from "src/app/shared/models/Profile";
 import { AuthService } from "src/app/shared/services/auth.service";
 import { CvService } from "src/app/shared/services/cv.service";
 
 import { ProfileService } from "src/app/shared/services/profile.service";
-import { SettingService } from 'src/app/shared/services/setting.service';
+import { SettingService } from "src/app/shared/services/setting.service";
 import { mimeType } from "../add-product/mime-type.validator";
 import { ConfirmedValidator } from "./confirmed.validator";
 
@@ -36,9 +37,12 @@ export class ProfileComponent implements OnInit {
   image: string;
 
   imagePreview: string;
-  updateSetting: string = '';
+  updateSetting: string = "";
 
   private settingSub: Subscription;
+  private cvSub: Subscription;
+
+  public cv: Cv;
 
   constructor(
     private router: Router,
@@ -92,10 +96,8 @@ export class ProfileComponent implements OnInit {
     this.settingForm = this.fb.group({
       paginator: ["", [Validators.required]],
       score: ["", [Validators.required]],
-      admis: ["", [Validators.required]]
-    })
-    
-
+      admis: ["", [Validators.required]],
+    });
 
     this.profileService.userProfile().subscribe((data) => {
       this.email = data.profile.email;
@@ -127,31 +129,42 @@ export class ProfileComponent implements OnInit {
     });
 
     this.getSetting();
+    // this.getCv();
   }
 
   getSetting() {
     this.settingService.getSettings();
     this.settingService.getSettingUpdateListener().subscribe((setting) => {
-      if(setting == null) {
+      if (setting == null) {
         let settingData = {
           paginator: 8,
           score: 20,
-          admis: 10
+          admis: 10,
         };
         this.settingForm.patchValue({
           paginator: settingData.paginator,
           score: settingData.score,
-          admis: settingData.admis
-        });        
+          admis: settingData.admis,
+        });
       } else {
         this.settingForm.patchValue({
           paginator: setting.paginator,
           admis: setting.admis,
-          score: setting.score
+          score: setting.score,
         });
       }
-    })
+    });
   }
+
+  // getCv() {
+  //   this.cvService.getCv();
+  //   this.cvSub = this.cvService.getCvUpdatedListener().subscribe((cvData) => {
+  //     this.cv.profile = cvData.profile;
+  //     this.cv.projects = cvData.projects;
+  //     this.cv.skills = cvData.skills;
+  //     this.cv.langues = cvData.langues;
+  //   });
+  // }
 
   projects(): FormArray {
     return this.cvForm.get("projects") as FormArray;
@@ -182,8 +195,8 @@ export class ProfileComponent implements OnInit {
   newLangue(): FormGroup {
     return this.fb.group({
       langue: "",
-      level: 0
-    })
+      level: 0,
+    });
   }
 
   addProject() {
@@ -206,7 +219,7 @@ export class ProfileComponent implements OnInit {
     this.skills().removeAt(i);
   }
 
-  removeLangue(i:number) {
+  removeLangue(i: number) {
     this.langues().removeAt(i);
   }
 
@@ -265,16 +278,18 @@ export class ProfileComponent implements OnInit {
 
   changeSetting() {
     console.log(this.settingForm.value);
-    this.settingService.changeSetting(
-      this.settingForm.value.paginator,
-      this.settingForm.value.score,
-      this.settingForm.value.admis
-    ).subscribe((message) => {
-      console.log(message);
-      this.updateSetting = message.message;
-      setTimeout(() => {
-        this.updateSetting = '';
-      }, 2000)
-    })
+    this.settingService
+      .changeSetting(
+        this.settingForm.value.paginator,
+        this.settingForm.value.score,
+        this.settingForm.value.admis
+      )
+      .subscribe((message) => {
+        console.log(message);
+        this.updateSetting = message.message;
+        setTimeout(() => {
+          this.updateSetting = "";
+        }, 2000);
+      });
   }
 }

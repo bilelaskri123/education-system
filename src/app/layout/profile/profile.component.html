@@ -266,7 +266,7 @@
                       </div>
                     </form>
                   </mat-tab>
-                  <mat-tab label="Personal cv">
+                  <mat-tab label="Personal cv" *ngIf="role == 'student' || role == 'teacher'">
                     <div class="container">
                       <h1>Personal cv</h1>
 
@@ -444,6 +444,17 @@
                             Submit
                           </button>
                         </div>
+                        <!-- <table class="table table-bordered" style="margin-top: 1rem;">
+                          <tr>
+                            <th>langue</th>
+                            <th>score</th>
+                            <th>action</th>
+                          </tr>
+                           <tr *ngFor="let langue of cv.langues">
+                            <td> {{langue.langue}} </td>
+                            <td> {{langue.level}} </td>
+                          </tr> 
+                        </table> -->
                       </form>
                     </div>
                   </mat-tab>

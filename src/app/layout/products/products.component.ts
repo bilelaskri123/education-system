@@ -3,9 +3,10 @@ import { Product } from "src/app/shared/models/Product";
 import { productsService } from "src/app/shared/services/product.service";
 import { Subscription } from "rxjs";
 import { PageEvent } from "@angular/material/paginator";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from '@angular/router';
-import { SettingService } from 'src/app/shared/services/setting.service';
+import { Router } from "@angular/router";
+import { SettingService } from "src/app/shared/services/setting.service";
+import { AuthService } from "src/app/shared/services/auth.service";
+import { DataTable } from "./datatable";
 
 @Component({
   selector: "app-products",
@@ -16,65 +17,35 @@ export class ProductsComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   isLoading = false;
   private productsSub: Subscription;
-  // form: FormGroup;
 
   totalProducts = 0;
   productPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 
-  settings = {
-    columns : {
-      imagePath: {
-        title: 'image',
-        type: 'html',
-        valuePrepareFunction:(imagePath: string) => {return `<img src="${imagePath}">`}
-      },
-      name : {
-        title: 'Name'
-      },
-      category : {
-        title: 'Category'
-      },
-      stock : {
-        title: 'Disponible'
-      },
-      description: {
-        title: 'Description'
-      }
-    },
-    actions: {
-      custom : [
-        {
-          name: 'edit',
-          title: '<i class="fas fa-edit"></i>'
-        },
-        {
-          name: 'delete',
-          title: '<i class="far fa-trash-alt"></i>'
-        },
-      ],
-      add: false,
-      edit: false,
-      delete: false,
-      position: 'right'
-    },
-    attr: {
-      class: 'table table-bordered'
-    }
-  }
-  constructor(private productsService: productsService,
+  role: string;
+
+  settings = {};
+
+  constructor(
+    private productsService: productsService,
     private settingService: SettingService,
-    private router: Router) {}
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.getProducts("");
     this.getPaginator();
+    this.setRole();
   }
 
   public getProducts(filter: string) {
-    this.productsService.getProducts(this.productPerPage, this.currentPage, filter);
+    this.productsService.getProducts(
+      this.productPerPage,
+      this.currentPage,
+      filter
+    );
     this.productsSub = this.productsService
       .getProductUpdateListener()
       .subscribe(
@@ -86,20 +57,38 @@ export class ProductsComponent implements OnInit, OnDestroy {
       );
   }
 
+  setRole() {
+    this.authService.userDetail().subscribe((detail) => {
+      this.role = detail.role;
+      console.log(this.role);
+      let datatable = new DataTable();
+      if (detail.role == "admin") {
+        this.settings = datatable.settings_for_admin;
+        this.getProducts("");
+      } else {
+        this.settings = datatable.settings_for_users;
+        this.getProducts("");
+      }
+    });
+  }
+
   productFilter(filter: string) {
     this.getProducts(filter);
   }
 
   onCustom(event) {
-    if(event.action == 'edit') {
-      this.router.navigate(['/ecms/edit-product/' + event.data.id])
-    }
-    else if (event.action == 'delete') {
-      if (confirm('are you sure to delete '+ event.data.name)) {
+    if (event.action == "edit") {
+      this.router.navigate(["/ecms/edit-product/" + event.data.id]);
+    } else if (event.action == "delete") {
+      if (confirm("are you sure to delete " + event.data.name)) {
         this.productsService.deleteProduct(event.data.id).subscribe(() => {
           this.isLoading = true;
-          this.productsService.getProducts(this.productPerPage, this.currentPage, "");
-        })
+          this.productsService.getProducts(
+            this.productPerPage,
+            this.currentPage,
+            ""
+          );
+        });
       }
     }
   }
@@ -110,12 +99,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.productsService.getProducts(this.productPerPage, this.currentPage, "");
   }
 
-  getPaginator(){
+  getPaginator() {
     this.settingService.getSettings();
     this.settingService.getSettingUpdateListener().subscribe((setting) => {
       this.productPerPage = setting.paginator;
-      this.productsService.getProducts(setting.paginator, this.currentPage,"");
-    })
+      this.productsService.getProducts(setting.paginator, this.currentPage, "");
+    });
   }
 
   ngOnDestroy() {

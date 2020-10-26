@@ -3,10 +3,10 @@ import { Book } from "src/app/shared/models/Book";
 import { bookService } from "src/app/shared/services/book.service";
 import { Subscription } from "rxjs";
 import { PageEvent } from "@angular/material/paginator";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from '@angular/router';
-import { SettingService } from 'src/app/shared/services/setting.service';
-
+import { Router } from "@angular/router";
+import { SettingService } from "src/app/shared/services/setting.service";
+import { AuthService } from "../../shared/services/auth.service";
+import { DataTable } from "./datatable";
 @Component({
   selector: "app-book",
   templateUrl: "./book.component.html",
@@ -16,74 +16,25 @@ export class BookComponent implements OnInit, OnDestroy {
   books: Book[] = [];
   isLoading = false;
   private booksSub: Subscription;
-
-  // form: FormGroup;
-
-  // totalBooks = 0;
-  // bookPerPage = 5;
-  // currentPage = 1;
-  // pageSizeOptions = [1, 2, 5, 10];
-
-  settings = {
-    columns : {
-      imagePath: {
-        title: 'image',
-        type: 'html',
-        valuePrepareFunction:(imagePath: string) => {return `<img src="${imagePath}">`}
-      },
-      title : {
-        title: 'Title'
-      },
-      isbn : {
-        title: 'isbn'
-      },
-      auther : {
-        title: 'Auther'
-      },
-      pages : {
-        title: 'Pages'
-      },
-      copies : {
-        title: 'Copies'
-      },
-      description: {
-        title: 'Description'
-      }
-    },
-    actions: {
-      custom : [
-        {
-          name: 'edit',
-          title: '<i class="fas fa-edit"></i>'
-        },
-        {
-          name: 'delete',
-          title: '<i class="far fa-trash-alt"></i>'
-        },
-      ],
-      add: false,
-      edit: false,
-      delete: false,
-      position: 'right'
-    },
-    attr: {
-      class: 'table table-bordered'
-    }
-  }
+  public settings = {};
 
   totalBooks = 0;
   bookPerPage = 0;
   currentPage = 1;
-  pageSizeOptions = [1,2,5,10]
+  pageSizeOptions = [1, 2, 5, 10];
 
+  role: string;
 
-  constructor(public bookservice: bookService,
+  constructor(
+    public bookservice: bookService,
     private settingService: SettingService,
-    private router: Router) {}
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.getBooks("");
+    this.setRole();
     this.getPaginator();
   }
 
@@ -102,16 +53,30 @@ export class BookComponent implements OnInit, OnDestroy {
     this.getBooks(filter);
   }
 
+  setRole() {
+    this.authService.userDetail().subscribe((detail) => {
+      this.role = detail.role;
+      console.log(this.role);
+      let datatable = new DataTable();
+      if (detail.role == "admin") {
+        this.settings = datatable.settings_for_admin;
+        this.getBooks("");
+      } else {
+        this.settings = datatable.settings_for_users;
+        this.getBooks("");
+      }
+    });
+  }
+
   onCustom(event) {
-    if(event.action == 'edit') {
-      this.router.navigate(['/ecms/edit-book/' + event.data.id])
-    }
-    else if (event.action == 'delete') {
-      if (confirm('are you sure to delete '+ event.data.title)) {
+    if (event.action == "edit") {
+      this.router.navigate(["/ecms/edit-book/" + event.data.id]);
+    } else if (event.action == "delete") {
+      if (confirm("are you sure to delete " + event.data.title)) {
         this.bookservice.deleteBook(event.data.id).subscribe(() => {
           this.isLoading = true;
           this.bookservice.getBooks(this.bookPerPage, this.currentPage, "");
-        })
+        });
       }
     }
   }
@@ -120,17 +85,16 @@ export class BookComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.bookPerPage = pageData.pageSize;
-    this.bookservice.getBooks(this.bookPerPage, this.currentPage,"");
+    this.bookservice.getBooks(this.bookPerPage, this.currentPage, "");
   }
 
-  getPaginator(){
+  getPaginator() {
     this.settingService.getSettings();
     this.settingService.getSettingUpdateListener().subscribe((setting) => {
       this.bookPerPage = setting.paginator;
-      this.bookservice.getBooks(setting.paginator, this.currentPage,"");
-    })
+      this.bookservice.getBooks(setting.paginator, this.currentPage, "");
+    });
   }
-
 
   ngOnDestroy() {
     this.booksSub.unsubscribe();

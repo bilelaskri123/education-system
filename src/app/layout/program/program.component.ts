@@ -18,7 +18,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
 
   programs: Program[] = [];
   totalPrograms = 0;
-  programPerPage = 2;
+  programPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
   constructor(

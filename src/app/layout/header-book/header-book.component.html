@@ -3,7 +3,7 @@
     <i class="fas fa-book"></i> &nbsp;
     <span>Books</span>
     <span class="example-spacer"></span>
-    <button class="btn btn-primary" (click)="addBook()">
+    <button class="btn btn-primary" (click)="addBook()" *ngIf="role == 'admin' || role =='librarian'">
       <i class="fas fa-plus-square"></i> &nbsp; Add Book
     </button>
   </mat-toolbar>
@@ -13,7 +13,7 @@
   <li class="nav-item">
     <a class="nav-link active" routerLink="/ecms/books">Books</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="role =='admin' || role =='librarian'">
     <a class="nav-link" routerLink="/ecms/book-reservation">Reservations</a>
   </li>
   <li class="nav-item">
