@@ -10,6 +10,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { AngularFontAwesomeModule } from "angular-font-awesome";
 
 import { ReactiveFormsModule } from "@angular/forms";
+import { AdminGuard } from "../shared/auth/admin.guard";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,6 @@ import { ReactiveFormsModule } from "@angular/forms";
     ReactiveFormsModule,
   ],
 
-  providers: [],
+  providers: [AdminGuard],
 })
 export class LayoutModule {}

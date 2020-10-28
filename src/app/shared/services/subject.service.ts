@@ -109,9 +109,11 @@ export class SubjectService {
       teachers: teachers,
     };
 
-    return this.http.put(URLSUBJECT + "/" + id, Data).subscribe((response) => {
-      this.router.navigate(["/ecms/subject"]);
-    });
+    return this.http
+      .put(URLSUBJECT + "/update/" + id, Data)
+      .subscribe((response) => {
+        this.router.navigate(["/ecms/subject"]);
+      });
   }
 
   deleteSubject(id: string) {

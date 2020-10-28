@@ -18,7 +18,7 @@ export class SubjectComponent implements OnInit, OnDestroy {
   private subjectsSub: Subscription;
 
   totalSubjects = 0;
-  subjectPerPage = 2;
+  subjectPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 

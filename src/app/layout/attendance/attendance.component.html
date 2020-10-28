@@ -5,6 +5,7 @@
     <span class="example-spacer"></span>
     <button
     class="btn btn-primary"
+    *ngIf="role == 'admin' || role == 'teacher'"
     (click)="newAttandance()"
   >
     <i class="fas fa-plus-square"></i> &nbsp; new Attandance

@@ -32,11 +32,11 @@ const routes: Routes = [
         (m) => m.ResponseResetModule
       ),
   },
-  {
-    path: "**",
-    loadChildren: () =>
-      import("./acceuil/acceuil.module").then((m) => m.AcceuilModule),
-  },
+  // {
+  //   path: "**",
+  //   loadChildren: () =>
+  //     import("./acceuil/acceuil.module").then((m) => m.AcceuilModule),
+  // },
 ];
 
 @NgModule({

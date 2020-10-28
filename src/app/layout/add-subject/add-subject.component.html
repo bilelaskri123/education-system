@@ -1,7 +1,7 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <mat-card-header> <h1>Subject</h1> </mat-card-header>
-  <form [formGroup]="form" (submit)="addSubject()" *ngIf="!isLoading">
+  <form [formGroup]="form" (submit)="onSaveSubject()" *ngIf="!isLoading">
     <mat-form-field appearance="fill">
       <input
         matInput

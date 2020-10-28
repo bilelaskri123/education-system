@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from "../shared/auth/auth.guard";
+import { AdminGuard } from "../shared/auth/admin.guard";
 import { LayoutComponent } from "./layout.component";
 
 const routes: Routes = [
@@ -60,6 +61,7 @@ const routes: Routes = [
       },
       {
         path: "students",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./students/students.module").then((m) => m.StudentsModule),
       },
@@ -321,14 +323,18 @@ const routes: Routes = [
       },
       {
         path: "new-attandance",
-        loadChildren: () => 
-        import("./new-attandance/new-attandance.module").then((m) => m.NewAttandanceModule)
+        loadChildren: () =>
+          import("./new-attandance/new-attandance.module").then(
+            (m) => m.NewAttandanceModule
+          ),
       },
       {
         path: "new-evaluation",
-        loadChildren: () => 
-        import('./new-evaluation/new-evaluation.module').then((m) => m.NewEvaluationModule)
-      }
+        loadChildren: () =>
+          import("./new-evaluation/new-evaluation.module").then(
+            (m) => m.NewEvaluationModule
+          ),
+      },
     ],
   },
 ];

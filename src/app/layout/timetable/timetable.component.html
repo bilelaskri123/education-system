@@ -27,7 +27,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let timeTable of timeTables">
-            <td>{{ timeTable.group.name }}</td>
+            <td>{{timeTable.group.level}} {{ timeTable.group.name }}</td>
             <td>{{ timeTable.name }}</td>
             <td>
               <!-- <button>

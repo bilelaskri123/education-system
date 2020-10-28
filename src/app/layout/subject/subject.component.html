@@ -67,6 +67,7 @@
                 <i class="far fa-trash-alt"></i>
               </button>
               <button
+              *ngIf="[role] == 'admin' || [role] == 'teacher'"
                 type="button"
                 class="btn btn-warning"
                 title="add course"

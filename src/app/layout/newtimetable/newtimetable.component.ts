@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { TimeTableService } from "src/app/shared/services/timeTable.service";
 
 @Component({
@@ -11,7 +12,10 @@ export class NewtimetableComponent implements OnInit {
   groups: any;
   form: FormGroup;
   isLoading = false;
-  constructor(private timeTableService: TimeTableService) {}
+  constructor(
+    private timeTableService: TimeTableService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -45,5 +49,9 @@ export class NewtimetableComponent implements OnInit {
       this.form.value.group,
       this.form.value.fileSource
     );
+  }
+
+  cancelForm() {
+    this.router.navigate(["/ecms/timetables"]);
   }
 }

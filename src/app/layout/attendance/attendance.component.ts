@@ -8,6 +8,7 @@ import { Group } from "src/app/shared/models/Group";
 import { Program } from "src/app/shared/models/Program";
 import { Section } from "src/app/shared/models/Section";
 import { AttandanceService } from "src/app/shared/services/attandance.service";
+import { AuthService } from "src/app/shared/services/auth.service";
 import { GroupService } from "src/app/shared/services/group.service";
 import { ProgramService } from "src/app/shared/services/program.service";
 import { SectionService } from "src/app/shared/services/section.service";
@@ -20,6 +21,7 @@ import { SettingService } from "src/app/shared/services/setting.service";
 })
 export class AttendanceComponent implements OnInit, OnDestroy {
   isLoading = false;
+  role: string;
   totalAttandances = 0;
   attandancePerPage = 5;
   currentPage = 1;
@@ -49,6 +51,7 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     private sectionService: SectionService,
     private groupService: GroupService,
     private programService: ProgramService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -57,6 +60,13 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     this.getSections();
     this.getGroups();
     this.getPrograms();
+    this.getRole();
+  }
+
+  getRole() {
+    this.authService.userDetail().subscribe((detail) => {
+      this.role = detail.role;
+    });
   }
 
   getAttandances(section: string, group: string, lesson: string) {

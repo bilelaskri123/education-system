@@ -458,7 +458,7 @@
                       </form>
                     </div>
                   </mat-tab>
-                  <mat-tab label="Settings">
+                  <mat-tab label="Settings" *ngIf="role == 'admin'">
                     <div class="alert alert-success" role="alert" *ngIf="updateSetting != ''">
                       {{updateSetting}}
                     </div>

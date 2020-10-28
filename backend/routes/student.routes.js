@@ -8,8 +8,10 @@ const ReservationProduct = require('../models/ReservationBook')
 
 const User = require('../models/User')
 const Group = require('../models/Group')
+const checkauth = require('../middleware/check-auth')
+const role = require('../middleware/role')
 
-router.post('', async (req, res, next) => {
+router.post('', checkauth, role.isAdmin, async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email })
   if (user) {
     return res.status(409).json({
@@ -97,37 +99,7 @@ router.post('', async (req, res, next) => {
     })
 })
 
-// router.get('', (req, res) => {
-//   let count
-//   let students = []
-//   let student = {}
-//   User.countDocuments({ role: 'student' }).then((result) => {
-//     count = result
-//   })
-//   User.find({ role: 'student' })
-//     .populate('section', 'name')
-//     .populate('group', 'name')
-//     .select('-password')
-//     .then((result) => {
-//       result.forEach((data) => {
-//         student.fullName = data.fullName
-//         student.email = data.email
-//         student.role = data.role
-//         student.emailParent = data.emailParent
-//         student._id = data._id
-//         student.section = data.section.name
-//         student.group = data.group.name
-//         student.payement = data.payement
-
-//         students.push(student)
-//         student = {}
-//       })
-//       res.status(200).json({ students: students, count: count })
-//     })
-//     .catch((error) => res.status(500).json({ message: 'an error occurred' }))
-// })
-
-router.get('', (req, res) => {
+router.get('', checkauth, (req, res) => {
   const pageSize = +req.query.pagesize
   const currentPage = +req.query.page
   const filter = req.query.search
@@ -179,7 +151,7 @@ router.get('', (req, res) => {
     })
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', checkauth, role.isAdmin, (req, res) => {
   console.log(req.params.id)
   User.findById(req.params.id).then((student) => {
     student.fullName = req.body.fullName
@@ -205,7 +177,7 @@ router.put('/:id', (req, res) => {
   })
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', checkauth, role.isAdmin, async (req, res) => {
   let reserBook
   let reserProduct
 
@@ -214,7 +186,6 @@ router.delete('/:id', async (req, res) => {
       if (result) {
         reserBook = result
       }
-      // console.log(result)
     })
     .catch((error) =>
       res.status(500).json({ message: 'deleting user failed!' }),
@@ -225,7 +196,6 @@ router.delete('/:id', async (req, res) => {
       if (result2) {
         reserProduct = result2
       }
-      // console.log(result2);
     })
     .catch((error) => res.status(500).json({ message: 'deleting user failed' }))
 

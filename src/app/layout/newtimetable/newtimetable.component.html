@@ -4,7 +4,7 @@
   <form [formGroup]="form" (submit)="onSaveTimeTable()" *ngIf="!isLoading">
     <mat-form-field appearance="fill">
       <mat-select matNativeControl placeholder="group" formControlName="group">
-        <mat-option *ngFor="let group of groups" [value]="group._id">{{
+        <mat-option *ngFor="let group of groups" [value]="group._id"> {{group.level}} {{group.section.name}} {{
           group.name
         }}</mat-option>
       </mat-select>

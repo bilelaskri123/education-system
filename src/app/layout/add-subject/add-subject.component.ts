@@ -87,6 +87,7 @@ export class AddSubjectComponent implements OnInit {
         this.form.value.teachers
       );
     } else {
+      console.log(this.form.value);
       this.subjectService.updateSubject(
         this.subjectId,
         this.form.value.name,

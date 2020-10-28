@@ -7,8 +7,10 @@ const ReservationBook = require('../models/ReservationBook')
 const ReservationProduct = require('../models/ReservationProduct')
 
 const User = require('../models/User')
+const checkAuth = require('../middleware/check-auth')
+const role = require('../middleware/role')
 
-router.post('', async (req, res, next) => {
+router.post('', checkAuth, role.isAdmin, async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email })
   if (user) {
     return res.status(409).json({
