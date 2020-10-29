@@ -120,32 +120,7 @@ router.get('/:id', (req, res) => {
     })
 })
 
-// router.get('', (req, res) => {
-//   let count
-//   let teachers = []
-//   let teacher = {}
-//   User.countDocuments({ role: 'teacher' }).then((result) => {
-//     count = result
-//   })
-//   User.find({ role: 'teacher' })
-//     .select('-password')
-//     .then((result) => {
-//       result.forEach((data) => {
-//         teacher.fullName = data.fullName
-//         teacher.email = data.email
-//         teacher.speciality = data.speciality
-//         teacher.role = data.role
-//         teacher.salary = data.salary
-//         teacher._id = data._id
-//         teachers.push(teacher)
-//         teacher = {}
-//       })
-//       res.status(200).json({ teachers: teachers, count: count })
-//     })
-//     .catch((error) => res.status(500).json({ message: 'an error occurred' }))
-// })
-
-router.get('', (req, res) => {
+router.get('', checkAuth, (req, res) => {
   const pageSize = +req.query.pagesize
   const currentPage = +req.query.page
   const filter = req.query.search
@@ -192,7 +167,7 @@ router.get('', (req, res) => {
     })
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', checkAuth, role.isAdmin, (req, res) => {
   User.findById(req.params.id)
     .then((teacher) => {
       teacher.fullName = req.body.fullName
@@ -220,7 +195,7 @@ router.put('/:id', (req, res) => {
     })
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', checkAuth, role.isAdmin, async (req, res, next) => {
   let reserBook
   let reserProduct
 

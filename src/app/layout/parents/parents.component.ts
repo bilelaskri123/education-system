@@ -8,7 +8,7 @@ import { Subscription } from "rxjs";
 import { ParentService } from "src/app/shared/services/parent.service";
 import { StudentService } from "src/app/shared/services/student.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { SettingService } from 'src/app/shared/services/setting.service';
+import { SettingService } from "src/app/shared/services/setting.service";
 
 @Component({
   selector: "app-parents",
@@ -21,42 +21,43 @@ export class ParentsComponent implements OnInit, OnDestroy {
   private parentsSub: Subscription;
 
   settings = {
-    columns : {
-      fullName : {
-        title: 'Full Name'
+    columns: {
+      fullName: {
+        title: "Full Name",
       },
-      email : {
-        title: 'Email'
+      email: {
+        title: "Email",
       },
-      childEmail : {
-        title: 'Child'
+      childEmail: {
+        title: "Child",
       },
     },
     actions: {
-      custom : [
+      custom: [
         {
-          name: 'edit',
-          title: '<i class="fas fa-edit"></i>'
+          name: "edit",
+          title: '<i class="fas fa-edit"></i>',
         },
         {
-          name: 'delete',
-          title: '<i class="far fa-trash-alt"></i>'
-        }
+          name: "delete",
+          title: '<i class="far fa-trash-alt"></i>',
+        },
       ],
       add: false,
       edit: false,
       delete: false,
-      position: 'right'
+      position: "right",
     },
     attr: {
-      class: 'table table-bordered'
-    }
-  }
+      class: "table table-bordered",
+    },
+  };
 
   totalParents = 0;
   parentsPerPage = 0;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
+  searchValue: string = "";
 
   constructor(
     private parentService: ParentService,
@@ -67,12 +68,17 @@ export class ParentsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
-    this.getParents("");
+    // this.getParents("");
     this.getPaginator();
+    this.parentFilter("");
   }
 
   getParents(filter: string) {
-    this.parentService.getParents(this.parentsPerPage, this.currentPage, filter);
+    this.parentService.getParents(
+      this.parentsPerPage,
+      this.currentPage,
+      filter
+    );
     this.parentsSub = this.parentService
       .getParentUpdateListener()
       .subscribe((parentData: { parents: User[]; parentCount: number }) => {
@@ -82,20 +88,24 @@ export class ParentsComponent implements OnInit, OnDestroy {
       });
   }
 
-  parentFilter(serach: string) {
-    this.getParents(serach);
+  parentFilter(search: string) {
+    this.getParents(search);
+    this.searchValue = search;
   }
 
   onCustom(event) {
-    if(event.action == 'edit') {
-      this.router.navigate(['/ecms/edit-parent/' + event.data.id])
-    }
-    else if (event.action == 'delete') {
-      if (confirm('are you sure to delete '+ event.data.fullName)) {
+    if (event.action == "edit") {
+      this.router.navigate(["/ecms/edit-parent/" + event.data.id]);
+    } else if (event.action == "delete") {
+      if (confirm("are you sure to delete " + event.data.fullName)) {
         this.parentService.deleteParent(event.data.id).subscribe(() => {
           this.isLoading = true;
-          this.parentService.getParents(this.parentsPerPage, this.currentPage, "");
-        })
+          this.parentService.getParents(
+            this.parentsPerPage,
+            this.currentPage,
+            this.searchValue
+          );
+        });
       }
     }
   }
@@ -104,15 +114,23 @@ export class ParentsComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.parentsPerPage = pageData.pageSize;
-    this.parentService.getParents(this.parentsPerPage, this.currentPage,"");
+    this.parentService.getParents(
+      this.parentsPerPage,
+      this.currentPage,
+      this.searchValue
+    );
   }
 
-  getPaginator(){
+  getPaginator() {
     this.settingService.getSettings();
     this.settingService.getSettingUpdateListener().subscribe((setting) => {
       this.parentsPerPage = setting.paginator;
-      this.parentService.getParents(this.parentsPerPage, this.currentPage,"");
-    })
+      this.parentService.getParents(
+        this.parentsPerPage,
+        this.currentPage,
+        this.searchValue
+      );
+    });
   }
 
   addParent() {

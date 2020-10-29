@@ -5,7 +5,7 @@
 
 <div class="example-header">
   <mat-form-field>      
-   <input matInput (keyup)="bookFilter($event.target.value)" 
+   <input matInput (change)="bookFilter($event.target.value)" 
     placeholder="Search">
   <mat-icon matPrefix>search</mat-icon>
   </mat-form-field>
@@ -19,89 +19,3 @@
   [pageSizeOptions]="pageSizeOptions"
   (page)="onChangedPage($event)"
 ></mat-paginator>
-
-<!-- <div class="form">
-  <form [formGroup]="form">
-    <mat-form-field class="example-full-width">
-      <input
-        matInput
-        (keyup)="test()"
-        formControlName="search"
-        type="text"
-        placeholder="Search"
-        aria-label="Search"
-      />
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-  </form>
-</div>
-
-<mat-accordion multi="true" *ngIf="books.length > 0 && !isLoading">
-  <mat-expansion-panel *ngFor="let book of books">
-    <mat-expansion-panel-header>
-      {{ book.title }}
-    </mat-expansion-panel-header>
-
-    <section>
-      <div class="container py-3">
-        <div class="card resize-card">
-          <div class="row">
-            <div class="col-md-4 book-image">
-              <img [src]="book.imagePath" [alt]="book.title" class="w-100" />
-            </div>
-            <div>
-              <div>
-                <div class="card-block">
-                  <h2>{{ book.title }} Book</h2>
-                  <p class="card-text">
-                    <strong
-                      >auther: <small>{{ book.auther }}</small>
-                    </strong>
-                  </p>
-                  <p class="card-text">
-                    <strong
-                      >isbn: <small>{{ book.isbn }}</small>
-                    </strong>
-                  </p>
-                  <p class="card-text">
-                    <strong
-                      >description: <small>{{ book.description }}</small>
-                    </strong>
-                  </p>
-                  <p class="card-text">
-                    <strong
-                      >Number of pages: <small>{{ book.pages }}</small>
-                    </strong>
-                  </p>
-                  <p class="card-text">
-                    <strong
-                      >disponible copies: <small>{{ book.copies }}</small>
-                    </strong>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <mat-action-row>
-      <a mat-button color="primary" [routerLink]="['/ecms/edit-book', book.id]"
-        >EDIT</a
-      >
-      <button mat-button color="warn" (click)="onDelete(book.id)">
-        DELETE
-      </button>
-    </mat-action-row>
-  </mat-expansion-panel>
-</mat-accordion>
-
-<mat-paginator
-  [length]="totalBooks"
-  [pageSize]="bookPerPage"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="onChangedPage($event)"
-></mat-paginator>
-<p class="info-text mat-body-1" *ngIf="books.length <= 0 && !isLoading">
-  No books added yet!
-</p> -->

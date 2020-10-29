@@ -6,7 +6,10 @@ const router = express.Router()
 
 const User = require('../models/User')
 
-router.post('', async (req, res, next) => {
+const checkAuth = require('../middleware/check-auth')
+const role = require('../middleware/role')
+
+router.post('', checkAuth, role.isAdmin, async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email })
   if (user) {
     return res.status(409).json({
@@ -70,7 +73,7 @@ router.post('', async (req, res, next) => {
     })
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', checkAuth, (req, res) => {
   User.findById(req.params.id)
     .then((data) => {
       res
@@ -84,7 +87,7 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', checkAuth, role.isAdmin, (req, res) => {
   User.findById(req.params.id)
     .then((parent) => {
       parent.fullName = req.body.fullName
@@ -112,32 +115,7 @@ router.put('/:id', (req, res) => {
     })
 })
 
-// router.get('', (req, res) => {
-//   let count
-//   let parents = []
-//   let parent = {}
-//   User.countDocuments({ role: 'parent' }).then((result) => {
-//     count = result
-//   })
-//   User.find({ role: 'parent' })
-//     .select('-password')
-//     .then((result) => {
-//       result.forEach((data) => {
-//         parent.fullName = data.fullName
-//         parent.email = data.email
-//         parent.role = data.role
-//         parent.childEmail = data.childEmail
-//         parent._id = data._id
-
-//         parents.push(parent)
-//         parent = {}
-//       })
-//       res.status(200).json({ parents: parents, count: count })
-//     })
-//     .catch((error) => res.status(500).json({ message: 'an error occurred' }))
-// })
-
-router.get('', (req, res) => {
+router.get('', checkAuth, (req, res) => {
   console.log(req.query)
   const pageSize = +req.query.pagesize
   const currentPage = +req.query.page
@@ -184,7 +162,7 @@ router.get('', (req, res) => {
     })
 })
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', checkAuth, role.isAdmin, (req, res, next) => {
   User.deleteOne({ _id: req.params.id })
     .then(() => {
       res.status(200).json({

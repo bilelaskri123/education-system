@@ -22,6 +22,7 @@ export class BookComponent implements OnInit, OnDestroy {
   bookPerPage = 0;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
+  searchValue: string = "";
 
   role: string;
 
@@ -51,6 +52,7 @@ export class BookComponent implements OnInit, OnDestroy {
 
   bookFilter(filter: string) {
     this.getBooks(filter);
+    this.searchValue = filter;
   }
 
   setRole() {
@@ -75,7 +77,11 @@ export class BookComponent implements OnInit, OnDestroy {
       if (confirm("are you sure to delete " + event.data.title)) {
         this.bookservice.deleteBook(event.data.id).subscribe(() => {
           this.isLoading = true;
-          this.bookservice.getBooks(this.bookPerPage, this.currentPage, "");
+          this.bookservice.getBooks(
+            this.bookPerPage,
+            this.currentPage,
+            this.searchValue
+          );
         });
       }
     }
@@ -85,14 +91,22 @@ export class BookComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.bookPerPage = pageData.pageSize;
-    this.bookservice.getBooks(this.bookPerPage, this.currentPage, "");
+    this.bookservice.getBooks(
+      this.bookPerPage,
+      this.currentPage,
+      this.searchValue
+    );
   }
 
   getPaginator() {
     this.settingService.getSettings();
     this.settingService.getSettingUpdateListener().subscribe((setting) => {
       this.bookPerPage = setting.paginator;
-      this.bookservice.getBooks(setting.paginator, this.currentPage, "");
+      this.bookservice.getBooks(
+        setting.paginator,
+        this.currentPage,
+        this.searchValue
+      );
     });
   }
 

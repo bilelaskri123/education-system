@@ -14,7 +14,7 @@
 
   <div class="example-header">
     <mat-form-field>      
-     <input matInput (keyup)="studentFilter($event.target.value)" 
+     <input matInput (change)="studentFilter($event.target.value)" 
       placeholder="Search">
     <mat-icon matPrefix>search</mat-icon>
     </mat-form-field>
@@ -28,87 +28,3 @@
   [pageSizeOptions]="pageSizeOptions"
   (page)="onChangedPage($event)"
 ></mat-paginator>
-
-<!-- <div class="form">
-  <form [formGroup]="form">
-    <mat-form-field class="example-full-width">
-      <input
-        matInput
-        (keyup)="test()"
-        formControlName="search"
-        type="text"
-        placeholder="Search"
-        aria-label="Search"
-      />
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-  </form>
-</div>
-
-<div class="container" *ngIf="students.length > 0">
-  <div class="row">
-    <div class="col-12">
-      <table class="table table-bordered table-responsive border">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">Full Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Role</th>
-            <th scope="col">parent email</th>
-            <th scope="col">section</th>
-            <th scope="col">group</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let student of students">
-            <td>{{ student.fullName }}</td>
-            <td>{{ student.email }}</td>
-            <td>{{ student.role }}</td>
-            <td>{{ student.emailParent }}</td>
-            <td>{{ student.section }}</td>
-            <td>{{ student.group }}</td>
-            <td>
-              <a
-                type="button"
-                class="btn btn-success"
-                title="edit subject"
-                [routerLink]="['/ecms/edit-student', student.id]"
-              >
-                <i class="fas fa-edit"></i>
-              </a>
-              <button
-                type="button"
-                class="btn btn-danger"
-                title="delete"
-                (click)="deleteStudent(student.id)"
-              >
-                <i class="far fa-trash-alt"></i>
-              </button>
-              <a
-                type="button"
-                class="btn btn-primary"
-                title="view cv"
-                [routerLink]="['/ecms/cv-detail', student.id]"
-              >
-              <i class="fas fa-eye"></i>
-              </a>
-              
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<mat-paginator
-  [length]="totalStudents"
-  [pageSize]="studentPerPage"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="onChangedPage($event)"
-></mat-paginator>
-
-<p class="info-text mat-body-1" *ngIf="students.length <= 0">
-  No Student added
-</p> -->

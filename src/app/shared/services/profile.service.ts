@@ -51,8 +51,8 @@ export class ProfileService {
     this.http
       .put("http://localhost:3000/api/profile/" + id, profileData)
       .subscribe((response) => {
-        console.log(response);
-        this.router.navigate(["/ecms/dashboard"]);
+        // this.router.navigate(["/ecms/dashboard"]);
+        window.location.reload();
       });
   }
 }

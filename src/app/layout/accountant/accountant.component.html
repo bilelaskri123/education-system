@@ -13,7 +13,7 @@
 
 <div class="example-header">
   <mat-form-field>      
-   <input matInput (keyup)="accountantFilter($event.target.value)" 
+   <input matInput (change)="accountantFilter($event.target.value)" 
     placeholder="Search">
   <mat-icon matPrefix>search</mat-icon>
   </mat-form-field>
@@ -27,70 +27,3 @@
   [pageSizeOptions]="pageSizeOptions"
   (page)="onChangedPage($event)"
 ></mat-paginator>
-
-<!-- <div class="form">
-  <form [formGroup]="form">
-    <mat-form-field class="example-full-width">
-      <input
-        matInput
-        (keyup)="test()"
-        formControlName="search"
-        type="text"
-        placeholder="Search"
-        aria-label="Search"
-      />
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-  </form>
-</div>
-
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th scope="col">Full Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Role</th>
-            <th scope="col">Salary</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let accountant of accountants">
-            <td>{{ accountant.fullName }}</td>
-            <td>{{ accountant.email }}</td>
-            <td>{{ accountant.role }}</td>
-            <td>{{ accountant.salary }}</td>
-            <td>
-              <a
-                type="button"
-                class="btn btn-success"
-                title="edit subject"
-                [routerLink]="['/ecms/edit-accountant', accountant.id]"
-              >
-                <i class="fas fa-edit"></i>
-              </a>
-              <button
-                type="button"
-                class="btn btn-danger"
-                title="delete"
-                (click)="deleteAccountant(accountant.id)"
-              >
-                <i class="far fa-trash-alt"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<mat-paginator
-  [length]="totalAccountants"
-  [pageSize]="AccountantPerPage"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="onChangedPage($event)"
-></mat-paginator> -->

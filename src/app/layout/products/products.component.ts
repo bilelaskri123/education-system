@@ -26,6 +26,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   role: string;
 
   settings = {};
+  searchValue: string = "";
 
   constructor(
     private productsService: productsService,
@@ -74,6 +75,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   productFilter(filter: string) {
     this.getProducts(filter);
+    this.searchValue = filter;
   }
 
   onCustom(event) {
@@ -86,7 +88,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
           this.productsService.getProducts(
             this.productPerPage,
             this.currentPage,
-            ""
+            this.searchValue
           );
         });
       }
@@ -96,14 +98,22 @@ export class ProductsComponent implements OnInit, OnDestroy {
   onChangedPage(pageData: PageEvent) {
     this.currentPage = pageData.pageIndex + 1;
     this.productPerPage = pageData.pageSize;
-    this.productsService.getProducts(this.productPerPage, this.currentPage, "");
+    this.productsService.getProducts(
+      this.productPerPage,
+      this.currentPage,
+      this.searchValue
+    );
   }
 
   getPaginator() {
     this.settingService.getSettings();
     this.settingService.getSettingUpdateListener().subscribe((setting) => {
       this.productPerPage = setting.paginator;
-      this.productsService.getProducts(setting.paginator, this.currentPage, "");
+      this.productsService.getProducts(
+        setting.paginator,
+        this.currentPage,
+        this.searchValue
+      );
     });
   }
 

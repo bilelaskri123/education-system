@@ -47,7 +47,7 @@
             <i class="fas fa-users" style="font-size: 200%; color: green"></i>
           </div>
           <div class="float-right">
-            <p class="mb-0 text-right">Class</p>
+            <p class="mb-0 text-right">Classes</p>
             <div class="fluid-container">
               <h3 class="font-weight-medium text-right mb-0">{{ classes }}</h3>
             </div>
@@ -67,7 +67,7 @@
             ></i>
           </div>
           <div class="float-right">
-            <p class="mb-0 text-right">Speciality</p>
+            <p class="mb-0 text-right">Specialities</p>
             <div class="fluid-container">
               <h3 class="font-weight-medium text-right mb-0">
                 {{ specialities }}
@@ -162,7 +162,7 @@
             <mat-paginator
               style="float: right"
               [length]="totalNotes"
-              [pageSize]="NotePerPage"
+              [pageSize]="notePerPage"
               [pageSizeOptions]="pageSizeOptions"
               (page)="onChangedPage($event)"
             ></mat-paginator>

@@ -11,37 +11,8 @@ mat-paginator {
   margin-top: 1rem;
 }
 
-.info-text {
-  text-align: center;
-}
-
-.product-image {
-  width: 100%;
-}
-
-.product-image img {
-  width: 100%;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-}
-
-h2 {
-  font-size: large;
-  color: blue;
-}
-
 mat-paginator {
   margin-top: 1rem;
-}
-
-div.form {
-  display: block;
-  text-align: center;
-}
-form {
-  display: inline-block;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
 }
 
 :host /deep/ ng2-smart-table {

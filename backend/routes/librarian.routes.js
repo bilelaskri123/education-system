@@ -5,8 +5,10 @@ const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer')
 
 const User = require('../models/User')
+const checkAuth = require('../middleware/check-auth')
+const role = require('../middleware/role')
 
-router.post('', async (req, res, next) => {
+router.post('', checkAuth, role.isAdmin, async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email })
   if (user) {
     return res.status(409).json({
@@ -57,7 +59,7 @@ router.post('', async (req, res, next) => {
   })
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', checkAuth, (req, res) => {
   User.findById(req.params.id)
     .then((librarian) => {
       res
@@ -71,7 +73,7 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', checkAuth, role.isAdmin, (req, res) => {
   User.findById(req.params.id)
     .then((librarian) => {
       librarian.fullName = req.body.fullName
@@ -96,32 +98,7 @@ router.put('/:id', (req, res) => {
     })
 })
 
-// router.get('', (req, res) => {
-//   let count
-//   let librarians = []
-//   let librarian = {}
-//   User.countDocuments({ role: 'librarian' }).then((result) => {
-//     count = result
-//   })
-//   User.find({ role: 'librarian' })
-//     .select('-password')
-//     .then((result) => {
-//       result.forEach((data) => {
-//         librarian.fullName = data.fullName
-//         librarian.email = data.email
-//         librarian.role = data.role
-//         librarian.salary = data.salary
-//         librarian._id = data._id
-
-//         librarians.push(librarian)
-//         librarian = {}
-//       })
-//       res.status(200).json({ librarians: librarians, count: count })
-//     })
-//     .catch((error) => res.status(500).json({ message: 'an error occurred' }))
-// })
-
-router.get('', (req, res) => {
+router.get('', checkAuth, (req, res) => {
   const pageSize = +req.query.pagesize
   const currentPage = +req.query.page
   const filter = req.query.search
@@ -167,7 +144,7 @@ router.get('', (req, res) => {
     })
 })
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', checkAuth, role.isAdmin, (req, res, next) => {
   User.deleteOne({ _id: req.params.id })
     .then(() => {
       res.status(200).json({

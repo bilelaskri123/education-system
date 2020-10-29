@@ -8,7 +8,7 @@ import { Subscription } from "rxjs";
 import { AccountantService } from "src/app/shared/services/accountant.service";
 import { TeacherService } from "src/app/shared/services/teacher.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { SettingService } from 'src/app/shared/services/setting.service';
+import { SettingService } from "src/app/shared/services/setting.service";
 
 @Component({
   selector: "app-teachers",
@@ -20,62 +20,70 @@ export class TeachersComponent implements OnInit, OnDestroy {
   isLoading = false;
   private teachersSub: Subscription;
   settings = {
-    columns : {
-      fullName : {
-        title: 'Full Name'
+    columns: {
+      fullName: {
+        title: "Full Name",
       },
-      email : {
-        title: 'Email'
+      email: {
+        title: "Email",
       },
-      speciality : {
-        title: 'Speciality'
+      speciality: {
+        title: "Speciality",
       },
-      salary : {
-        title: 'Salary'
+      salary: {
+        title: "Salary",
       },
     },
     actions: {
-      custom : [
+      custom: [
         {
-          name: 'edit',
-          title: '<i class="fas fa-edit"></i>'
+          name: "edit",
+          title: '<i class="fas fa-edit"></i>',
         },
         {
-          name: 'delete',
-          title: '<i class="far fa-trash-alt"></i>'
+          name: "delete",
+          title: '<i class="far fa-trash-alt"></i>',
         },
         {
-          name: 'view',
-          title: ' <i class="fas fa-eye"></i>'
-        }
+          name: "view",
+          title: ' <i class="fas fa-eye"></i>',
+        },
       ],
       add: false,
       edit: false,
       delete: false,
-      position: 'right'
+      position: "right",
     },
     attr: {
-      class: 'table table-bordered'
-    }
-  }
+      class: "table table-bordered",
+    },
+  };
 
   totalTeachers = 0;
   teacherPerPage = 0;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
+  searchValue: string;
 
-  constructor(private teacherService: TeacherService, 
+  constructor(
+    private teacherService: TeacherService,
     private settingService: SettingService,
-    private router: Router) {}
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.getTeachers("");
-    // this.getPaginator();
+    this.teacherFilter("");
+    // this.getTeachers("");
+    this.getPaginator();
   }
 
   public getTeachers(filter: string) {
-    this.teacherService.getTeachers(this.teacherPerPage, this.currentPage, filter);
+    this.teacherService.getTeachers(
+      this.teacherPerPage,
+      this.currentPage,
+      filter
+    );
     this.teachersSub = this.teacherService
       .getTeacherUpdateListener()
       .subscribe((teacherData: { teachers: User[]; teacherCount: number }) => {
@@ -87,22 +95,25 @@ export class TeachersComponent implements OnInit, OnDestroy {
 
   teacherFilter(serach: string) {
     this.getTeachers(serach);
+    this.searchValue = serach;
   }
 
   onCustom(event) {
-    if(event.action == 'edit') {
-      this.router.navigate(['/ecms/edit-teacher/' + event.data.id])
-    }
-    else if (event.action == 'delete') {
-      if (confirm('are you sure to delete '+ event.data.fullName)) {
+    if (event.action == "edit") {
+      this.router.navigate(["/ecms/edit-teacher/" + event.data.id]);
+    } else if (event.action == "delete") {
+      if (confirm("are you sure to delete " + event.data.fullName)) {
         this.teacherService.deleteTeacher(event.data.id).subscribe(() => {
           this.isLoading = true;
-          this.teacherService.getTeachers(this.teacherPerPage, this.currentPage, "");
-        })
+          this.teacherService.getTeachers(
+            this.teacherPerPage,
+            this.currentPage,
+            this.searchValue
+          );
+        });
       }
-    }
-    else {
-      this.router.navigate(['/ecms/cv-detail/' + event.data.id])
+    } else {
+      this.router.navigate(["/ecms/cv-detail/" + event.data.id]);
     }
   }
 
@@ -110,15 +121,19 @@ export class TeachersComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.teacherPerPage = pageData.pageSize;
-    this.teacherService.getTeachers(this.teacherPerPage, this.currentPage,"");
+    this.teacherService.getTeachers(
+      this.teacherPerPage,
+      this.currentPage,
+      this.searchValue
+    );
   }
 
-  getPaginator(){
+  getPaginator() {
     this.settingService.getSettings();
     this.settingService.getSettingUpdateListener().subscribe((setting) => {
       this.teacherPerPage = setting.paginator;
-      this.teacherService.getTeachers(setting.paginator, this.currentPage,"");
-    })
+      this.teacherService.getTeachers(setting.paginator, this.currentPage, "");
+    });
   }
 
   addTeacher() {

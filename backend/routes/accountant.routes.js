@@ -5,8 +5,10 @@ const _ = require('lodash')
 const nodemailer = require('nodemailer')
 
 const User = require('../models/User')
+const checkAuth = require('../middleware/check-auth')
+const role = require('../middleware/role')
 
-router.post('', async (req, res, next) => {
+router.post('', checkAuth, role.isAdmin, async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email })
   if (user) {
     return res.status(409).json({
@@ -82,7 +84,7 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', checkAuth, role.isAdmin, (req, res) => {
   User.findById(req.params.id)
     .then((accountant) => {
       accountant.fullName = req.body.fullName
@@ -109,32 +111,7 @@ router.put('/:id', (req, res) => {
     })
 })
 
-// router.get('', (req, res) => {
-//   let count
-//   let accountants = []
-//   let accountant = {}
-//   User.countDocuments({ role: 'accountant' }).then((result) => {
-//     count = result
-//   })
-//   User.find({ role: 'accountant' })
-//     .select('-password')
-//     .then((result) => {
-//       result.forEach((data) => {
-//         accountant.fullName = data.fullName
-//         accountant.email = data.email
-//         accountant.role = data.role
-//         accountant.salary = data.salary
-//         accountant._id = data._id
-
-//         accountants.push(accountant)
-//         accountant = {}
-//       })
-//       res.status(200).json({ accountants: accountants, count: count })
-//     })
-//     .catch((error) => res.status(500).json({ message: 'an error occurred' }))
-// })
-
-router.get('', (req, res) => {
+router.get('', checkAuth, (req, res) => {
   const pageSize = +req.query.pagesize
   const currentPage = +req.query.page
   const filter = req.query.search
@@ -180,7 +157,7 @@ router.get('', (req, res) => {
     })
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', checkAuth, role.isAdmin, (req, res) => {
   console.log(req.params.id)
   User.deleteOne({ _id: req.params.id })
     .then((result) => {

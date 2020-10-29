@@ -63,6 +63,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   studentsPerPage = 0;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
+  searchValue: string;
 
   constructor(
     private studentService: StudentService,
@@ -71,8 +72,9 @@ export class StudentComponent implements OnInit, OnDestroy {
   ) {}
   ngOnInit() {
     this.isLoading = true;
-    this.getStudents("");
+    // this.getStudents("");
     this.getPaginator();
+    this.studentFilter("");
   }
 
   public getStudents(filter: string) {
@@ -92,6 +94,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   studentFilter(serach: string) {
     this.getStudents(serach);
+    this.searchValue = serach;
   }
 
   onCustom(event) {
@@ -104,7 +107,7 @@ export class StudentComponent implements OnInit, OnDestroy {
           this.studentService.getStudents(
             this.studentsPerPage,
             this.currentPage,
-            ""
+            this.searchValue
           );
         });
       }
@@ -118,7 +121,11 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.studentsPerPage = pageData.pageSize;
-    this.studentService.getStudents(this.studentsPerPage, this.currentPage, "");
+    this.studentService.getStudents(
+      this.studentsPerPage,
+      this.currentPage,
+      this.searchValue
+    );
   }
 
   getPaginator() {

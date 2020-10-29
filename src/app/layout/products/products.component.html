@@ -4,7 +4,7 @@
 
 <div class="example-header">
   <mat-form-field>      
-   <input matInput (keyup)="productFilter($event.target.value)" 
+   <input matInput (change)="productFilter($event.target.value)" 
     placeholder="Search">
   <mat-icon matPrefix>search</mat-icon>
   </mat-form-field>
@@ -19,85 +19,3 @@
   [pageSizeOptions]="pageSizeOptions"
   (page)="onChangedPage($event)"
 ></mat-paginator>
-
-<!-- <div class="form">
-  <form [formGroup]="form">
-    <mat-form-field class="example-full-width">
-      <input
-        matInput
-        (keyup)="test()"
-        formControlName="search"
-        type="text"
-        placeholder="Search"
-        aria-label="Search"
-      />
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-  </form>
-</div>
-
-<mat-accordion multi="true" *ngIf="products.length > 0 && !isLoading">
-  <mat-expansion-panel *ngFor="let product of products">
-    <mat-expansion-panel-header>
-      {{ product.name }}
-    </mat-expansion-panel-header>
-    <section>
-      <div class="container py-3">
-        <div class="card resize-card">
-          <div class="row">
-            <div class="col-md-4 product-image">
-              <img
-                [src]="product.imagePath"
-                [alt]="product.name"
-                class="w-100"
-              />
-            </div>
-            <div>
-              <div>
-                <div class="card-block">
-                  <h2>{{ product.name }}</h2>
-                  <p class="card-text">
-                    <strong
-                      >category: <small>{{ product.category }}</small>
-                    </strong>
-                  </p>
-                  <p class="card-text">
-                    <strong
-                      >description: <small>{{ product.description }}</small>
-                    </strong>
-                  </p>
-                  <p class="card-text">
-                    <strong
-                      >disponible copies: <small>{{ product.stock }}</small>
-                    </strong>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <mat-action-row>
-      <a
-        mat-button
-        color="primary"
-        [routerLink]="['/ecms/edit-product', product.id]"
-        >EDIT</a
-      >
-      <button mat-button color="warn" (click)="onDelete(product.id)">
-        DELETE
-      </button>
-    </mat-action-row>
-  </mat-expansion-panel>
-</mat-accordion>
-
-<mat-paginator
-  [length]="totalProducts"
-  [pageSize]="productPerPage"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="onChangedPage($event)"
-></mat-paginator>
-<p class="info-text mat-body-1" *ngIf="products.length <= 0 && !isLoading">
-  No products added yet!
-</p> -->

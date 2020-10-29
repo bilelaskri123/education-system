@@ -6,7 +6,7 @@ import { Subscription } from "rxjs";
 import { PageEvent } from "@angular/material/paginator";
 import { AccountantService } from "src/app/shared/services/accountant.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { SettingService } from 'src/app/shared/services/setting.service';
+import { SettingService } from "src/app/shared/services/setting.service";
 
 @Component({
   selector: "app-accountant",
@@ -19,42 +19,43 @@ export class AccountantComponent implements OnInit, OnDestroy {
   private accountantsSub: Subscription;
 
   settings = {
-    columns : {
-      fullName : {
-        title: 'Full Name'
+    columns: {
+      fullName: {
+        title: "Full Name",
       },
-      email : {
-        title: 'Email'
+      email: {
+        title: "Email",
       },
-      salary : {
-        title: 'Salary'
+      salary: {
+        title: "Salary",
       },
     },
     actions: {
-      custom : [
+      custom: [
         {
-          name: 'edit',
-          title: '<i class="fas fa-edit"></i>'
+          name: "edit",
+          title: '<i class="fas fa-edit"></i>',
         },
         {
-          name: 'delete',
-          title: '<i class="far fa-trash-alt"></i>'
+          name: "delete",
+          title: '<i class="far fa-trash-alt"></i>',
         },
       ],
       add: false,
       edit: false,
       delete: false,
-      position: 'right'
+      position: "right",
     },
     attr: {
-      class: 'table table-bordered'
-    }
-  }
+      class: "table table-bordered",
+    },
+  };
 
   totalAccountants = 0;
   accountantsPerPage = 0;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
+  searchValue: string = "";
 
   constructor(
     private accountantService: AccountantService,
@@ -69,7 +70,11 @@ export class AccountantComponent implements OnInit, OnDestroy {
   }
 
   getAccountants(filter: string) {
-    this.accountantService.getAccountants(this.accountantsPerPage, this.currentPage, filter);
+    this.accountantService.getAccountants(
+      this.accountantsPerPage,
+      this.currentPage,
+      filter
+    );
     this.accountantsSub = this.accountantService
       .getAccountantUpdateListener()
       .subscribe(
@@ -81,20 +86,24 @@ export class AccountantComponent implements OnInit, OnDestroy {
       );
   }
 
-  accountantFilter(serach: string) {
-    this.getAccountants(serach);
+  accountantFilter(search: string) {
+    this.getAccountants(search);
+    this.searchValue = search;
   }
 
   onCustom(event) {
-    if(event.action == 'edit') {
-      this.router.navigate(['/ecms/edit-accountant/' + event.data.id])
-    }
-    else if (event.action == 'delete') {
-      if (confirm('are you sure to delete '+ event.data.fullName)) {
+    if (event.action == "edit") {
+      this.router.navigate(["/ecms/edit-accountant/" + event.data.id]);
+    } else if (event.action == "delete") {
+      if (confirm("are you sure to delete " + event.data.fullName)) {
         this.accountantService.deleteAccountant(event.data.id).subscribe(() => {
           this.isLoading = true;
-          this.accountantService.getAccountants(this.accountantsPerPage, this.currentPage, "");
-        })
+          this.accountantService.getAccountants(
+            this.accountantsPerPage,
+            this.currentPage,
+            this.searchValue
+          );
+        });
       }
     }
   }
@@ -103,15 +112,23 @@ export class AccountantComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.accountantsPerPage = pageData.pageSize;
-    this.accountantService.getAccountants(this.accountantsPerPage, this.currentPage,"");
+    this.accountantService.getAccountants(
+      this.accountantsPerPage,
+      this.currentPage,
+      this.searchValue
+    );
   }
 
-  getPaginator(){
+  getPaginator() {
     this.settingService.getSettings();
     this.settingService.getSettingUpdateListener().subscribe((setting) => {
       this.accountantsPerPage = setting.paginator;
-      this.accountantService.getAccountants(setting.paginator, this.currentPage,"");
-    })
+      this.accountantService.getAccountants(
+        this.accountantsPerPage,
+        this.currentPage,
+        this.searchValue
+      );
+    });
   }
 
   addAccountant() {

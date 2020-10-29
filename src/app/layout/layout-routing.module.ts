@@ -32,11 +32,13 @@ const routes: Routes = [
       },
       {
         path: "parents",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./parents/parents.module").then((m) => m.ParentsModule),
       },
       {
         path: "accountant",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./accountant/accountant.module").then(
             (m) => m.AccountantModule
@@ -49,6 +51,7 @@ const routes: Routes = [
       },
       {
         path: "librarians",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./librarian/librarian.module").then((m) => m.LibrarianModule),
       },
@@ -67,6 +70,7 @@ const routes: Routes = [
       },
       {
         path: "teachers",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./teachers/teachers.module").then((m) => m.TeachersModule),
       },
@@ -104,6 +108,7 @@ const routes: Routes = [
       },
       {
         path: "add-student",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./add-student/add-student.module").then(
             (m) => m.AddStudentModule
@@ -111,6 +116,7 @@ const routes: Routes = [
       },
       {
         path: "edit-student/:studentId",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./add-student/add-student.module").then(
             (m) => m.AddStudentModule
@@ -118,6 +124,7 @@ const routes: Routes = [
       },
       {
         path: "add-teacher",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./add-teacher/add-teacher.module").then(
             (m) => m.AddTeacherModule
@@ -125,6 +132,7 @@ const routes: Routes = [
       },
       {
         path: "edit-teacher/:teacherId",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./add-teacher/add-teacher.module").then(
             (m) => m.AddTeacherModule
@@ -132,6 +140,7 @@ const routes: Routes = [
       },
       {
         path: "edit-parent/:parentId",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./add-parent/add-parent.module").then(
             (m) => m.AddParentModule
@@ -139,6 +148,7 @@ const routes: Routes = [
       },
       {
         path: "edit-librarian/:librarianId",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./add-librarian/add-librarian.module").then(
             (m) => m.AddLibrarianModule
@@ -146,6 +156,7 @@ const routes: Routes = [
       },
       {
         path: "edit-accountant/:accountantId",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./add-accountant/add-accountant.module").then(
             (m) => m.AddAccountantModule
@@ -153,6 +164,7 @@ const routes: Routes = [
       },
       {
         path: "add-parent",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./add-parent/add-parent.module").then(
             (m) => m.AddParentModule
@@ -160,6 +172,7 @@ const routes: Routes = [
       },
       {
         path: "add-librarian",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./add-librarian/add-librarian.module").then(
             (m) => m.AddLibrarianModule
@@ -167,6 +180,7 @@ const routes: Routes = [
       },
       {
         path: "add-accountant",
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import("./add-accountant/add-accountant.module").then(
             (m) => m.AddAccountantModule
