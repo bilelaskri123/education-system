@@ -9,8 +9,11 @@
   <li class="nav-item">
     <a class="nav-link" routerLink="/ecms/books">Books</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" routerLink="/ecms/book-reservation" *ngIf="role =='admin' || role =='librarian'">Reservations</a>
+  <li class="nav-item" *ngIf="role =='admin' || role =='librarian'">
+    <a class="nav-link" routerLink="/ecms/book-reservation" >Reservations</a>
+  </li>
+  <li class="nav-item" *ngIf="role =='admin' || role =='librarian'">
+    <a class="nav-link" routerLink="/ecms/demande-book" >list of demands</a>
   </li>
   <li class="nav-item">
     <a class="nav-link active" routerLink="/ecms/my-book-reservation"
@@ -37,7 +40,7 @@
           <tr *ngFor="let data of reservation">
             <td>{{ data.user.fullName }}</td>
             <td>{{ data.user.email }}</td>
-            <td>{{ data.user.role }}</td>
+            <td>{{ data.status }}</td>
             <td>{{ data.book.title }}</td>
             <td>{{ data.dateReservation | date }}</td>
             <td></td>

@@ -81,11 +81,12 @@
       </table>
     </div>
   </div>
-</div>
-
-<mat-paginator
+  <mat-paginator
   [length]="totalSubjects"
   [pageSize]="subjectPerPage"
   [pageSizeOptions]="pageSizeOptions"
   (page)="onChangedPage($event)"
 ></mat-paginator>
+</div>
+
+

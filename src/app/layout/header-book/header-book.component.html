@@ -16,6 +16,9 @@
   <li class="nav-item" *ngIf="role =='admin' || role =='librarian'">
     <a class="nav-link" routerLink="/ecms/book-reservation">Reservations</a>
   </li>
+  <li class="nav-item" *ngIf="role =='admin' || role =='librarian'">
+    <a class="nav-link" routerLink="/ecms/demande-book" >list of demands</a>
+  </li>
   <li class="nav-item">
     <a class="nav-link" routerLink="/ecms/my-book-reservation"
       >My reservation</a

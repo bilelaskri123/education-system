@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 import { SettingService } from "src/app/shared/services/setting.service";
 import { AuthService } from "../../shared/services/auth.service";
 import { DataTable } from "./datatable";
+import { ReservationBookService } from "src/app/shared/services/reservationBook.service";
 @Component({
   selector: "app-book",
   templateUrl: "./book.component.html",
@@ -30,6 +31,7 @@ export class BookComponent implements OnInit, OnDestroy {
     public bookservice: bookService,
     private settingService: SettingService,
     private authService: AuthService,
+    private reservationBookService: ReservationBookService,
     private router: Router
   ) {}
 
@@ -84,6 +86,9 @@ export class BookComponent implements OnInit, OnDestroy {
           );
         });
       }
+    } else if (event.action == "add") {
+      console.log(event.data.id);
+      this.reservationBookService.demandeReservation(event.data.id);
     }
   }
 

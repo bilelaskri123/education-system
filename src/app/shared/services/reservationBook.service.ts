@@ -10,10 +10,17 @@ import { Subject } from "rxjs";
 })
 export class ReservationBookService {
   private reservations: Reservation[] = [];
+  private demands: Reservation[] = [];
   private reservationsUpdated = new Subject<{
     reservations: Reservation[];
     count: number;
   }>();
+
+  private demandsUpdated = new Subject<{
+    demands: Reservation[];
+    count: number;
+  }>();
+
   constructor(private http: HttpClient, private router: Router) {}
 
   getUsers() {
@@ -57,6 +64,39 @@ export class ReservationBookService {
       });
   }
 
+  demandeReservation(book: string) {
+    let demande = {
+      book: book,
+    };
+    this.http
+      .post("http://localhost:3000/api/reserBook/demande-reservation", demande)
+      .subscribe((response) => {
+        this.router.navigate(["/ecms/my-book-reservation"]);
+      });
+  }
+
+  acceptReservation(reservation: string) {
+    this.http
+      .put(
+        "http://localhost:3000/api/reserBook/accept-reservation/" + reservation,
+        reservation
+      )
+      .subscribe((response) => {
+        this.router.navigate(["/ecms/book-reservation"]);
+      });
+  }
+
+  refuseReservation(reservation: string) {
+    this.http
+      .put(
+        "http://localhost:3000/api/reserBook/refuse-reservation/" + reservation,
+        reservation
+      )
+      .subscribe((response) => {
+        this.router.navigate(["/ecms/demande-book"]);
+      });
+  }
+
   getReservations(reserPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${reserPerPage}&page=${currentPage}`;
     return this.http
@@ -65,15 +105,16 @@ export class ReservationBookService {
       )
       .pipe(
         map((reserData) => {
+          console.log(reserData);
           return {
             reservations: reserData.reservations.map((reservation) => {
-              console.log(reservation);
               return {
                 email: reservation.user.email,
                 book: reservation.book.title,
                 role: reservation.user.role,
                 id: reservation._id,
                 date: reservation.dateReservation,
+                status: reservation.status,
               };
             }),
             count: reserData.count,
@@ -90,8 +131,45 @@ export class ReservationBookService {
       });
   }
 
+  getDemands(reserPerPage: number, currentPage: number) {
+    const queryParams = `?pagesize=${reserPerPage}&page=${currentPage}`;
+    return this.http
+      .get<{ message: string; reservations: any; count: number }>(
+        "http://localhost:3000/api/reserBook/demands" + queryParams
+      )
+      .pipe(
+        map((reserData) => {
+          return {
+            demands: reserData.reservations.map((reservation) => {
+              return {
+                email: reservation.user.email,
+                book: reservation.book.title,
+                role: reservation.user.role,
+                id: reservation._id,
+                date: reservation.dateReservation,
+                status: reservation.status,
+              };
+            }),
+            count: reserData.count,
+          };
+        })
+      )
+      .subscribe((transformedData) => {
+        console.log(transformedData.demands);
+        this.demands = transformedData.demands;
+        this.demandsUpdated.next({
+          demands: [...this.demands],
+          count: transformedData.count,
+        });
+      });
+  }
+
   getReservationUpdateListener() {
     return this.reservationsUpdated.asObservable();
+  }
+
+  getDemandUpdatedListener() {
+    return this.demandsUpdated.asObservable();
   }
 
   deleteReservation(id: string) {

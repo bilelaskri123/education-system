@@ -18,7 +18,7 @@ export class ReserBookComponent implements OnInit, OnDestroy {
   private reservationsSub: Subscription;
 
   totalReservations = 0;
-  reservationPerPage = 2;
+  reservationPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 
@@ -91,16 +91,6 @@ export class ReserBookComponent implements OnInit, OnDestroy {
       this.currentPage
     );
   }
-
-  // deleteReservation(id: string) {
-  //   this.reservationBookService.deleteReservation(id).subscribe(() => {
-  //     this.isLoading = true;
-  //     this.reservationBookService.getReservations(
-  //       this.reservationPerPage,
-  //       this.currentPage
-  //     );
-  //   });
-  // }
 
   newReservation() {
     this.router.navigate(["/ecms/new-reservation-book"]);

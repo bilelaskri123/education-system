@@ -349,6 +349,20 @@ const routes: Routes = [
             (m) => m.NewEvaluationModule
           ),
       },
+      {
+        path: "demande-book",
+        loadChildren: () =>
+          import("./demande-book/demande-book.module").then(
+            (m) => m.DemandeBookModule
+          ),
+      },
+      {
+        path: "demande-product",
+        loadChildren: () =>
+          import("./demande-product/demande-product.module").then(
+            (m) => m.DemandeProductModule
+          ),
+      },
     ],
   },
 ];

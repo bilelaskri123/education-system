@@ -5,4 +5,5 @@ export interface Reservation {
   date: Date;
   book?: string;
   product?: string;
+  status?: string;
 }
