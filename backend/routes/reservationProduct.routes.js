@@ -54,7 +54,7 @@ router.post('/demande-reservation', checkAuth, (req, res) => {
   })
 
   ReservationProduct.findOne({ user: user }, (error, result) => {
-    if (!error && result) {
+    if (!error && result.status == 'accepted') {
       res.status(500).json({ message: 'you have another demande' })
     } else {
       reservation
@@ -111,7 +111,7 @@ router.get('/myReservation', checkAuth, (req, res) => {
     })
     .catch((error) => {
       res.status(500).json({
-        error: error,
+        message: 'Sorry, can not found your reservation ',
       })
     })
 })

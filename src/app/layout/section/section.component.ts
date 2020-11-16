@@ -15,6 +15,7 @@ export class SectionComponent implements OnInit, OnDestroy {
   isLoading = false;
   role: string;
   sections: Section[] = [];
+  selectedSection: Section;
   private sectionSub: Subscription;
 
   totalSections = 0;
@@ -64,5 +65,9 @@ export class SectionComponent implements OnInit, OnDestroy {
 
   addSection() {
     this.router.navigate(["/ecms/add-section"]);
+  }
+
+  selectSection(selectedSection) {
+    this.selectedSection = selectedSection;
   }
 }

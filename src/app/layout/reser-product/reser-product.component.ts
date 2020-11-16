@@ -18,7 +18,7 @@ export class ReserProductComponent implements OnInit {
   private reservationsSub: Subscription;
 
   totalReservations = 0;
-  reservationPerPage = 2;
+  reservationPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 

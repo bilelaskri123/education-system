@@ -94,11 +94,30 @@ router.put('/push/:id', (req, res) => {
 })
 
 router.delete('/:id', (req, res) => {
-  Group.deleteOne({ _id: req.params.id }).then((group) => {
-    res.status(200).json({
-      message: `${group.name} deleted successfuly`,
+  // Group.deleteOne({ _id: req.params.id }).then((group) => {
+  //   res.status(200).json({
+  //     message: `${group.name} deleted successfuly`,
+  //   })
+  // })
+
+  Group.findById(req.params.id)
+    .then((group) => {
+      console.log(group)
+      if (group.students.length > 0) {
+        res
+          .status(500)
+          .json({ message: 'can not delete this group because is not empty' })
+      } else {
+        group.remove((error, data) => {
+          if (!error && data) {
+            res.status(200).json({ message: 'group deleted successfuly' })
+          } else {
+            res.status(200).json({ message: 'sorry an error occurred' })
+          }
+        })
+      }
     })
-  })
+    .catch((error) => res.status(500).json({ message: error.message }))
 })
 
 module.exports = router

@@ -180,6 +180,7 @@ router.put('/:id', checkauth, role.isAdmin, (req, res) => {
 router.delete('/:id', checkauth, role.isAdmin, async (req, res) => {
   let reserBook
   let reserProduct
+  let group
 
   await ReservationBook.findOne({ user: req.params.id })
     .then((result) => {
@@ -202,15 +203,17 @@ router.delete('/:id', checkauth, role.isAdmin, async (req, res) => {
   if (reserBook || reserProduct) {
     res.status(403).json({ message: 'user has a reservation can not delete' })
   } else {
-    await User.deleteOne({ _id: req.params.id })
-      .then(() => {
-        res.status(200).json({
-          message: 'student deleted successfuly',
+    await User.findById(req.params.id)
+      .then(async (user) => {
+        await Group.findById(user.group).then(async (group) => {
+          let indexOfStudent = group.students.indexOf(req.params.id)
+          group.students.splice(indexOfStudent, 1)
+          await group.save()
+          await user.deleteOne()
+          res.status(200).json({ message: 'student deleted successfuly' })
         })
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      .catch((error) => res.status(500).json({ message: 'an error occurred!' }))
   }
 })
 

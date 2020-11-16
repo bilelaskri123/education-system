@@ -23,7 +23,7 @@
 </ul>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<div class="container" *ngIf="reservation != {} && !isLoading">
+<div class="container" *ngIf="reservation.length > 0 && !isLoading">
   <div class="row">
     <div class="col-12">
       <table class="table table-bordered">

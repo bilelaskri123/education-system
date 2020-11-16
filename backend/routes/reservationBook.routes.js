@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
       res.status(500).json({ message: err.message })
     }
 
-    if (reservat != null) {
+    if (reservat.result == 'accepted') {
       res.status(403).json({
         message: 'user have a reservation can not reserve another book',
       })

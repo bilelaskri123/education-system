@@ -38,7 +38,7 @@ const settingRoutes = require('./routes/setting.routes')
 const app = express()
 
 mongoose
-  .connect('mongodb://localhost:27017/Bassem', {
+  .connect('mongodb://localhost:27017/pfeproject', {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
