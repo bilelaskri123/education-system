@@ -20,7 +20,7 @@ export class AddStudentComponent implements OnInit, OnDestroy {
   hide = true;
   isLoading = false;
   private role: string = "student";
-  private mode = "create";
+  mode = "create";
   private studentId: string;
   form: FormGroup;
   private authSub: Subscription;
@@ -153,14 +153,14 @@ export class AddStudentComponent implements OnInit, OnDestroy {
     this.form.reset();
   }
 
-  getSection(obj){
+  getSection(obj) {
     let sectionId = obj.value;
     this.selectedGroups = [];
     this.groups.forEach((group) => {
       if (group.section._id == sectionId) {
         this.selectedGroups.push(group);
       }
-    })
+    });
   }
 
   cancelForm() {

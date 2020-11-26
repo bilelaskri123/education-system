@@ -11,7 +11,7 @@
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
-<div class="example-header">
+<div class="example-header" *ngIf="accountants.length > 0 && !isLoading">
   <mat-form-field>      
    <input matInput (change)="accountantFilter($event.target.value)" 
     placeholder="Search">
@@ -19,9 +19,10 @@
   </mat-form-field>
 </div>
 
-<ng2-smart-table [settings]="settings" [source]="accountants" (custom)="onCustom($event)"></ng2-smart-table>
+<ng2-smart-table *ngIf="accountants.length > 0 && !isLoading" [settings]="settings" [source]="accountants" (custom)="onCustom($event)"></ng2-smart-table>
 
 <mat-paginator
+  *ngIf="accountants.length > 0 && !isLoading"
   [length]="totalAccountants"
   [pageSize]="accountantsPerPage"
   [pageSizeOptions]="pageSizeOptions"

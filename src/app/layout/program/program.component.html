@@ -1,5 +1,5 @@
 <p>
-  <mat-toolbar>
+  <mat-toolbar style="background-color: rgb(229, 235, 240);">
     <i class="fas fa-award"></i> &nbsp;
     <span> Program </span>
     <span class="example-spacer"></span>
@@ -14,7 +14,17 @@
 </p>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-accordion multi="true" *ngIf="programs.length > 0 && !isLoading">
+
+<div class="row">
+  <div class="col-md-4 col-sm-3">
+    <app-nav-program (selectedProgram) ="selectProgram($event)" [programs] = "programs"></app-nav-program>
+  </div>
+  <div class="col-md-8 col-sm-9">
+    <app-program-detail [program]="selectedProgram"></app-program-detail>
+  </div>
+</div>
+
+<!-- <mat-accordion multi="true" *ngIf="programs.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let program of programs">
     <mat-expansion-panel-header>
       {{ program.level }} -- {{ program.section }}
@@ -34,7 +44,7 @@
               <td>{{ lesson.name }}</td>
               <td>{{ lesson.coefficient }}</td>
               <td>{{ lesson.description }}</td>
-              <!-- <td>
+              <td>
                 <button
                   type="button"
                   class="btn btn-danger"
@@ -43,7 +53,7 @@
                 >
                   <i class="far fa-trash-alt"></i>
                 </button>
-              </td> -->
+              </td> 
             </tr>
           </tbody>
         </table>
@@ -61,7 +71,7 @@
       </mat-action-row>
     </section>
   </mat-expansion-panel>
-</mat-accordion>
+</mat-accordion> -->
 
 <mat-paginator
   [length]="totalPrograms"

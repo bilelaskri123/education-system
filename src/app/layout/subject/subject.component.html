@@ -14,7 +14,7 @@
 </p>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<div class="container">
+<div class="container" *ngIf="lessons.length > 0 && !isLoading">
   <div class="row">
     <div class="col-12">
       <table class="table table-bordered">
@@ -24,7 +24,7 @@
             <th scope="col">description</th>
             <th scope="col">coefficient</th>
             <th scope="col">teachers</th>
-            <th scope="col">Action</th>
+            <th scope="col" *ngIf ="[role] == 'admin' || [role]=='teacher' || role == 'student'">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -39,7 +39,7 @@
                 </li>
               </ul>
             </td>
-            <td>
+            <td *ngIf ="[role] == 'admin' || [role]=='teacher' || role == 'student'">
               <button
                 type="button"
                 class="btn btn-primary"

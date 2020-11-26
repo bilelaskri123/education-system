@@ -3,7 +3,7 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
 
-<div class="example-header">
+<div class="example-header" *ngIf="books.length > 0 && !isLoading">
   <mat-form-field>      
    <input matInput (change)="bookFilter($event.target.value)" 
     placeholder="Search">
@@ -11,9 +11,10 @@
   </mat-form-field>
 </div>
 
-<ng2-smart-table [settings]="settings" [source]="books" (custom)="onCustom($event)"></ng2-smart-table>
+<ng2-smart-table *ngIf="books.length > 0 && !isLoading" [settings]="settings" [source]="books" (custom)="onCustom($event)"></ng2-smart-table>
 
 <mat-paginator
+  *ngIf="books.length > 0 && !isLoading"
   [length]="totalBooks"
   [pageSize]="bookPerPage"
   [pageSizeOptions]="pageSizeOptions"

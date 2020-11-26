@@ -1,0 +1,3 @@
+<ol class="list-group" *ngFor="let section of sections">
+    <app-section-item (selectedSection) = "selectSection($event)" [section] = "section" ></app-section-item>
+</ol>

@@ -30,7 +30,18 @@ mat-spinner {
   border: 1px solid #000 !important;
 }
 
+tr td.ng2-smart-actions,
+ng2-st-tbody-custom {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 100%;
+}
+
 .example-header {
   text-align: center;
 }
 
+.example-header input {
+  display: inline-block;
+}

@@ -14,7 +14,17 @@
 </p>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-accordion multi="true" *ngIf="groups.length > 0 && !isLoading">
+
+<div class="row">
+  <div class="col-md-4 col-sm-3">
+    <app-nav-group (selectedGroup) ="selectGroup($event)" [groups] = "groups"></app-nav-group>
+  </div>
+  <div class="col-md-8 col-sm-9">
+    <app-group-detail [group]="selectedGroup"></app-group-detail>
+  </div>
+</div>
+
+<!-- <mat-accordion multi="true" *ngIf="groups.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let group of groups">
     <mat-expansion-panel-header>
     {{group.level}} &nbsp; {{ group.section.name }} &nbsp;  {{ group.name }} 
@@ -26,7 +36,6 @@
             <tr>
               <th scope="col">Full Name</th>
               <th scope="col">Email</th>
-              <!-- <th scope="col">Action</th> -->
             </tr>
           </thead>
           <tbody>
@@ -51,7 +60,7 @@
       </mat-action-row>
     </section>
   </mat-expansion-panel>
-</mat-accordion>
+</mat-accordion>  -->
 
 <mat-paginator
   [length]="totalGroup"

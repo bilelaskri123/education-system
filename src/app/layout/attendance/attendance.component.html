@@ -49,6 +49,16 @@
     </mat-form-field>
   </div>
   
+  <div class="row">
+    <div class="col-md-4 col-sm-3">
+      <app-nav-attendance (selectedAttandance) ="selectAttandance($event)" [attandances] = "attandances"></app-nav-attendance>
+    </div>
+    <div class="col-md-8 col-sm-9">
+      <app-attendance-detail [attandance]="selectedAttandance"></app-attendance-detail>
+    </div>
+  </div>
+  
+<!-- 
   <mat-accordion multi="true" *ngIf="attandances.length > 0 && !isLoading">
     <mat-expansion-panel *ngFor="let attandance of attandances">
       <mat-expansion-panel-header>
@@ -75,22 +85,18 @@
             </tbody>
           </table>
         </div>
-        <!-- <mat-action-row *ngIf="[role] == 'admin'">
-          <a
-            mat-button
-            color="primary"
-            [routerLink]="['/ecms/edit-group', group.id]"
-            >EDIT</a
-          >
-          <button mat-button color="warn" (click)="onDelete(group.id)">
+        <mat-action-row *ngIf="[role] == 'admin' || [role] == 'teacher'">
+         
+          <button mat-button color="warn" (click)="onDelete(attandance._id)">
             DELETE
           </button>
-        </mat-action-row> -->
+        </mat-action-row>
       </section>
     </mat-expansion-panel>
-  </mat-accordion>
+  </mat-accordion> -->
   
   <mat-paginator
+    *ngIf="attandances.length > 0 && !isLoading"
     [length]="totalAttandances"
     [pageSize]="attandancePerPage"
     [pageSizeOptions]="pageSizeOptions"

@@ -363,6 +363,11 @@ const routes: Routes = [
             (m) => m.DemandeProductModule
           ),
       },
+      {
+        path: "messenger",
+        loadChildren: () =>
+          import("./messenger/messenger.module").then((m) => m.MessengerModule),
+      },
     ],
   },
 ];

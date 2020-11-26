@@ -29,6 +29,7 @@ export class AttendanceComponent implements OnInit, OnDestroy {
 
   private attandanceSub: Subscription;
   attandances: Attandance[] = [];
+  selectedAttandance: Attandance;
 
   sections: Section[] = [];
   private sectionSub: Subscription;
@@ -206,5 +207,11 @@ export class AttendanceComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.attandanceSub.unsubscribe();
+  }
+
+  onDelete(id: string) {}
+
+  selectAttandance(selectedAttandance) {
+    this.selectedAttandance = selectedAttandance;
   }
 }

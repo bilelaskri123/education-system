@@ -1,0 +1,3 @@
+<ol class="list-group" *ngFor="let group of groups">
+    <app-group-item (selectedGroup) = "selectGroup($event)" [group] = "group" ></app-group-item>
+</ol>

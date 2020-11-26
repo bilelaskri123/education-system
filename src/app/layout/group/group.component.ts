@@ -15,6 +15,8 @@ export class GroupComponent implements OnInit {
   role: string;
   isLoading = false;
   groups: Group[] = [];
+  selectedGroup: Group;
+
   private groupSub: Subscription;
 
   totalGroup = 0;
@@ -57,5 +59,9 @@ export class GroupComponent implements OnInit {
 
   addGroup() {
     this.router.navigate(["/ecms/add-group"]);
+  }
+
+  selectGroup(selectedGroup) {
+    this.selectedGroup = selectedGroup;
   }
 }

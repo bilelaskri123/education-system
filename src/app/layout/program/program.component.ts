@@ -17,6 +17,8 @@ export class ProgramComponent implements OnInit, OnDestroy {
   private programsSub: Subscription;
 
   programs: Program[] = [];
+  selectedProgram: Program;
+
   totalPrograms = 0;
   programPerPage = 5;
   currentPage = 1;
@@ -41,7 +43,6 @@ export class ProgramComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.totalPrograms = programData.programCount;
           this.programs = programData.programs;
-          console.log(this.programs);
         }
       );
   }
@@ -65,5 +66,9 @@ export class ProgramComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.programsSub.unsubscribe();
+  }
+
+  selectProgram(selectedProgram) {
+    this.selectedProgram = selectedProgram;
   }
 }

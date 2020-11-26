@@ -1,0 +1,4 @@
+<ol class="list-group" *ngFor="let program of programs">
+    <app-program-item (selectedProgram) = "selectProgram($event)" [program] = "program" ></app-program-item>
+</ol>
+

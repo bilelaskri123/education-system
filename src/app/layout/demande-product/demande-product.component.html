@@ -1,0 +1,35 @@
+<p>
+    <mat-toolbar>
+      <i class="fas fa-laptop-code"></i>&nbsp;
+      <span>Products</span>
+      <span class="example-spacer"></span>
+    </mat-toolbar>
+  </p>
+  
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/ecms/products">Products</a>
+    </li>
+    <li class="nav-item" *ngIf="role == 'admin' || role =='accountant'">
+      <a class="nav-link" routerLink="/ecms/product-reservation">Reservations</a>
+    </li>
+    <li class="nav-item" *ngIf="role == 'admin' || role =='accountant'">
+      <a class="nav-link active" routerLink="/ecms/demande-product" >list of demands</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link " routerLink="/ecms/my-product-reservation"
+        >My reservation</a
+      >
+    </li>
+  </ul>
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<ng2-smart-table [settings]="settings" [source]="demands" (custom)="onCustom($event)"></ng2-smart-table>
+
+<mat-paginator
+  [length]="totalDemands"
+  [pageSize]="demandPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>

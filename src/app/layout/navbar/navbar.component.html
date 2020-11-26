@@ -21,16 +21,17 @@
         <a
           class="nav-link count-indicator dropdown-toggle"
           id="messageDropdown"
+          [routerLink]="['/ecms/messenger']"
           ngbDropdownToggle
         >
           <i class="mdi mdi-file-document-box"></i>
           <span class="count">3</span>
         </a>
-        <div
+        <!-- <div
           class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
           ngbDropdownMenu
           aria-labelledby="messageDropdown"
-        ></div>
+        ></div> -->
       </li>
 
       <li class="nav-item dropdown d-none d-xl-inline-block" ngbDropdown>

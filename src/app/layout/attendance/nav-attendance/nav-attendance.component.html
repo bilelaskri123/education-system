@@ -1,0 +1,3 @@
+<ol class="list-group" *ngFor="let attandance of attandances">
+    <app-attendance-item (selectedAttandance) = "selectAttandance($event)" [attandance] = "attandance" ></app-attendance-item>
+</ol>

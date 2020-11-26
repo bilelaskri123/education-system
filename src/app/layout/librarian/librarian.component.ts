@@ -39,7 +39,7 @@ export class LibrarianComponent implements OnInit, OnDestroy {
         },
         {
           name: "delete",
-          title: '<i class="far fa-trash-alt"></i>',
+          title: '&nbsp;&nbsp;<i class="far fa-trash-alt"></i>',
         },
       ],
       add: false,

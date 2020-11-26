@@ -42,11 +42,11 @@ export class StudentComponent implements OnInit, OnDestroy {
         },
         {
           name: "delete",
-          title: '<i class="far fa-trash-alt"></i>',
+          title: '&nbsp;&nbsp;<i class="far fa-trash-alt"></i>',
         },
         {
           name: "view",
-          title: ' <i class="fas fa-eye"></i>',
+          title: '&nbsp;&nbsp;<i class="fas fa-eye"></i>',
         },
       ],
       add: false,

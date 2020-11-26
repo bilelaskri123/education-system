@@ -1,0 +1,26 @@
+<div *ngIf="attandance && attandance.students.length > 0">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Full Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Absence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of attandance.students">
+          <td>{{ student.fullName }}</td>
+          <td>{{ student.email }}</td>
+          <td> <p *ngIf="student.absent == true" style="color: red"> Absnet </p>
+                <p *ngIf="student.absent == false" style="color: #00ce68"> Present</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="attandance && [role] == 'admin' || [role] == 'teacher'" class="position">
+    <button mat-button color="warn" (click)="onDelete(attandance._id)">
+      DELETE
+    </button>
+  </div>
+

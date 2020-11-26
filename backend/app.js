@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser')
 const bcrypt = require('bcrypt')
 
 const User = require('./models/User')
+const db = require('../backend/config/db.config')
 
 const productsRoutes = require('./routes/product.routes')
 const booksRoutes = require('./routes/book.routes')
@@ -38,7 +39,7 @@ const settingRoutes = require('./routes/setting.routes')
 const app = express()
 
 mongoose
-  .connect('mongodb://localhost:27017/pfeproject', {
+  .connect(db.database, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,

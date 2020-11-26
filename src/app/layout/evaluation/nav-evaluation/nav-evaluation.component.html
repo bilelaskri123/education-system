@@ -1,0 +1,3 @@
+<ol class="list-group" *ngFor="let evaluation of evaluations">
+    <app-evaluation-item (selectedEvaluation) = "selectEvaluation($event)" [evaluation] = "evaluation" ></app-evaluation-item>
+</ol>

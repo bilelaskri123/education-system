@@ -29,6 +29,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
 
   private evaluationSub: Subscription;
   evaluations: Evaluation[] = [];
+  selectedEvaluation: Evaluation;
 
   sections: Section[] = [];
   private sectionSub: Subscription;
@@ -224,5 +225,9 @@ export class EvaluationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.evaluationSub.unsubscribe();
+  }
+
+  selectEvaluation(selectedEvaluation) {
+    this.selectedEvaluation = selectedEvaluation;
   }
 }

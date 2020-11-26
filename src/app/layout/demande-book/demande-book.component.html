@@ -1,0 +1,39 @@
+<p>
+    <mat-toolbar>
+      <i class="fas fa-book"></i> &nbsp;
+      <span>Books</span>
+    </mat-toolbar>
+  </p>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link " routerLink="/ecms/books">Books</a>
+    </li>
+    <li class="nav-item" *ngIf="role == 'admin' || role =='librarian'">
+      <a class="nav-link" routerLink="/ecms/book-reservation" >Reservations</a>
+    </li>
+    <li class="nav-item" *ngIf="role == 'admin' || role =='librarian'">
+      <a class="nav-link active" routerLink="/ecms/demande-book" >list of demands</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/ecms/my-book-reservation"
+        >My reservation</a
+      >
+    </li>
+</ul>
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<ng2-smart-table *ngIf="demands.length > 0 && !isLoading" [settings]="settings" [source]="demands" (custom)="onCustom($event)"></ng2-smart-table>
+
+<mat-paginator
+  *ngIf="demands.length > 0"
+  [length]="totalDemands"
+  [pageSize]="demandPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>
+
+<p class="info-text mat-body-1" *ngIf="demands.length <= 0 && !isLoading">
+  any demands for now
+</p>

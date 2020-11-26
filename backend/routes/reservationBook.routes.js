@@ -71,8 +71,12 @@ router.post('/demande-reservation', checkAuth, (req, res) => {
 
 router.put('/accept-reservation/:id', (req, res) => {
   let reserId = req.params.id
-  ReservationBook.findById(reserId).then((reser) => {
+  ReservationBook.findById(reserId).then(async (reser) => {
     reser.status = 'accepted'
+    await Book.findById(reser.book).then((book) => {
+      book.copies--
+      book.save()
+    })
     reser
       .save()
       .then((result) => {

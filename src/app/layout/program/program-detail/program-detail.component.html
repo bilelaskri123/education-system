@@ -1,0 +1,31 @@
+
+ <div *ngIf="program" class="container">
+    <table class="table table-bordered">
+      <thead class="couleur">
+        <tr>
+          <th scope="col">Subject</th>
+          <th scope="col">coefficient</th>
+          <th scope="col">description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lesson of program.lessons">
+          <td>{{ lesson.name }}</td>
+          <td>{{ lesson.coefficient }}</td>
+          <td>{{ lesson.description }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="[role] == 'admin'" class="position">
+      <a
+        mat-button
+        color="primary"
+        [routerLink]="['/ecms/edit-program', program.id]"
+        >EDIT</a
+      >
+      <button mat-button color="warn" (click)="onDelete(program.id)">
+        DELETE
+      </button>
+    </div>
+  </div>
+  

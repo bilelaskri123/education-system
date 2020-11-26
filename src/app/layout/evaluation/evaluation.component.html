@@ -48,7 +48,17 @@
   </mat-form-field>
 </div>
 
-<mat-accordion multi="true" *ngIf="evaluations.length > 0 && !isLoading">
+<div class="row">
+  <div class="col-md-4 col-sm-3">
+    <app-nav-evaluation (selectedEvaluation) ="selectEvaluation($event)" [evaluations] = "evaluations"></app-nav-evaluation>
+  </div>
+  <div class="col-md-8 col-sm-9">
+    <app-evaluation-detail [evaluation]="selectedEvaluation"></app-evaluation-detail>
+  </div>
+</div>
+
+
+<!-- <mat-accordion multi="true" *ngIf="evaluations.length > 0 && !isLoading">
   <div class="alert alert-success" role="alert" *ngIf="messageDeleted != ''">
     {{messageDeleted}}
   </div>
@@ -82,9 +92,10 @@
       </mat-action-row>
     </section>
   </mat-expansion-panel>
-</mat-accordion>
+</mat-accordion> -->
 
 <mat-paginator
+  *ngIf="evaluations.length > 0 && !isLoading"
   [length]="totalEvaluations"
   [pageSize]="evaluationPerPage"
   [pageSizeOptions]="pageSizeOptions"
